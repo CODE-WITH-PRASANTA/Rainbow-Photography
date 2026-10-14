@@ -1,0 +1,201 @@
+/* ===== ROOT ===== */
+
+.HomePricing{
+  padding:50px 5%;
+  background:#f6f6f6;
+}
+
+/* ================= HEADING ================= */
+
+.HomePricing__heading{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.HomePricing__label{
+  font-family:"Cormorant Garamond",serif;
+  letter-spacing:3px;
+  font-size:14px;
+  color:#d07c4a;
+}
+
+.HomePricing__mainTitle{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(38px,5vw,68px);
+  font-weight:400;
+  margin-top:10px;
+}
+
+.HomePricing__headingFlower{
+  margin-top:15px;
+  width:240px;
+  opacity:.6;
+}
+
+/* ================= CONTAINER ================= */
+
+.HomePricing__container{
+  max-width:1300px; /* little wider like reference */
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+
+  gap:140px; /* ⭐ main fix — more center spacing */
+}
+
+/* ================= CARD ================= */
+
+.HomePricing__card{
+  position:relative;
+  background:#27314b;
+  padding:70px 60px;
+  min-height:460px;
+
+  overflow:visible;
+
+  margin-left:40px; /* ⭐ creates visual gap because image is outside */
+}
+
+/* flower bg */
+
+.HomePricing__flower{
+  position:absolute;
+  right:-40px;
+  bottom:-20px;
+  width:320px;
+  opacity:.12;
+  pointer-events:none;
+}
+
+/* ================= IMAGE OVERLAP (BOTH LEFT) ================= */
+
+.HomePricing__imageWrap{
+  position:absolute;
+  left:-110px;
+  top:50%;
+  transform:translateY(-50%);
+  width:300px;
+  z-index:5;
+}
+
+.HomePricing__imageWrap img{
+  width:100%;
+  display:block;
+  transition:transform .5s ease, box-shadow .5s ease;
+}
+
+/* couple hover */
+.HomePricing__card:hover .HomePricing__imageWrap img{
+  transform:scale(1.05);
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
+}
+
+/* ================= CONTENT ================= */
+
+.HomePricing__content{
+  padding-left:190px;
+  color:#fff;
+}
+
+.HomePricing__title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.HomePricing__list{
+  list-style:none;
+  padding:0;
+  margin:0 0 25px 0;
+}
+
+.HomePricing__list li{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+  align-items:center;
+}
+
+.HomePricing__list svg{
+  color:#f39a62;
+}
+
+.HomePricing__price{
+  margin-bottom:20px;
+}
+
+.HomePricing__price strong{
+  font-size:34px;
+}
+
+.HomePricing__price span{
+  opacity:.85;
+  margin-left:6px;
+}
+
+/* ================= BUTTON ================= */
+
+.HomePricing__btn{
+  border:none;
+  padding:15px 36px;
+  border-radius:40px;
+  color:#fff;
+  cursor:pointer;
+
+  background:linear-gradient(90deg,#f39a62,#8a4b28,#f39a62);
+  background-size:200% 100%;
+  transition:.5s;
+}
+
+.HomePricing__btn:hover{
+  background-position:right;
+  transform:translateY(-2px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1024px){
+
+  .HomePricing__container{
+    grid-template-columns:1fr;
+    gap:80px; /* bigger vertical spacing */
+  }
+
+  .HomePricing__imageWrap{
+    left:-60px;
+    width:240px;
+  }
+
+  .HomePricing__content{
+    padding-left:130px;
+  }
+}
+
+@media(max-width:600px){
+
+  .HomePricing{
+    padding:80px 5%;
+  }
+
+  .HomePricing__headingFlower{
+    width:110px;
+  }
+
+  .HomePricing__card{
+    padding:40px 25px;
+  }
+
+  .HomePricing__imageWrap{
+    position:relative;
+    left:0;
+    top:0;
+    transform:none;
+    width:100%;
+    max-width:320px;
+    margin-bottom:20px;
+  }
+
+  .HomePricing__content{
+    padding:0;
+  }
+}

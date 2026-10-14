@@ -1,0 +1,75 @@
+/* ================= SECTION ================= */
+.eventInfo-section {
+  width: 100%;
+  padding: 40px 30px;
+  background: #f3f3f3;
+  display: flex;
+  justify-content: center;
+}
+
+/* ================= CONTAINER ================= */
+.eventInfo-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ================= INFO BOX ================= */
+.eventInfo-box {
+  background: #e9e9e9;
+  border-radius: 20px;
+  padding: 50px 45px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+/* ================= ITEM ================= */
+.eventInfo-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* label (Date, Client...) */
+.eventInfo-label {
+  font-size: 15px;
+  color: #6f7f95;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* value text */
+.eventInfo-value {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0f172a;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 0.5px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .eventInfo-box {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .eventInfo-section {
+    padding: 25px 15px;
+  }
+
+  .eventInfo-box {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    border-radius: 12px;
+  }
+
+  .eventInfo-value {
+    font-size: 18px;
+  }
+}

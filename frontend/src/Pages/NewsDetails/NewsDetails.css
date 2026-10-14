@@ -1,0 +1,74 @@
+/* PAGE WRAPPER */
+.news-details-wrapper {
+  width: 100%;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* FULL WIDTH NEWS HOME (NO CARD, NO PADDING) */
+.full-news-home {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove auto card styling for NewsHome */
+.full-news-home > * {
+  background: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* GRID LAYOUT BELOW NEWSHOME */
+.news-details-layout {
+  width: 90%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+  padding-bottom: 50px;
+}
+
+/* LEFT SIDE COMPONENT CARD STYLES */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.left-section > * {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.07);
+}
+
+/* RIGHT SIDEBAR */
+.right-sidebar {
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+}
+
+.right-sidebar > * {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .news-details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .right-sidebar {
+    position: relative;
+    top: 0;
+  }
+}

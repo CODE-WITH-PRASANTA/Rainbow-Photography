@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&display=swap");
+
+/* =====================================
+   ARRANGEMENT (BASE)
+===================================== */
+.arrangement {
+  width: 100%;
+  background: #ffffff;
+  padding: clamp(44px, 4.6vw, 70px) 0;
+}
+
+.arrangement__container {
+  width: min(1300px, 92%);
+  margin: 0 auto;
+}
+
+/* =====================================
+   GRID
+===================================== */
+.arrangement__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(26px, 3vw, 60px);
+  align-items: center;
+}
+
+/* =====================================
+   CARD
+===================================== */
+.arrangement__card {
+  text-align: center;
+  padding: 10px 8px;
+}
+
+/* top tiny icon */
+.arrangement__iconTop {
+  height: 34px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.arrangement__svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* number + decor row */
+.arrangement__row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* big number */
+.arrangement__num {
+  font-family: "Cinzel", serif;
+  font-weight: 500;
+  font-size: clamp(56px, 6.5vw, 110px);
+  line-height: 1;
+  color: #d78252; /* ✅ orange like reference */
+  letter-spacing: 0.5px;
+}
+
+/* vertical dotted decoration */
+.arrangement__decor {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  gap: 7px;
+  transform: translateY(2px);
+}
+
+.arrangement__line {
+  width: 2px;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 2px;
+}
+
+.arrangement__dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 999px;
+}
+
+.arrangement__dot:nth-child(3) {
+  width: 8px;
+  height: 8px;
+  opacity: 0.88;
+}
+
+.arrangement__dot:nth-child(4) {
+  width: 6px;
+  height: 6px;
+  opacity: 0.75;
+}
+
+/* label text */
+.arrangement__label {
+  margin-top: 16px;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+@media (max-width: 1050px) {
+  .arrangement__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 44px;
+  }
+}
+
+@media (max-width: 560px) {
+  .arrangement__grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .arrangement__label {
+    font-size: 16px;
+  }
+
+  .arrangement__row {
+    gap: 12px;
+  }
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .arrangement * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

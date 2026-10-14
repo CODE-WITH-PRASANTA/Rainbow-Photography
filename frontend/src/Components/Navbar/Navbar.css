@@ -1,376 +1,632 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap");
+/* =====================================================
+   RAINBOW PHOTOGRAPHY — PREMIUM RESPONSIVE NAVBAR
+   Theme: White | Black | Champagne Gold
+===================================================== */
 
 :root {
-  --bg-deep: #050507;
-  --bg-header: rgba(5, 5, 7, 0.94);
-  --gold-primary: #d4af37;
-  --gold-light: #f3e5ab;
-  --gold-gradient: linear-gradient(135deg, #f7e1b5 0%, #d4af37 50%, #997819 100%);
-  --gold-glow: rgba(212, 175, 55, 0.25);
-  --text-pure: #ffffff;
-  --text-muted: #9e9a93;
-  --border-subtle: rgba(212, 175, 55, 0.16);
-  --font-main: "Montserrat", sans-serif;
-  --transition-smooth: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  --rp-white: #ffffff;
+  --rp-black: #171717;
+  --rp-text: #292929;
+  --rp-muted: #777777;
+  --rp-gold: #c69a52;
+  --rp-gold-dark: #a87935;
+  --rp-gold-light: #e8d2a6;
+  --rp-border: rgba(23, 23, 23, 0.09);
+  --rp-shadow: 0 8px 35px rgba(0, 0, 0, 0.055);
+  --rp-transition: 0.3s ease;
 }
 
-/* Base Wrapper */
-.luxury-navbar-wrapper {
-  position: sticky;
+/* =======================
+   NAVBAR BASE
+======================= */
+
+.rp-navbar {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: var(--bg-deep);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-family: var(--font-main);
-  transition: var(--transition-smooth);
+  padding: 12px 0;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(198, 154, 82, 0.18);
+  box-shadow: var(--rp-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    background var(--rp-transition),
+    box-shadow var(--rp-transition);
 }
 
-.luxury-navbar-wrapper.is-scrolled {
-  background: var(--bg-header);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+.rp-navbar *,
+.rp-mobile-menu *,
+.rp-nav-overlay {
+  box-sizing: border-box;
 }
 
-.luxury-navbar {
+.rp-nav-container {
   width: 100%;
-}
-
-.luxury-navbar-container {
-  max-width: 1400px;
+  max-width: 1440px;
+  min-height: 66px;
   margin: 0 auto;
-  padding: 0 36px;
-  height: 94px;
+  padding: 0 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: height 0.3s ease;
+  gap: 35px;
 }
 
-.luxury-navbar-wrapper.is-scrolled .luxury-navbar-container {
-  height: 78px;
-}
-
-/* =========================================
+/* =======================
    LOGO
-========================================= */
-.luxury-brand {
+======================= */
+
+.rp-logo {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
   text-decoration: none;
+  outline-offset: 5px;
 }
 
-.logo-badge {
+.rp-logo img {
+  display: block;
+  width: 190px;
+  max-width: 100%;
+  height: 62px;
+  object-fit: contain;
+  object-position: left center;
+  transition: transform var(--rp-transition);
+}
+
+.rp-logo:hover img {
+  transform: scale(1.025);
+}
+
+/* =======================
+   DESKTOP NAVIGATION
+======================= */
+
+.rp-nav-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  padding: 4px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-  transition: var(--transition-smooth);
+  gap: clamp(20px, 2.5vw, 38px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
 }
 
-.luxury-logo-img {
-  height: 64px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-  border-radius: 6px;
-  transition: var(--transition-smooth);
-}
-
-.luxury-brand:hover .logo-badge {
-  border-color: var(--gold-primary);
-  box-shadow: 0 0 20px var(--gold-glow);
-  transform: translateY(-1px);
-}
-
-/* =========================================
-   DESKTOP NAVIGATION
-========================================= */
-.luxury-nav-menu {
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 2.8vw, 44px);
-}
-
-.luxury-nav-link {
+.rp-nav-item {
   position: relative;
-  text-decoration: none;
-  color: var(--text-muted);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 10px 0;
-  transition: var(--transition-smooth);
+  padding: 12px 0;
+  margin: 0;
+  list-style: none;
 }
 
-.luxury-nav-link::after {
+.rp-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 0;
+  color: var(--rp-text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.35px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--rp-transition);
+}
+
+/* Animated gold underline */
+
+.rp-nav-link::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 1.5px;
-  background: var(--gold-gradient);
-  transform: translateX(-50%);
-  transition: width 0.35s ease;
-  box-shadow: 0 0 8px var(--gold-primary);
-}
-
-.luxury-nav-link:hover {
-  color: var(--text-pure);
-}
-
-.luxury-nav-link.active {
-  color: var(--gold-light);
-  font-weight: 600;
-}
-
-.luxury-nav-link:hover::after,
-.luxury-nav-link.active::after {
+  bottom: 1px;
+  left: 0;
   width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--rp-gold-dark),
+    var(--rp-gold-light)
+  );
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--rp-transition);
 }
 
-/* =========================================
-   BUTTON CTA
-========================================= */
-.luxury-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.rp-nav-link:hover,
+.rp-nav-link.active {
+  color: var(--rp-gold-dark);
 }
 
-.luxury-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 26px;
-  background: var(--gold-gradient);
-  border: 1px solid var(--gold-primary);
-  border-radius: 4px;
-  color: #070708;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: var(--transition-smooth);
-  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.25);
+.rp-nav-link:hover::after,
+.rp-nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-.luxury-btn-icon {
-  font-size: 15px;
-  transition: transform 0.3s ease;
+.rp-nav-link:focus-visible,
+.rp-logo:focus-visible {
+  outline: 2px solid var(--rp-gold);
+  outline-offset: 5px;
 }
 
-.luxury-btn:hover {
-  background: transparent;
-  color: var(--gold-light);
-  border-color: var(--gold-light);
-  box-shadow: 0 0 22px var(--gold-glow);
-}
+/* =======================
+   HAMBURGER BUTTON
+======================= */
 
-.luxury-btn:hover .luxury-btn-icon {
-  transform: translate(2px, -2px);
-}
-
-/* =========================================
-   HAMBURGER TOGGLE
-========================================= */
-.luxury-toggle {
+.rp-menu-toggle {
   display: none;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  color: var(--gold-light);
-  width: 44px;
-  height: 44px;
-  align-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 12px 10px;
+  flex-shrink: 0;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: var(--rp-white);
+  border: 1px solid rgba(198, 154, 82, 0.35);
+  border-radius: 50%;
   cursor: pointer;
-  font-size: 22px;
-  transition: var(--transition-smooth);
+  transition:
+    background var(--rp-transition),
+    border-color var(--rp-transition);
 }
 
-.luxury-toggle:hover {
-  border-color: var(--gold-primary);
-  background: rgba(212, 175, 55, 0.08);
+.rp-menu-toggle span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  border-radius: 5px;
+  background: var(--rp-black);
+  transition:
+    transform var(--rp-transition),
+    opacity var(--rp-transition),
+    width var(--rp-transition);
 }
 
-/* =========================================
-   MOBILE DRAWER
-========================================= */
-.luxury-overlay {
+.rp-menu-toggle span:nth-child(2) {
+  width: 15px;
+  margin-left: 6px;
+}
+
+.rp-menu-toggle:hover {
+  background: #faf5eb;
+  border-color: var(--rp-gold);
+}
+
+.rp-menu-toggle.is-open span:first-child {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.rp-menu-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.rp-menu-toggle.is-open span:last-child {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* =======================
+   MOBILE OVERLAY
+======================= */
+
+.rp-nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
-  z-index: 1100;
+  z-index: 1001;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: rgba(15, 15, 15, 0.48);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-smooth);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
 }
 
-.luxury-overlay.open {
+.rp-nav-overlay.visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
-.luxury-drawer {
+/* =======================
+   MOBILE SIDEBAR
+======================= */
+
+.rp-mobile-menu {
   position: fixed;
   top: 0;
   right: 0;
-  width: min(380px, 85vw);
+  z-index: 1002;
+  width: 390px;
+  max-width: 88%;
   height: 100vh;
-  background: #09090c;
-  border-left: 1px solid var(--border-subtle);
-  z-index: 1200;
-  transform: translateX(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.luxury-drawer.open {
-  transform: translateX(0);
-}
-
-.luxury-drawer-inner {
-  height: 100%;
+  height: 100dvh;
+  padding: 25px 28px;
   display: flex;
   flex-direction: column;
-  padding: 32px 26px;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--rp-text);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(232, 210, 166, 0.20),
+      transparent 32%
+    ),
+    var(--rp-white);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(198, 154, 82, 0.25);
+  transform: translateX(105%);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.4s ease;
 }
 
-.drawer-header {
+.rp-mobile-menu.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Mobile header */
+
+.rp-mobile-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 15px;
+  min-height: 62px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rp-border);
 }
 
-.drawer-sub {
-  font-size: 10px;
-  letter-spacing: 2.5px;
-  color: var(--gold-primary);
-  font-weight: 600;
+.rp-mobile-logo {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
-.drawer-close-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 20px;
+.rp-mobile-logo img {
+  display: block;
+  width: 175px;
+  max-width: 100%;
+  height: 55px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.rp-mobile-close {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(198, 154, 82, 0.4);
+  border-radius: 50%;
+  background: var(--rp-white);
+  color: var(--rp-black);
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
   cursor: pointer;
+  transition:
+    color var(--rp-transition),
+    background var(--rp-transition),
+    transform var(--rp-transition);
 }
 
-.drawer-links {
+.rp-mobile-close:hover {
+  color: var(--rp-white);
+  background: var(--rp-black);
+  transform: rotate(90deg);
+}
+
+/* Sidebar caption */
+
+.rp-mobile-caption {
+  margin: 30px 0 14px;
+  color: var(--rp-gold-dark);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+/* Mobile links */
+
+.rp-mobile-links {
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.drawer-link {
-  display: flex;
+.rp-mobile-links li {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--rp-border);
+  list-style: none;
+}
+
+.rp-mobile-link {
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 24px;
   align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  gap: 12px;
+  padding: 12px 4px;
+  color: var(--rp-text);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
   text-decoration: none;
-  color: var(--text-pure);
-  transition: var(--transition-smooth);
+  transition:
+    color var(--rp-transition),
+    padding var(--rp-transition);
 }
 
-.drawer-index {
+.rp-mobile-number {
+  color: #a3a3a3;
   font-size: 11px;
-  font-family: monospace;
-  color: var(--gold-primary);
-  opacity: 0.6;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: color var(--rp-transition);
 }
 
-.drawer-name {
-  flex: 1;
-  margin-left: 14px;
-  font-size: 15px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.drawer-arrow {
-  color: var(--gold-primary);
-  font-size: 16px;
+.rp-mobile-arrow {
+  color: var(--rp-gold);
+  font-size: 19px;
   opacity: 0;
-  transform: translateX(-6px);
-  transition: var(--transition-smooth);
+  transform: translate(-5px, 5px);
+  transition:
+    opacity var(--rp-transition),
+    transform var(--rp-transition);
 }
 
-.drawer-link:hover,
-.drawer-link.active {
-  color: var(--gold-light);
-  padding-left: 6px;
+.rp-mobile-link:hover,
+.rp-mobile-link.active {
+  color: var(--rp-gold-dark);
+  padding-left: 10px;
 }
 
-.drawer-link:hover .drawer-arrow,
-.drawer-link.active .drawer-arrow {
+.rp-mobile-link:hover .rp-mobile-number,
+.rp-mobile-link.active .rp-mobile-number {
+  color: var(--rp-gold-dark);
+}
+
+.rp-mobile-link:hover .rp-mobile-arrow,
+.rp-mobile-link.active .rp-mobile-arrow {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(0, 0);
 }
 
-.drawer-footer {
+.rp-mobile-link:focus-visible,
+.rp-mobile-close:focus-visible,
+.rp-menu-toggle:focus-visible {
+  outline: 2px solid var(--rp-gold);
+  outline-offset: 4px;
+}
+
+/* =======================
+   MOBILE FOOTER
+======================= */
+
+.rp-mobile-footer {
   margin-top: auto;
-  padding-top: 30px;
+  padding-top: 35px;
 }
 
-.drawer-cta-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: var(--gold-gradient);
-  border-radius: 4px;
-  color: #050507;
-  font-size: 11px;
+.rp-footer-line {
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin-bottom: 16px;
+  background: linear-gradient(
+    90deg,
+    var(--rp-gold-dark),
+    var(--rp-gold-light)
+  );
+}
+
+.rp-mobile-footer p {
+  margin: 0 0 12px;
+  color: #555555;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.rp-mobile-footer > span:last-child {
+  color: var(--rp-gold-dark);
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  text-decoration: none;
+  letter-spacing: 2.5px;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-========================================= */
-@media (max-width: 1024px) {
-  .luxury-nav-menu,
-  .luxury-btn {
+/* =======================
+   LARGE DESKTOP
+======================= */
+
+@media (min-width: 1600px) {
+  .rp-nav-container {
+    max-width: 1540px;
+    padding: 0 55px;
+  }
+
+  .rp-logo img {
+    width: 205px;
+    height: 66px;
+  }
+
+  .rp-nav-link {
+    font-size: 16px;
+  }
+
+  .rp-nav-menu {
+    gap: 42px;
+  }
+}
+
+/* =======================
+   LAPTOP
+======================= */
+
+@media (max-width: 1200px) {
+  .rp-nav-container {
+    padding: 0 30px;
+    gap: 24px;
+  }
+
+  .rp-logo img {
+    width: 165px;
+    height: 57px;
+  }
+
+  .rp-nav-menu {
+    gap: 22px;
+  }
+
+  .rp-nav-link {
+    font-size: 14px;
+  }
+}
+
+/* =======================
+   TABLET & MOBILE
+======================= */
+
+@media (max-width: 900px) {
+  .rp-navbar {
+    padding: 8px 0;
+  }
+
+  .rp-nav-container {
+    min-height: 60px;
+    padding: 0 24px;
+    gap: 15px;
+  }
+
+  .rp-logo img {
+    width: 175px;
+    height: 56px;
+  }
+
+  .rp-nav-menu {
     display: none;
   }
 
-  .luxury-toggle {
-    display: inline-flex;
-  }
-
-  .luxury-navbar-container {
-    height: 80px;
-    padding: 0 24px;
-  }
-
-  .luxury-logo-img {
-    height: 52px;
+  .rp-menu-toggle {
+    display: flex;
   }
 }
 
-@media (max-width: 480px) {
-  .luxury-navbar-container {
-    height: 72px;
-    padding: 0 16px;
+/* =======================
+   MOBILE
+======================= */
+
+@media (max-width: 600px) {
+  .rp-navbar {
+    padding: 7px 0;
   }
 
-  .luxury-logo-img {
+  .rp-nav-container {
+    min-height: 55px;
+    padding: 0 17px;
+  }
+
+  .rp-logo img {
+    width: 155px;
+    height: 51px;
+  }
+
+  .rp-menu-toggle {
+    width: 43px;
+    height: 43px;
+  }
+
+  .rp-mobile-menu {
+    width: 350px;
+    max-width: 90%;
+    padding: 22px 23px;
+  }
+
+  .rp-mobile-logo img {
+    width: 150px;
+    height: 49px;
+  }
+
+  .rp-mobile-link {
+    min-height: 59px;
+    font-size: 17px;
+  }
+}
+
+/* =======================
+   SMALL MOBILE
+======================= */
+
+@media (max-width: 380px) {
+  .rp-nav-container {
+    padding: 0 12px;
+  }
+
+  .rp-logo img {
+    width: 135px;
     height: 46px;
+  }
+
+  .rp-menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rp-mobile-menu {
+    max-width: 94%;
+    padding: 18px;
+  }
+
+  .rp-mobile-logo img {
+    width: 130px;
+    height: 44px;
+  }
+
+  .rp-mobile-link {
+    grid-template-columns: 28px minmax(0, 1fr) 20px;
+    gap: 9px;
+    font-size: 16px;
+  }
+}
+
+/* =======================
+   REDUCED MOTION
+======================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-navbar *,
+  .rp-mobile-menu *,
+  .rp-nav-overlay {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

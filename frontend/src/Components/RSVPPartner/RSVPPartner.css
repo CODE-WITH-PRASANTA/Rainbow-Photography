@@ -1,0 +1,167 @@
+/* ================= GOOGLE FONTS ================= */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap');
+
+
+/* ================= MAIN SECTION ================= */
+.RSVPPartner {
+  position: relative;
+  padding: 120px 5%;
+  background-color: #f4f4f4;
+
+  /* Decorative Background Flower */
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 600px auto;
+
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+/* Soft overlay for clean look */
+.RSVPPartner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 0;
+}
+
+.RSVPPartner-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ================= LEFT SIDE ================= */
+.RSVPPartner-left {
+  flex: 1;
+  max-width: 520px;
+}
+
+.RSVPPartner-subtitle {
+  font-size: 16px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.RSVPPartner-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 25px;
+  color: #111;
+}
+
+.RSVPPartner-description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+}
+
+
+/* ================= GRID ================= */
+.RSVPPartner-grid {
+  flex: 1.5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.RSVPPartner-card {
+  background: #ffffff;
+  border: 2px solid #e5e5e5;
+  padding: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.RSVPPartner-card img {
+  max-width: 130px;
+  object-fit: contain;
+}
+
+.RSVPPartner-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+/* Large Screens */
+@media (max-width: 1200px) {
+  .RSVPPartner-title {
+    font-size: 52px;
+  }
+
+  .RSVPPartner {
+    background-size: 500px auto;
+  }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+  .RSVPPartner-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .RSVPPartner-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 60px;
+  }
+
+  .RSVPPartner-title {
+    font-size: 46px;
+  }
+
+  .RSVPPartner {
+    background-position: left bottom;
+    background-size: 380px auto;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .RSVPPartner {
+    padding: 80px 20px;
+    background-size: 280px auto;
+  }
+
+  .RSVPPartner-title {
+    font-size: 36px;
+  }
+
+  .RSVPPartner-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .RSVPPartner-card {
+    padding: 35px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .RSVPPartner-title {
+    font-size: 28px;
+  }
+
+  .RSVPPartner-subtitle {
+    font-size: 13px;
+  }
+
+  .RSVPPartner {
+    background-size: 200px auto;
+  }
+}

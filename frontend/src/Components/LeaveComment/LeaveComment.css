@@ -1,0 +1,210 @@
+/* ======================================
+   MAIN WRAPPER (Glass + Shadow)
+====================================== */
+.comment-wrapper {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 45px 50px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 1s ease forwards;
+  font-family: "Playfair Display", serif;
+}
+
+/* ======================================
+   TITLE
+====================================== */
+.comment-title {
+  font-size: clamp(28px, 5vw, 38px);
+  margin-bottom: 35px;
+  color: #1a2a44;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: slideUp .8s ease forwards;
+}
+
+/* ======================================
+   FORM
+====================================== */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* ======================================
+   TABLE-LIKE FORM LAYOUT
+====================================== */
+.comment-table {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 25px;
+}
+
+.table-row label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2a3548;
+  text-transform: uppercase;
+}
+
+/* ======================================
+   INPUT FIELDS
+====================================== */
+.comment-input,
+.comment-textarea {
+  width: 100%;
+  padding: 15px 20px;
+  background: #f4f6f9;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  outline: none;
+  color: #444;
+  transition: 0.3s ease;
+}
+
+.comment-input:focus,
+.comment-textarea:focus {
+  border-color: #b11e3e;
+  box-shadow: inset 0 0 12px rgba(177, 30, 62, 0.2);
+}
+
+.comment-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* ======================================
+   SUBMIT BUTTON
+====================================== */
+.submit-button {
+  margin-top: 10px;
+  background: #b11e3e;
+  padding: 14px 42px;
+  color: #fff;
+  border-radius: 40px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.35s ease;
+  box-shadow: 0 10px 25px rgba(177, 30, 62, 0.3);
+}
+
+.submit-button:hover {
+  background: #8a1730;
+  transform: translateY(-3px);
+}
+
+.bounceBtn:active {
+  transform: scale(0.94);
+}
+
+/* ======================================
+   ANIMATIONS
+====================================== */
+.fadeInSection {
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slideUp {
+  opacity: 0;
+  animation: slideUp 0.8s ease forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================
+   RESPONSIVE DESIGN
+====================================== */
+
+/* Laptop (1024px–1366px) */
+@media (max-width: 1366px) {
+  .comment-wrapper {
+    padding: 40px 45px;
+  }
+}
+
+/* Tablet (768px–1024px) */
+@media (max-width: 1024px) {
+  .comment-wrapper {
+    padding: 35px 40px;
+  }
+
+  .table-row {
+    grid-template-columns: 150px 1fr;
+  }
+}
+
+/* Mobile (up to 768px) */
+@media (max-width: 768px) {
+  .comment-wrapper {
+    padding: 28px;
+  }
+
+  .table-row {
+    grid-template-columns: 1fr;
+  }
+
+  .table-row label {
+    margin-bottom: 8px;
+  }
+
+  .comment-title {
+    font-size: 26px;
+  }
+}
+
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
+  .comment-wrapper {
+    padding: 22px;
+  }
+
+  .comment-title {
+    font-size: 24px;
+  }
+
+  .submit-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Extra Small (360px) */
+@media (max-width: 360px) {
+  .comment-wrapper {
+    padding: 18px;
+  }
+
+  .comment-title {
+    font-size: 22px;
+  }
+
+  .comment-input,
+  .comment-textarea {
+    font-size: 14px;
+    padding: 12px 15px;
+  }
+}

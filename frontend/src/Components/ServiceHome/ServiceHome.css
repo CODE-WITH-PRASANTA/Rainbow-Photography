@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400&display=swap");
+
+/* ================================================
+   HIDE NAVBAR ICONS FOR THIS PAGE ONLY
+================================================ */
+body.service-page-active .social-icons,
+body.service-page-active .header-icons,
+body.service-page-active .nav-icons {
+  display: none !important;
+}
+
+/* ================================================
+   HERO SECTION (FULL SCREEN)
+================================================ */
+.service-home__hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 420px;
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Overlay */
+.service-home__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.45)
+  );
+  z-index: 1;
+}
+
+/* Content */
+.service-home__content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  max-width: 900px;
+  padding: 40px 20px;
+}
+
+/* Title */
+.service-home__title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(40px, 6vw, 78px);
+  letter-spacing: 3px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* ================================================
+   BREADCRUMB
+================================================ */
+.service-home__breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.service-home__crumb {
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.service-home__crumb:hover {
+  opacity: 0.75;
+}
+
+.service-home__arrow {
+  font-size: 18px;
+  opacity: 0.75;
+}
+
+.service-home__active {
+  opacity: 0.88;
+}
+
+/* ================================================
+   RESPONSIVE BREAKPOINTS
+================================================ */
+
+@media (min-width: 1500px) {
+  .service-home__hero {
+    height: 65vh;
+  }
+}
+
+@media (max-width: 1200px) {
+  .service-home__hero {
+    height: 55vh;
+  }
+}
+
+@media (max-width: 991px) {
+  .service-home__hero {
+    height: 48vh;
+    min-height: 360px;
+  }
+
+  .service-home__title {
+    letter-spacing: 2.5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-home__hero {
+    height: 42vh;
+    min-height: 320px;
+  }
+
+  .service-home__title {
+    letter-spacing: 2px;
+  }
+
+  .service-home__breadcrumb {
+    font-size: 14px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-home__hero {
+    min-height: 300px;
+  }
+
+  .service-home__title {
+    font-size: 30px;
+    letter-spacing: 1.5px;
+  }
+
+  .service-home__breadcrumb {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .service-home__title {
+    font-size: 26px;
+  }
+
+  .service-home__breadcrumb {
+    font-size: 12px;
+  }
+}

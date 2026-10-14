@@ -1,0 +1,200 @@
+/* =====================================
+   SECTION
+===================================== */
+
+.designCompanies-section{
+  position:relative;
+  background:#fff;
+  padding:clamp(80px,10vw,150px) 20px;
+  overflow:hidden;
+}
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+.designCompanies-container{
+  max-width:1200px;
+  margin:auto;
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+
+/* =====================================
+   TITLE
+===================================== */
+
+.designCompanies-title{
+  font-family:"Playfair Display", serif;
+  font-size:clamp(26px,4vw,42px);
+  font-weight:600;
+  color:#222;
+  margin-bottom:clamp(35px,6vw,60px);
+  letter-spacing:1px;
+}
+
+/* =====================================
+   DECORATIVE LEAVES
+===================================== */
+
+.designCompanies-decor{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+.designCompanies-leaf{
+  position:absolute;
+  width:clamp(120px,22vw,440px);
+  opacity:.9;
+}
+
+/* left leaf */
+.designCompanies-leaf-left{
+  left:-6%;
+  top:8%;
+  transform:rotate(-10deg);
+}
+
+/* right leaf */
+.designCompanies-leaf-right{
+  right:-5%;
+  top:5%;
+  transform:rotate(10deg);
+}
+
+/* =====================================
+   LOGO SLIDER WRAPPER
+===================================== */
+
+.designCompanies-logo-wrapper{
+  width:100%;
+  overflow:hidden;
+  position:relative;
+}
+
+/* premium fade edges */
+.designCompanies-logo-wrapper::before,
+.designCompanies-logo-wrapper::after{
+  content:"";
+  position:absolute;
+  top:0;
+  height:100%;
+  width:clamp(60px,12vw,250px);
+  z-index:3;
+  pointer-events:none;
+}
+
+.designCompanies-logo-wrapper::before{
+  left:0;
+  background:linear-gradient(to right,#fff,transparent);
+}
+
+.designCompanies-logo-wrapper::after{
+  right:0;
+  background:linear-gradient(to left,#fff,transparent);
+}
+
+/* =====================================
+   LOGO TRACK (INFINITE SCROLL)
+===================================== */
+
+.designCompanies-logo-track{
+  display:flex;
+  align-items:center;
+  gap:clamp(35px,6vw,80px);
+  width:max-content;
+  animation:designCompanies-scroll 28s linear infinite;
+}
+
+/* pause on hover */
+.designCompanies-logo-wrapper:hover
+.designCompanies-logo-track{
+  animation-play-state:paused;
+}
+
+/* =====================================
+   LOGO STYLE
+===================================== */
+
+.designCompanies-logo-track img{
+  height:clamp(40px,6vw,70px);
+  object-fit:contain;
+  opacity:.7;
+  transition:.35s ease;
+  filter:grayscale(100%);
+}
+
+.designCompanies-logo-track img:hover{
+  opacity:1;
+  filter:grayscale(0%);
+  transform:scale(1.08);
+}
+
+/* =====================================
+   SCROLL ANIMATION
+===================================== */
+
+@keyframes designCompanies-scroll{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+/* =====================================
+   RESPONSIVE BREAKPOINTS
+===================================== */
+
+/* ---------- Laptop ---------- */
+@media(max-width:1024px){
+
+  .designCompanies-logo-track{
+    animation-duration:24s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media(max-width:768px){
+
+  .designCompanies-section{
+    padding:70px 15px;
+  }
+
+  .designCompanies-leaf{
+    opacity:.7;
+  }
+
+  .designCompanies-logo-wrapper::before,
+  .designCompanies-logo-wrapper::after{
+    width:50px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media(max-width:480px){
+
+  .designCompanies-title{
+    letter-spacing:.5px;
+  }
+
+  .designCompanies-logo-track{
+    animation-duration:20s;
+  }
+}
+
+/* ---------- Small Phones ---------- */
+@media(max-width:360px){
+
+  .designCompanies-logo-track{
+    gap:28px;
+  }
+
+  .designCompanies-logo-track img{
+    height:38px;
+  }
+}

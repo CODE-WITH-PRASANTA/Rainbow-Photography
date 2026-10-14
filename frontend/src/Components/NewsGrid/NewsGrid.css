@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400&display=swap');
+
+/* ===============================
+   HERO SECTION (PREMIUM VERSION)
+================================= */
+
+.news-hero {
+  position: relative;
+  width: 100%;
+  min-height: 55vh;          /* Responsive height */
+  height: 520px;             /* Premium desktop height */
+  padding: 0 8%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Elegant darker overlay */
+.news-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.35)
+  );
+}
+
+/* Content */
+.news-hero-content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Heading */
+.news-hero-content h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 72px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  margin-bottom: 22px;
+  line-height: 1.2;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0.95;
+  letter-spacing: 1px;
+}
+
+.breadcrumb span {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.breadcrumb span:hover {
+  opacity: 0.75;
+}
+
+.breadcrumb-arrow {
+  font-size: 18px;
+}
+
+.breadcrumb .active {
+  opacity: 0.85;
+}
+
+/* ===============================
+   LARGE DESKTOP (1400px+)
+================================= */
+
+@media (min-width: 1400px) {
+  .news-hero {
+    height: 600px;
+  }
+
+  .news-hero-content h1 {
+    font-size: 82px;
+  }
+}
+
+/* ===============================
+   TABLET
+================================= */
+
+@media (max-width: 1024px) {
+  .news-hero {
+    height: 420px;
+    padding: 0 6%;
+  }
+
+  .news-hero-content h1 {
+    font-size: 56px;
+  }
+}
+
+/* ===============================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+  .news-hero {
+    height: 320px;
+    min-height: auto;
+    padding: 0 20px;
+  }
+
+  .news-hero-content {
+    padding: 20px 10px;
+  }
+
+  .news-hero-content h1 {
+    font-size: 38px;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+  }
+
+  .breadcrumb {
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .breadcrumb-arrow {
+    font-size: 14px;
+  }
+}
+
+/* ===============================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 480px) {
+  .news-hero {
+    height: 280px;
+  }
+
+  .news-hero-content h1 {
+    font-size: 30px;
+  }
+}

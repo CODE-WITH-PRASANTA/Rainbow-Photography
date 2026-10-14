@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap");
+
+.social-media {
+  width: 100%;
+  min-height: 100vh;   /* ✅ FULL SCREEN */
+  display: flex;
+  align-items: stretch;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Main container */
+.social-media__container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  transition: all 0.7s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.social-media--in .social-media__container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= LEFT SIDE ================= */
+
+.social-media__left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Gradient Top */
+.social-media__top {
+  padding: 50px 60px;
+  background: linear-gradient(135deg, #2b0a70, #4b11b1, #2a0d7a);
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Cards grid */
+.social-media__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  width: 100%;
+}
+
+.social-media__card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+}
+
+.social-media__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon */
+.social-media__iconWrap {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #7a2cff, #3a0b8c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+}
+
+/* Text */
+.social-media__title {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.social-media__value {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  color: #555;
+}
+
+/* ================= MAP SECTION ================= */
+
+.social-media__mapSection {
+  height: 40%;
+}
+
+.social-media__map {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ================= RIGHT SIDE ================= */
+
+.social-media__right {
+  position: relative;
+  height: 100%;
+}
+
+.social-media__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+
+.social-media__right:hover .social-media__image {
+  transform: scale(1.05);
+}
+
+.social-media__imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.25), transparent);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .social-media__container {
+    grid-template-columns: 1fr;
+  }
+
+  .social-media__right {
+    height: 400px;
+  }
+
+  .social-media__top {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .social-media__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .social-media__top {
+    padding: 30px;
+  }
+
+  .social-media__right {
+    height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-media__top {
+    padding: 20px;
+  }
+
+  .social-media__card {
+    padding: 16px;
+  }
+
+  .social-media__iconWrap {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}

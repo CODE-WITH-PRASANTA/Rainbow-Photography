@@ -1,0 +1,277 @@
+/* ================= ROOT ================= */
+.weddingHero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Playfair Display", serif;
+  background: #f7f6f3;
+}
+
+/* ================= BG ================= */
+.weddingHero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* ================= FLOWERS ================= */
+.weddingHero__flower {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* left big */
+.weddingHero__flower--leftBig {
+  left: 0;
+  top: 120px;
+  width: 440px;
+  opacity: 0.9;
+  animation: weddingFloatSlow 8s ease-in-out infinite;
+}
+
+/* right faded */
+.weddingHero__flower--rightFade {
+  right: 0;
+  top: 170px;
+  height: 480px;
+  width: 440px;
+  opacity: .30;
+  animation: weddingFloat 7s ease-in-out infinite;
+}
+
+/* twin */
+.weddingHero__flower--twin {
+  left: 50%;
+  bottom: 90px;
+  width: 280px;
+  opacity: 0.7;
+
+  animation: weddingZoomBreath 6s ease-in-out infinite;
+}
+
+/* yellow */
+.weddingHero__flower--yellow {
+  right: 370px;
+  bottom: 30px;
+  width: 130px;
+  animation: weddingFloatRotate 7s ease-in-out infinite;
+}
+
+/* ================= FLOAT ANIMATION ================= */
+@keyframes weddingFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes weddingFloatSlow {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-28px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes weddingFloatRotate {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* ================= TOP BAR ================= */
+.weddingHero__topBar {
+  position: absolute;
+  top: 118px;
+  right: 30px;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background: #eae7df;
+  padding: 10px 18px;
+  border-radius: 40px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.weddingHero__contact {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #555;
+  font-family: Inter, sans-serif;
+}
+
+.weddingHero__contactItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ================= SOCIAL ICONS ================= */
+.weddingHero__social {
+  display: flex;
+  gap: 10px;
+}
+
+.weddingHero__socialBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all .35s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* lift */
+.weddingHero__socialBtn:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* facebook */
+.weddingHero__socialBtn--facebook:hover {
+  background: #1877f2;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(24,119,242,.35);
+}
+
+/* google */
+.weddingHero__socialBtn--google:hover {
+  background: #ea4335;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(234,67,53,.35);
+}
+
+/* close */
+.weddingHero__socialBtn--close:hover {
+  background: #111;
+  color: #fff;
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* ================= CONTENT ================= */
+.weddingHero__content {
+  position: relative;
+  z-index: 2;
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  padding: 40px 20px;
+}
+
+.weddingHero__dividerImg {
+  width: 140px;
+  left: -30px;
+  margin-bottom: 30px;
+}
+
+/* HERO TITLE — EXACT TEMPLATE STYLE */
+.weddingHero__title {
+  font-family: "Playfair Display", serif;
+
+  font-size: 72px;        /* desktop exact */
+  font-weight: 500;       /* template uses medium */
+  line-height: 1.15;
+  letter-spacing: 1px;
+
+  color: #111;
+  margin-bottom: 18px;
+}
+
+.weddingHero__title span {
+  display: block;
+  font-weight: 500;
+}
+
+.weddingHero__title span {
+  display: block;
+}
+
+.weddingHero__subtitle {
+  font-family: Inter, sans-serif;
+
+  font-size: 20px;
+  font-weight: 400;
+  color: #555;
+
+  margin-top: 10px;
+}
+@keyframes weddingZoomBreath {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1200px) {
+  .weddingHero__title { font-size: 60px; }
+}
+
+@media (max-width: 992px) {
+  .weddingHero__title { font-size: 46px; }
+}
+
+@media (max-width: 600px) {
+  .weddingHero__title { font-size: 34px; }
+}
+
+@media (max-width: 992px) {
+  .weddingHero__title {
+    font-size: 46px;
+  }
+
+  .weddingHero__topBar {
+    right: 16px;
+    left: 16px;
+    justify-content: space-between;
+  }
+
+  .weddingHero__contact {
+    display: none;
+  }
+
+  .weddingHero__flower--leftBig,
+  .weddingHero__flower--rightFade {
+    width: 260px;
+  }
+
+  .weddingHero__flower--twin,
+  .weddingHero__flower--yellow {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .weddingHero__title {
+    font-size: 34px;
+  }
+
+  .weddingHero__flower--rightFade {
+    display: none;
+  }
+
+  .weddingHero__flower--leftBig {
+    width: 200px;
+    top: 180px;
+    opacity: 0.5;
+  }
+}

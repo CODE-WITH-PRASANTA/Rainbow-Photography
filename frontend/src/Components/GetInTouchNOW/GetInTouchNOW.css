@@ -1,0 +1,291 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap");
+
+.get-in-touch {
+  width: 100%;
+  padding: 34px 16px;
+  background: #ffffff;
+}
+
+/* === better entrance animation (stagger + smooth) === */
+.get-in-touch__wrap {
+  max-width: 1120px; /* ✅ smaller container */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 18px; /* ✅ tighter gap */
+  align-items: stretch;
+
+  opacity: 0;
+  transform: translateY(18px);
+  transition: 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.get-in-touch--in .get-in-touch__wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* LEFT */
+.get-in-touch__left {
+  display: flex;
+  align-items: stretch;
+}
+
+.get-in-touch__imgCard {
+  width: 100%;
+  border-radius: 12px; /* smaller radius */
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 16px 40px rgba(12, 18, 28, 0.12);
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.985);
+  transition: 800ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.get-in-touch--in .get-in-touch__imgCard {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* gentle float animation */
+.get-in-touch--in .get-in-touch__imgCard {
+  animation: getInFloat 5.5s ease-in-out infinite;
+}
+
+@keyframes getInFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1);
+  }
+}
+
+.get-in-touch__img {
+  width: 100%;
+  height: 100%;
+  min-height: 470px; /* ✅ smaller image height */
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 800ms ease;
+}
+
+.get-in-touch__imgCard:hover .get-in-touch__img {
+  transform: scale(1.06);
+}
+
+.get-in-touch__imgShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.04)
+  );
+}
+
+/* RIGHT */
+.get-in-touch__right {
+  display: flex;
+  align-items: stretch;
+}
+
+.get-in-touch__card {
+  width: 100%;
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 18px 18px 14px; /* ✅ smaller padding */
+  box-shadow: 0 16px 40px rgba(12, 18, 28, 0.08);
+
+  opacity: 0;
+  transform: translateY(14px);
+  transition: 800ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  transition-delay: 90ms;
+}
+
+.get-in-touch--in .get-in-touch__card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title smaller */
+.get-in-touch__title {
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.6px;
+  font-size: 28px; /* ✅ smaller title */
+  font-weight: 800;
+  margin: 2px 0 14px;
+  color: #111;
+}
+
+/* GRID tighter */
+.get-in-touch__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px; /* ✅ tighter */
+}
+
+.get-in-touch__field--full {
+  grid-column: 1 / -1;
+}
+
+/* inputs smaller */
+.get-in-touch__input,
+.get-in-touch__textarea,
+.get-in-touch__select {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px; /* ✅ smaller */
+  font-family: "Inter", sans-serif;
+  font-size: 14.5px; /* ✅ smaller font */
+  outline: none;
+  transition: 220ms ease;
+}
+
+.get-in-touch__textarea {
+  resize: vertical;
+  min-height: 120px; /* ✅ smaller */
+  padding-top: 12px;
+}
+
+.get-in-touch__input:focus,
+.get-in-touch__textarea:focus,
+.get-in-touch__select:focus {
+  border-color: rgba(255, 179, 0, 0.58);
+  box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.18);
+}
+
+.get-in-touch__input::placeholder,
+.get-in-touch__textarea::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* select */
+.get-in-touch__selectWrap {
+  position: relative;
+}
+
+.get-in-touch__select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+}
+
+.get-in-touch__selectCaret {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 14px;
+  opacity: 0.65;
+}
+
+/* actions */
+.get-in-touch__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* button smaller + premium */
+.get-in-touch__btn {
+  border: 0;
+  background: #ffb300;
+  color: #111;
+  font-weight: 900;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  padding: 11px 18px; /* ✅ smaller */
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(255, 179, 0, 0.25);
+  transition: 220ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.get-in-touch__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(255, 179, 0, 0.32);
+}
+
+.get-in-touch__btn:active {
+  transform: translateY(0);
+}
+
+/* subtle shine */
+.get-in-touch__btn::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 40%;
+  height: 200%;
+  transform: rotate(20deg);
+  background: rgba(255, 255, 255, 0.35);
+  filter: blur(1px);
+  opacity: 0;
+  transition: 320ms ease;
+}
+
+.get-in-touch__btn:hover::after {
+  left: 120%;
+  opacity: 1;
+  transition: 700ms ease;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1100px) {
+  .get-in-touch__wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .get-in-touch__img {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .get-in-touch {
+    padding: 26px 12px;
+  }
+
+  .get-in-touch__title {
+    font-size: 24px;
+  }
+
+  .get-in-touch__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .get-in-touch__actions {
+    justify-content: stretch;
+  }
+
+  .get-in-touch__btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .get-in-touch__title {
+    font-size: 22px;
+  }
+
+  .get-in-touch__input,
+  .get-in-touch__textarea,
+  .get-in-touch__select {
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+}

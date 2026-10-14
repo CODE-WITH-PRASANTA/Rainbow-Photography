@@ -1,0 +1,113 @@
+.OurTeamBD-container {
+  width: 100%;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.OurTeamBD-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.OurTeamBD-title {
+  color: #fff;
+  font-size: 60px;
+  font-family: var(--title-font);
+  margin-top: 60px;
+  line-height: 1.2;
+}
+
+.OurTeamBD-path {
+  color: #fff;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============================= */
+/* ====== LARGE DESKTOP ======== */
+/* ============================= */
+@media (min-width: 1400px) {
+  .OurTeamBD-container {
+    height: 520px;
+  }
+
+  .OurTeamBD-title {
+    font-size: 72px;
+  }
+
+  .OurTeamBD-path {
+    font-size: 18px;
+  }
+}
+
+/* ============================= */
+/* ====== LAPTOP / DESKTOP ===== */
+/* ============================= */
+@media (max-width: 1200px) {
+  .OurTeamBD-container {
+    height: 420px;
+  }
+
+  .OurTeamBD-title {
+    font-size: 48px;
+  }
+
+  .OurTeamBD-path {
+    font-size: 15px;
+  }
+}
+
+/* ============================= */
+/* ========= TABLET ============ */
+/* ============================= */
+@media (max-width: 992px) {
+  .OurTeamBD-container {
+    height: 380px;
+  }
+
+  .OurTeamBD-title {
+    font-size: 38px;
+  }
+
+  .OurTeamBD-path {
+    font-size: 14px;
+  }
+}
+
+/* ============================= */
+/* ========= MOBILE ============ */
+/* ============================= */
+@media (max-width: 576px) {
+  .OurTeamBD-container {
+    height: 280px;
+  }
+
+  .OurTeamBD-overlay {
+    padding: 15px;
+  }
+
+  .OurTeamBD-title {
+    font-size: 26px;
+  }
+
+  .OurTeamBD-path {
+    font-size: 13px;
+    gap: 6px;
+  }
+}

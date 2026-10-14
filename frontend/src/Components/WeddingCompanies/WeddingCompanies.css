@@ -1,0 +1,276 @@
+/* ===============================
+   SECTION
+================================*/
+.WeddingCompaniessection {
+  position: relative;
+  background: #fff;
+  padding: 90px 30px;
+  overflow: hidden;
+}
+
+/* Decorative Layer */
+.WeddingCompaniesdecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   TITLE
+================================*/
+.WeddingCompaniestitle {
+  font-family: "Playfair Display", serif;
+  font-size: 62px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #1f1f1f;
+  margin-bottom: 70px;
+  text-align: center;
+  
+}
+
+/* ===============================
+   LOGO SLIDER
+================================*/
+.WeddingCompanieslogo-wrapper {
+  overflow: hidden;
+}
+
+.WeddingCompanieslogo-track {
+  display: flex;
+  gap: 100px;
+  width: max-content;
+  animation: wc-marquee 30s linear infinite;
+}
+
+.WeddingCompanieslogo-track img {
+  height: 120px;
+
+  filter: grayscale(100%);
+  transition: 0.4s ease;
+}
+
+.WeddingCompanieslogo-track img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: grayscale(0);
+}
+
+@keyframes wc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===============================
+   PREMIUM FLOATING LEAVES
+================================*/
+.WeddingCompaniesleaf {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.95;
+}
+
+/* LEFT DECORATION (REFERENCE STYLE) */
+.WeddingCompaniesleaf-left {
+  left: -40px;
+  top: 40px;
+  width: 300px;
+  animation: wcFloatLeft 9s ease-in-out infinite;
+}
+
+/* RIGHT DECORATION */
+.WeddingCompaniesleaf-right {
+  right: -30px;
+  top: -20px;
+  width: 280px;
+  animation: wcFloatRight 11s ease-in-out infinite;
+}
+
+/* Luxury floating motion */
+@keyframes wcFloatLeft {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(25px) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes wcFloatRight {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* ===============================
+   RESPONSIVE
+================================*/
+@media (max-width: 992px) {
+  .WeddingCompaniestitle {
+    font-size: 38px;
+  }
+
+  .WeddingCompaniesleaf-left {
+    width: 180px;
+    left: -60px;
+  }
+
+  .WeddingCompaniesleaf-right {
+    width: 190px;
+  }
+
+  .WeddingCompanieslogo-track img {
+    height: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .WeddingCompaniestitle {
+    font-size: 28px;
+  }
+
+  .WeddingCompaniessection {
+    padding: 70px 15px;
+  }
+
+  .WeddingCompaniesleaf {
+    opacity: 0.6;
+  }
+}/* ===============================
+   RESPONSIVE (UPDATED ONLY)
+================================*/
+
+/* ---------- Tablet / Small Laptop ---------- */
+@media (max-width: 992px) {
+
+  .WeddingCompaniessection {
+    padding: 80px 25px;
+  }
+
+  .WeddingCompaniestitle {
+    font-size: 42px;
+    margin-bottom: 55px;
+  }
+
+  .WeddingCompanieslogo-track {
+    gap: 70px;
+  }
+
+  .WeddingCompanieslogo-track img {
+    height: 80px;
+  }
+
+  .WeddingCompaniesleaf-left {
+    width: 200px;
+    left: -50px;
+    top: 60px;
+  }
+
+  .WeddingCompaniesleaf-right {
+    width: 210px;
+    right: -40px;
+  }
+}
+
+
+/* ---------- Tablet Portrait ---------- */
+@media (max-width: 768px) {
+
+  .WeddingCompaniessection {
+    padding: 70px 20px;
+  }
+
+  .WeddingCompaniestitle {
+    font-size: 34px;
+    letter-spacing: 1px;
+  }
+
+  .WeddingCompanieslogo-track {
+    gap: 55px;
+  }
+
+  .WeddingCompanieslogo-track img {
+    height: 70px;
+  }
+
+  .WeddingCompaniesleaf {
+    opacity: 0.75;
+  }
+
+  .WeddingCompaniesleaf-left {
+    width: 170px;
+  }
+
+  .WeddingCompaniesleaf-right {
+    width: 180px;
+  }
+}
+
+
+/* ---------- Mobile ---------- */
+@media (max-width: 576px) {
+
+  .WeddingCompaniessection {
+    padding: 60px 15px;
+  }
+
+  .WeddingCompaniestitle {
+    font-size: 26px;
+    margin-bottom: 40px;
+  }
+
+  .WeddingCompanieslogo-track {
+    gap: 40px;
+    animation-duration: 22s; /* smoother mobile speed */
+  }
+
+  .WeddingCompanieslogo-track img {
+    height: 55px;
+  }
+
+  .WeddingCompaniesleaf {
+    opacity: 0.55;
+  }
+
+  .WeddingCompaniesleaf-left {
+    width: 130px;
+    left: -45px;
+    top: 80px;
+  }
+
+  .WeddingCompaniesleaf-right {
+    width: 140px;
+    right: -35px;
+    top: 0;
+  }
+}
+
+
+/* ---------- Small Mobile ---------- */
+@media (max-width: 400px) {
+
+  .WeddingCompaniestitle {
+    font-size: 22px;
+  }
+
+  .WeddingCompanieslogo-track {
+    gap: 30px;
+  }
+
+  .WeddingCompanieslogo-track img {
+    height: 48px;
+  }
+
+  .WeddingCompaniesleaf {
+    opacity: 0.45;
+  }
+}

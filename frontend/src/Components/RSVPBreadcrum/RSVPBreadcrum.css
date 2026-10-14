@@ -1,0 +1,71 @@
+/* ===== ROOT ===== */
+
+.RSVPBreadcrum{
+  width:100%;
+  min-height:500px;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ===== OVERLAY ===== */
+
+.RSVPBreadcrum__overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  padding:0 20px;
+}
+
+/* ===== TITLE ===== */
+
+.RSVPBreadcrum__title{
+  color:#fff;
+  font-size: clamp(36px,5vw,64px);
+  font-family:"Times New Roman",serif;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+
+/* ===== PATH ===== */
+
+.RSVPBreadcrum__path{
+  color:#fff;
+  display:flex;
+  gap:10px;
+  font-size: clamp(14px,2vw,18px);
+  opacity:.95;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:768px){
+
+  .RSVPBreadcrum{
+    min-height:420px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .RSVPBreadcrum{
+    min-height:360px;
+  }
+
+  .RSVPBreadcrum__title{
+    letter-spacing:.5px;
+  }
+}

@@ -1,0 +1,210 @@
+/* ================= ROOT ================= */
+.gallerySlider {
+  padding: clamp(30px, 6vw, 80px) clamp(16px, 5vw, 80px);
+  background: #f3f3f3;
+  overflow: hidden;
+}
+
+/* ================= TRACK ================= */
+.gallerySlider__track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 32px);
+  align-items: center;
+  width: 100%;
+}
+
+/* ================= IMAGES ================= */
+.gallerySlider__img {
+  width: 100%;                 /* ✅ FIXED */
+  max-width: 100%;             /* prevents overflow */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .35s ease;
+}
+
+/* hover */
+.gallerySlider__img:hover {
+  transform: translateY(-6px);
+}
+
+/* center highlight */
+.gallerySlider__img--center {
+  box-shadow: 0 18px 40px rgba(0,0,0,.18);
+}
+
+/* ================= CONTROLS ================= */
+.gallerySlider__controls {
+  margin-top: clamp(20px, 4vw, 50px);
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 30px);
+  justify-content: center;
+  flex-wrap: wrap; /* ✅ important for small screens */
+}
+
+/* arrows */
+.gallerySlider__arrow {
+  width: clamp(40px, 5vw, 52px);
+  height: clamp(40px, 5vw, 52px);
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  font-size: clamp(16px, 2vw, 20px);
+  cursor: pointer;
+  transition: .3s;
+}
+
+.gallerySlider__arrow:hover {
+  transform: translateY(-3px);
+}
+
+/* ================= PROGRESS ================= */
+.gallerySlider__progress {
+  width: clamp(120px, 30vw, 300px);
+  height: 4px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gallerySlider__progressFill {
+  height: 100%;
+  background: #e07b39;
+  transition: .4s ease;
+}
+
+/* ================= POPUP ================= */
+.gallerySlider__popup {
+  position: fixed;
+  inset: 0;
+  padding: 20px; /* ✅ prevents image touching edge */
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn .3s ease;
+}
+
+.gallerySlider__popupInner {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  animation: scaleIn .35s ease;
+}
+
+.gallerySlider__popupImg {
+  width: 100%;
+  max-height: 85vh;  /* ✅ prevents overflow */
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* close */
+.gallerySlider__close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: #fff;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ===== popup action bar ===== */
+.gallerySlider__popupActionsBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  background: rgba(0,0,0,.85);
+  padding: 6px;
+  border-bottom-left-radius: 8px;
+  gap: 4px;
+}
+
+.gallerySlider__popupIcon {
+  width: 38px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.gallerySlider__popupIcon:hover {
+  background: rgba(255,255,255,.12);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeIn {
+  from { opacity:0 }
+  to { opacity:1 }
+}
+
+@keyframes scaleIn {
+  from { transform:scale(.92); opacity:0 }
+  to { transform:scale(1); opacity:1 }
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+/* Large Tablet */
+@media (max-width: 1024px) {
+  .gallerySlider__track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .gallerySlider__track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .gallerySlider__track {
+    grid-template-columns: 1fr;
+  }
+
+  .gallerySlider__controls {
+    gap: 16px;
+  }
+}
+
+/* Small Mobile (320px–400px) */
+@media (max-width: 400px) {
+  .gallerySlider {
+    padding: 30px 14px;
+  }
+
+  .gallerySlider__arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .gallerySlider__progress {
+    width: 100%;
+  }
+}
+
+/* Ultra Wide Screens (2K+) */
+@media (min-width: 1600px) {
+  .gallerySlider__track {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+}

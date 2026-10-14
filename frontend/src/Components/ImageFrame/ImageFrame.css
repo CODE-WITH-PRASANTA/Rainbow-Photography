@@ -1,0 +1,84 @@
+/* ================= SECTION (OUTER SPACE) ================= */
+.imageFrame-section {
+  width: 100%;
+  background: #f3f3f3;   /* soft background like reference */
+  padding: 60px 40px;    /* side spacing */
+  display: flex;
+  justify-content: center;
+}
+
+/* ================= CONTAINER ================= */
+.imageFrame-container {
+  width: 100%;
+  max-width: 1400px;     /* keeps image centered */
+}
+
+/* ================= IMAGE BOX ================= */
+.imageFrame-box {
+  width: 100%;
+  border-radius: 18px;   /* smooth rounded corners */
+  overflow: hidden;      /* crop image inside radius */
+  background: #fff;
+}
+
+/* ================= IMAGE ================= */
+.imageFrame-img {
+  width: 100%;
+  height: 80vh;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Large Laptop */
+@media (max-width: 1200px) {
+  .imageFrame-section {
+    padding: 50px 30px;
+  }
+
+  .imageFrame-img {
+    height: 65vh;
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .imageFrame-section {
+    padding: 45px 22px;
+  }
+
+  .imageFrame-box {
+    border-radius: 14px;
+  }
+
+  .imageFrame-img {
+    height: 55vh;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .imageFrame-section {
+    padding: 35px 16px;
+  }
+
+  .imageFrame-box {
+    border-radius: 12px;
+  }
+
+  .imageFrame-img {
+    height: 42vh;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .imageFrame-section {
+    padding: 25px 12px;
+  }
+
+  .imageFrame-img {
+    height: 32vh;
+  }
+}

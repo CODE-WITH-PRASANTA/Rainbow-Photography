@@ -1,0 +1,124 @@
+/* GOOGLE FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&display=swap');
+
+:root {
+  --hero-overlay: rgba(0, 0, 0, 0.45);
+  --white: #ffffff;
+  --container-padding: clamp(1rem, 4vw, 3rem);
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HERO SECTION */
+.hero {
+  width: 100%;
+  min-height: 50vh;
+  height: clamp(280px, 48vh, 550px);
+
+  display: grid;
+  place-items: center;
+
+  background: linear-gradient(var(--hero-overlay), var(--hero-overlay)),
+    url("https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1500&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+
+  color: var(--white);
+  padding: var(--container-padding);
+}
+
+/* CONTAINER WITH MAX WIDTH */
+.hero__container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  text-align: center;
+  padding: 0 var(--container-padding);
+}
+
+/* TITLE */
+.hero__content h1 {
+  font-family: "Cinzel", serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: clamp(1px, 0.5vw, 4px);
+  line-height: 1.2;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+  margin-top: 12px;
+
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.4rem, 1vw, 1rem);
+
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.breadcrumb__separator {
+  opacity: 0.7;
+}
+
+.breadcrumb__item--active {
+  font-weight: 600;
+  border-bottom: 1px solid var(--white);
+}
+
+/* REUSABLE RESPONSIVE BUTTON (Fix fixed-size issue) */
+.btn {
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 992px) {
+  .hero {
+    min-height: 40vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 35vh;
+  }
+  .hero__content h1 {
+    font-size: clamp(1.6rem, 6vw, 2.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 28vh;
+  }
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+}
+
+/* Landscape phones */
+@media (max-height: 450px) and (orientation: landscape) {
+  .hero {
+    min-height: 25vh;
+  }
+  .hero__content h1 {
+    font-size: 1.6rem;
+  }
+}

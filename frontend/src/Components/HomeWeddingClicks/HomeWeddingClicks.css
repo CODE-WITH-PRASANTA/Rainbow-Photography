@@ -1,0 +1,143 @@
+/* ================= ROOT ================= */
+
+.HomeWedingClicks {
+  position: relative;
+  padding: clamp(70px, 8vw, 110px) 5%;
+  overflow: hidden;
+}
+
+/* ================= BG SPLIT ================= */
+
+.HomeWedingClicks__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  /* 70% orange + 30% white */
+  background: linear-gradient(
+    to bottom,
+    #c97446 0%,
+    #c97446 70%,
+    #ffffff 70%,
+    #ffffff 100%
+  );
+}
+
+/* ================= DECOR IMAGE ================= */
+
+.HomeWedingClicks__decor {
+  position: absolute;
+  left: -20px;
+  top: 25%;
+  width: 300px;
+  
+  z-index: -1;
+  pointer-events: none;
+  animation: HomeWedingClicksFloat 6s ease-in-out infinite;
+}
+
+@keyframes HomeWedingClicksFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+/* ================= CONTAINER ================= */
+
+.HomeWedingClicks__container {
+  max-width: 1250px;
+  margin: auto;
+}
+
+/* ================= HEADER ================= */
+
+.HomeWedingClicks__header {
+ 
+  margin-bottom: 50px;
+}
+
+.HomeWedingClicks__label{
+  font-family: "Cormorant Garamond", serif;
+  letter-spacing: 3px;
+  font-size: 14px;
+  color: #ffe9d9;
+}
+
+.HomeWedingClicks__title{
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(40px, 5vw, 70px);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+/* ================= GRID ================= */
+
+/* ================= GRID ================= */
+
+.HomeWedingClicks__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* always 3 */
+  gap: 24px; /* smaller spacing */
+}
+
+/* remove wide layout */
+.HomeWedingClicks__wide {
+  grid-column: span 1;
+}
+
+/* smaller image height */
+.HomeWedingClicks__item {
+  overflow: hidden;
+  border-radius: 6px;
+  height: 230px; /* decrease size */
+}
+
+.HomeWedingClicks__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+/* hover */
+.HomeWedingClicks__item:hover img {
+  transform: scale(1.06);
+}
+/* ================= HOVER ================= */
+
+.HomeWedingClicks__item:hover img {
+  transform: scale(1.08);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .HomeWedingClicks__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .HomeWedingClicks__wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .HomeWedingClicks__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .HomeWedingClicks__wide {
+    grid-column: span 1;
+  }
+
+  .HomeWedingClicks__title {
+    color: #fff;
+  }
+
+  .HomeWedingClicks__decor {
+    width: 180px;
+    left: -60px;
+  }
+}

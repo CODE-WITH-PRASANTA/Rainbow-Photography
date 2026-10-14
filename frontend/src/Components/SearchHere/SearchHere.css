@@ -1,0 +1,265 @@
+/* =======================================
+   SIDEBAR WRAPPER
+======================================= */
+.sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* =======================================
+   WIDGET BASE
+======================================= */
+.widget {
+  animation: fadeUp .6s ease;
+}
+
+.card {
+  background: #f5f5f5;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: .3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Widget Title */
+.widgetTitle {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: serif;
+  margin-bottom: 18px;
+  color: #222;
+}
+
+/* =======================================
+   SEARCH BAR
+======================================= */
+.searchWidget {
+  background: #b3123c;
+  border-radius: 14px;
+  display: flex;
+  overflow: hidden;
+  height: 52px;
+}
+
+.searchWidget input {
+  flex: 1;
+  border: none;
+  padding: 16px;
+  background: transparent;
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+}
+
+.searchWidget input::placeholder {
+  color: #fff;
+  opacity: .9;
+}
+
+.searchWidget button {
+  border: none;
+  padding: 0 18px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* =======================================
+   LATEST POSTS
+======================================= */
+.postItem {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.postItem:hover {
+  transform: translateX(4px);
+}
+
+.postItem img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.meta {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.postItem p {
+  font-weight: 600;
+  line-height: 1.4;
+  color: #333;
+  font-size: 14px;
+}
+
+/* =======================================
+   CATEGORIES
+======================================= */
+.categories {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.categories li {
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.categories li:hover {
+  background: #eee;
+}
+
+.categories .active {
+  background: #fff;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* =======================================
+   TAGS
+======================================= */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tags span {
+  padding: 10px 16px;
+  background: #fff;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  white-space: nowrap;
+}
+
+.tags span:hover {
+  transform: translateY(-2px);
+}
+
+/* =======================================
+   RECENT COMMENTS
+======================================= */
+.commentItem {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #b3123c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* =======================================
+   ANIMATION
+======================================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =======================================
+   RESPONSIVENESS 
+======================================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+  .card {
+    padding: 24px;
+  }
+
+  .postItem img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .widgetTitle {
+    font-size: 20px;
+  }
+
+  .postItem p {
+    font-size: 13px;
+  }
+
+  .searchWidget {
+    height: 48px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 550px) {
+  .card {
+    padding: 20px;
+  }
+
+  .tags span {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .postItem img {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 400px) {
+  .widgetTitle {
+    font-size: 18px;
+  }
+
+  .postItem {
+    gap: 10px;
+  }
+
+  .postItem img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tags span {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+}

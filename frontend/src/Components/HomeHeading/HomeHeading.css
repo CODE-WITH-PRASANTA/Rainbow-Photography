@@ -1,0 +1,100 @@
+/* ========================= */
+/* ROOT */
+/* ========================= */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&display=swap');
+
+.HomeHeading{
+  width:100%;
+  overflow:hidden;
+  background:#f5f5f5;
+  padding: clamp(30px,6vw,80px) 0;
+  position:relative;
+
+ border-top:1px solid #272727;
+border-bottom:1px solid #272727;
+}
+
+/* ========================= */
+/* TRACK (animation) */
+/* ========================= */
+
+.HomeHeading__track{
+  display:flex;
+  align-items:center;
+  gap: clamp(20px,6vw,30px);
+
+  width:max-content;
+
+  animation: HomeHeading-scroll 28s linear infinite;
+}
+
+/* infinite scroll */
+@keyframes HomeHeading-scroll{
+  from{
+    transform: translateX(0);
+  }
+  to{
+    transform: translateX(-50%);
+  }
+}
+
+/* ========================= */
+/* ITEM */
+/* ========================= */
+
+.HomeHeading__item{
+  display:flex;
+  align-items:center;
+  gap: clamp(20px,2.5vw,40px);
+}
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+
+.HomeHeading__text{
+  font-family: "Cinzel", serif;   /* ⭐ same elegant wedding font */
+  font-weight:400;
+  text-transform:uppercase;
+
+  font-size: clamp(28px,5vw,72px);
+  letter-spacing: clamp(2px,0.6vw,6px);
+
+  color:#111;
+  white-space:nowrap;
+}
+
+/* ========================= */
+/* FLOWER */
+/* ========================= */
+
+.HomeHeading__flower{
+  width: 80px;
+  height:auto;
+  
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width:768px){
+
+  .HomeHeading__track{
+    animation-duration:22s;
+  }
+
+}
+
+@media (max-width:480px){
+
+  .HomeHeading{
+    padding:40px 0;
+  }
+
+  .HomeHeading__track{
+    gap:60px;
+    animation-duration:18s;
+  }
+
+}

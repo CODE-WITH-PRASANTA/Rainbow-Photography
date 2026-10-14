@@ -1,0 +1,128 @@
+/* ===== HERO SECTION ===== */
+.about-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 60vh; /* Makes height responsive */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* ===== OVERLAY ===== */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 1;
+}
+
+/* ===== CONTENT ===== */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* ===== TITLE ===== */
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem); /* Auto scales */
+  font-weight: 500;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+.breadcrumb-item {
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+  opacity: 0.8;
+}
+
+.breadcrumb-item.active {
+  color: rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.breadcrumb-separator {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  opacity: 0.7;
+}
+
+/* ===== EXTRA LARGE DESKTOP ===== */
+@media (min-width: 1600px) {
+  .about-hero-section {
+    min-height: 70vh;
+  }
+
+  .hero-title {
+    font-size: 4.5rem;
+  }
+}
+
+/* ===== LAPTOP ===== */
+@media (max-width: 1200px) {
+  .about-hero-section {
+    min-height: 55vh;
+  }
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+  .about-hero-section {
+    min-height: 50vh;
+  }
+
+  .hero-title {
+    letter-spacing: 1px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+  .about-hero-section {
+    min-height: 40vh;
+    padding: 0 15px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+}

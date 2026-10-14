@@ -1,0 +1,193 @@
+/* ================= ROOT ================= */
+.aboutWedding{
+  padding: clamp(50px,8vw,90px) 5%;
+  background:#f7f6f3;
+}
+
+.aboutWedding__container{
+  display:grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items:center;
+  gap: clamp(30px,5vw,80px);
+}
+
+/* ================= CONTENT ================= */
+.aboutWedding__label{
+ font-family:Inter,sans-serif;
+  color:#d77a3b;
+  letter-spacing:1.5px;
+  font-size:14px;
+  font-weight:500;
+}
+
+.aboutWedding__title{
+   font-family:"Playfair Display",serif;
+  font-weight:500;
+  font-size: clamp(36px,5vw,64px);
+  line-height:1.15;
+  letter-spacing:.5px;
+  color:#111;
+}
+
+.aboutWedding__desc{
+  color:#666;
+  line-height:1.8;
+  margin-bottom:24px;
+  max-width:520px;
+}
+
+.aboutWedding__block{
+  margin-bottom:20px;
+}
+
+.aboutWedding__block h4{
+  font-family:"Playfair Display",serif;
+  font-size:26px;
+  color:#d77a3b;
+  display:inline-block;
+  border-bottom:2px solid #d77a3b;
+  padding-bottom:4px;
+  margin-bottom:10px;
+}
+.aboutWedding__desc,
+.aboutWedding__block p{
+  font-family:Inter,sans-serif;
+  color:#555;
+  line-height:1.8;
+  font-size:16px;
+}
+.aboutWedding__block p{
+  color:#444;
+}
+
+/* ================= BUTTON ================= */
+.aboutWedding__btn{
+  margin-top:14px;
+  background:#d77a3b;
+  color:#fff;
+  border:none;
+  padding:14px 28px;
+  border-radius:40px;
+  font-size:16px;
+  cursor:pointer;
+  transition:.35s;
+}
+
+/* hover animation (color change like template) */
+.aboutWedding__btn:hover{
+  background:#b85f2a;
+  transform:translateY(-2px);
+}
+
+/* ================= MEDIA ================= */
+.aboutWedding__media{
+  position:relative;
+  min-height:640px;
+}
+
+/* main image */
+.aboutWedding__imgWrap--main{
+  position:absolute;
+  right:0;
+  top:0;
+  width:70%;
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,.15);
+}
+
+/* people image overlap */
+.aboutWedding__imgWrap--people{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:55%;
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 25px 50px rgba(0,0,0,.18);
+}
+
+.aboutWedding__imgWrap img{
+  width:100%;
+  display:block;
+  
+}
+
+/* decorative leaves */
+.aboutWedding__leaf{
+  position:absolute;
+  pointer-events:none;
+}
+
+/* ================= LEAF BASE ================= */
+.aboutWedding__leaf{
+  position:absolute;
+  pointer-events:none;
+  z-index:3;
+  will-change: transform;
+}
+
+/* top leaf */
+.aboutWedding__leaf--top{
+  top:10px;
+  left:5px;
+  width:115px;
+
+  animation: aboutLeafFloatSlow 8s ease-in-out infinite;
+}
+
+/* side leaf */
+.aboutWedding__leaf--side{
+  right:-20px;
+  top:-53px;
+  width:115px;
+
+  animation: aboutLeafFloat 7s ease-in-out infinite;
+}
+
+/* ================= FLOAT KEYFRAMES ================= */
+
+@keyframes aboutLeafFloat{
+  0%{
+    transform: translateY(0px) rotate(0deg);
+  }
+  50%{
+    transform: translateY(-18px) rotate(3deg);
+  }
+  100%{
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes aboutLeafFloatSlow{
+  0%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(-28px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:992px){
+  .aboutWedding__container{
+    grid-template-columns:1fr;
+  }
+
+  .aboutWedding__media{
+    min-height:520px;
+  }
+}
+
+@media (max-width:600px){
+  .aboutWedding__imgWrap--main{
+    width:85%;
+  }
+
+  .aboutWedding__imgWrap--people{
+    width:70%;
+  }
+}

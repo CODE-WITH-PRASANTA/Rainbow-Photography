@@ -1,0 +1,198 @@
+/* ROOT */
+.ct {
+  padding: 70px 6%;
+  background: linear-gradient(135deg, #f9f9f9, #ece9f1);
+  font-family: "Playfair Display", serif;
+}
+
+/* TOP SECTION */
+.ct__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* TAGS */
+.ct__tags {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ct__label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.ct__tag {
+  padding: 8px 20px;
+  border-radius: 30px;
+  background: #b21f3b;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+/* SHARE ICONS */
+.ct__share {
+  display: flex;
+  gap: 12px;
+}
+
+.ct__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .3s;
+}
+
+/* NAVIGATION CARDS */
+.ct__nav {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 26px;
+  margin-bottom: 50px;
+}
+
+.ct__card {
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 18px;
+  font-size: 18px;
+  line-height: 1.6;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .3s;
+}
+
+/* TITLE */
+.ct__title {
+  font-size: 40px;
+  margin-bottom: 30px;
+  color: #111;
+}
+
+/* COMMENT ITEM */
+.ct__comment {
+  display: flex;
+  gap: 22px;
+  padding: 28px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.ct__avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* INNER COMMENT CONTENT */
+.ct__content {
+  flex: 1;
+}
+
+.ct__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.ct__row h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* COMMENT TEXT */
+.ct__content p {
+  color: #555;
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+/* REPLY BUTTON */
+.ct__reply {
+  padding: 10px 26px;
+  border-radius: 30px;
+  background: #b21f3b;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: .3s;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+================================ */
+
+/* TABLETS */
+@media (max-width: 992px) {
+  .ct__title {
+    font-size: 34px;
+  }
+
+  .ct__card {
+    font-size: 17px;
+    padding: 30px;
+  }
+}
+
+/* SMALL TABLETS / PHONES */
+@media (max-width: 768px) {
+  .ct__nav {
+    grid-template-columns: 1fr;
+  }
+
+  .ct__comment {
+    flex-direction: column;
+  }
+
+  .ct__avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ct__title {
+    font-size: 30px;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+  .ct {
+    padding: 50px 5%;
+  }
+
+  .ct__title {
+    font-size: 26px;
+  }
+
+  .ct__row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ct__card {
+    padding: 24px;
+    font-size: 16px;
+  }
+
+  .ct__reply {
+    width: 100%;
+    text-align: center;
+  }
+}

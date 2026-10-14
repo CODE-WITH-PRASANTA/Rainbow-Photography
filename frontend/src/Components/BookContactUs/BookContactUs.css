@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400&display=swap");
+
+/* ================================================
+   HIDE NAVBAR ICONS FOR THIS PAGE ONLY
+================================================ */
+body.contact-page-active .social-icons,
+body.contact-page-active .header-icons,
+body.contact-page-active .nav-icons {
+  display: none !important;
+}
+
+/* ================================================
+   HERO SECTION (FULL SCREEN)
+================================================ */
+.book-contact-us__hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 420px;
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+
+  /* NOTE: `attr()` for background-image is not supported in browsers.
+     Your inline style in JSX is the correct fallback. */
+}
+
+/* Overlay */
+.book-contact-us__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.45)
+  );
+  z-index: 1;
+}
+
+/* Content */
+.book-contact-us__content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  max-width: 900px;
+  padding: 40px 20px;
+}
+
+/* Title */
+.book-contact-us__title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(40px, 6vw, 78px);
+  letter-spacing: 3px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* ================================================
+   BREADCRUMB
+================================================ */
+.book-contact-us__breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.book-contact-us__crumb {
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.book-contact-us__crumb:hover {
+  opacity: 0.75;
+}
+
+.book-contact-us__arrow {
+  font-size: 18px;
+  opacity: 0.75;
+}
+
+.book-contact-us__active {
+  opacity: 0.88;
+}
+
+/* ================================================
+   RESPONSIVE BREAKPOINTS
+================================================ */
+
+/* Large Desktop */
+@media (min-width: 1500px) {
+  .book-contact-us__hero {
+    height: 65vh;
+  }
+}
+
+/* Laptop */
+@media (max-width: 1200px) {
+  .book-contact-us__hero {
+    height: 55vh;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .book-contact-us__hero {
+    height: 48vh;
+    min-height: 360px;
+  }
+
+  .book-contact-us__title {
+    letter-spacing: 2.5px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .book-contact-us__hero {
+    height: 42vh;
+    min-height: 320px;
+  }
+
+  .book-contact-us__title {
+    letter-spacing: 2px;
+  }
+
+  .book-contact-us__breadcrumb {
+    font-size: 14px;
+    gap: 8px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .book-contact-us__hero {
+    min-height: 300px;
+  }
+
+  .book-contact-us__title {
+    font-size: 30px;
+    letter-spacing: 1.5px;
+  }
+
+  .book-contact-us__breadcrumb {
+    font-size: 13px;
+  }
+}
+
+/* Ultra Small Mobile */
+@media (max-width: 360px) {
+  .book-contact-us__title {
+    font-size: 26px;
+  }
+
+  .book-contact-us__breadcrumb {
+    font-size: 12px;
+  }
+}

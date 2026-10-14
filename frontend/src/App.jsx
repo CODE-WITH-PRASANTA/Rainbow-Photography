@@ -1,24 +1,65 @@
+import { useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
 
-import Topbar from "./Components/Topbar/Topbar";
+// ---------- Common Layout ----------
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
+import GetInTouch from "./Components/GetInTouch/GetInTouch";
 
-const App = () => {
+// ---------- Pages ----------
+import Home from "./Pages/Home/Home";
+import About from "./Pages/About/About";
+import Galary from "./Pages/Galary/Galary";
+import Pricing from "./Pages/Pricing/Pricing";
+import Contact from "./Pages/Contact/Contact";
+import MainFaq from "./Pages/MainFaq/MainFaq";
+
+// ---------- Scroll To Top ----------
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [pathname]);
+
+  return null;
+};
+
+// ---------- Main App ----------
+function App() {
   return (
-   <Router>
-      <Topbar />
+    <BrowserRouter>
+      <ScrollToTop />
+
+      {/* Navbar */}
       <Navbar />
 
-    <Routes>
-       <Route path="/" element={<div>Home Page</div>} />
-   </Routes>
+      {/* Application Routes */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/gallery" element={<Galary />} />
+        <Route path="/package" element={<Pricing />} />
+        <Route path="/faq" element={<MainFaq />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
 
-     <Footer />
-</Router>
+      {/* Common Footer Sections */}
+      <GetInTouch />
+      <Footer />
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

@@ -1,0 +1,122 @@
+/* ================= BREADCRUMB CONTAINER ================= */
+
+.eventbread-container {
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= OVERLAY ================= */
+
+.eventbread-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* ================= TITLE ================= */
+
+.eventbread-title {
+  color: #fff;
+  font-size: 65px;
+  font-family: "Times New Roman", serif;
+  margin-bottom: 12px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ================= PATH ================= */
+
+.eventbread-path {
+  color: #fff;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 16px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+/* ---------- Large Laptop ---------- */
+@media (max-width: 1200px) {
+  .eventbread-container {
+    height: 440px;
+  }
+
+  .eventbread-title {
+    font-size: 36px;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 992px) {
+  .eventbread-container {
+    height: 380px;
+  }
+
+  .eventbread-title {
+    font-size: 30px;
+  }
+
+  .eventbread-path {
+    font-size: 15px;
+  }
+}
+
+/* ---------- Tablet Portrait ---------- */
+@media (max-width: 768px) {
+  .eventbread-container {
+    height: 320px;
+  }
+
+  .eventbread-title {
+    font-size: 26px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 576px) {
+  .eventbread-container {
+    height: 260px;
+  }
+
+  .eventbread-title {
+    font-size: 22px;
+  }
+
+  .eventbread-path {
+    font-size: 14px;
+    gap: 6px;
+  }
+}
+
+/* ---------- Small Mobile ---------- */
+@media (max-width: 400px) {
+  .eventbread-container {
+    height: 220px;
+  }
+
+  .eventbread-title {
+    font-size: 20px;
+  }
+
+  .eventbread-path {
+    font-size: 13px;
+  }
+}

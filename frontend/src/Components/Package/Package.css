@@ -1,0 +1,273 @@
+/* ===== ROOT ===== */
+
+.Package{
+  padding:50px 5%;
+  background:#f6f6f6;
+}
+
+/* ================= HEADING ================= */
+
+.PPackage__heading{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.PPackage__label{
+  font-family:"Cormorant Garamond",serif;
+  letter-spacing:3px;
+  font-size:14px;
+  color:#d07c4a;
+}
+
+.PPackage__mainTitle{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(38px,5vw,68px);
+  font-weight:400;
+  margin-top:10px;
+}
+
+.PPackage__headingFlower{
+  margin-top:15px;
+  width:240px;
+  opacity:.6;
+}
+
+/* ================= CONTAINER ================= */
+
+.PPackage__container{
+  max-width:1300px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:140px;
+}
+
+/* ================= CARD ================= */
+
+.PPackage__card{
+  position:relative;
+  background:#27314b;
+  padding:70px 60px;
+  min-height:460px;
+  overflow:visible;
+  margin-left:40px;
+  transition:transform .4s ease;
+}
+
+.PPackage__card:hover{
+  transform:translateY(-6px);
+}
+
+/* flower */
+
+.PPackage__flower{
+  position:absolute;
+  right:-40px;
+  bottom:-20px;
+  width:320px;
+  opacity:.12;
+  pointer-events:none;
+}
+
+/* ================= IMAGE ================= */
+
+.PPackage__imageWrap{
+  position:absolute;
+  left:-110px;
+  top:50%;
+  transform:translateY(-50%);
+  width:300px;
+  z-index:5;
+}
+
+.PPackage__imageWrap img{
+  width:100%;
+  display:block;
+  transition:transform .5s ease, box-shadow .5s ease;
+}
+
+.PPackage__card:hover .PPackage__imageWrap img{
+  transform:scale(1.05);
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
+}
+
+/* ================= CONTENT ================= */
+
+.PPackage__content{
+  padding-left:190px;
+  color:#fff;
+}
+
+.PPackage__title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.PPackage__list{
+  list-style:none;
+  padding:0;
+  margin:0 0 25px 0;
+}
+
+.PPackage__list li{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+  align-items:center;
+}
+
+.PPackage__list svg{
+  color:#f39a62;
+}
+
+.PPackage__price{
+  margin-bottom:20px;
+}
+
+.PPackage__price strong{
+  font-size:34px;
+}
+
+.PPackage__price span{
+  opacity:.85;
+  margin-left:6px;
+}
+
+/* ================= BUTTON ================= */
+
+.PPackage__btn{
+  border:none;
+  padding:15px 36px;
+  border-radius:40px;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(90deg,#f39a62,#8a4b28,#f39a62);
+  background-size:200% 100%;
+  transition:.5s;
+}
+
+.PPackage__btn:hover{
+  background-position:right;
+  transform:translateY(-2px);
+}
+
+/* ================= RESPONSIVE (UPDATED ONLY) ================= */
+
+/* ---------- Laptop / Tablet Landscape ---------- */
+@media (max-width: 1024px){
+
+  .PPackage__container{
+    grid-template-columns: 1fr;
+    gap: 90px;
+  }
+
+  .PPackage__card{
+    margin-left: 20px;
+    padding: 60px 50px;
+  }
+
+  .PPackage__imageWrap{
+    left: -70px;
+    width: 240px;
+  }
+
+  .PPackage__content{
+    padding-left: 150px;
+  }
+}
+
+
+/* ---------- Tablet Portrait ---------- */
+@media (max-width: 768px){
+
+  .Package{
+    padding: 70px 5%;
+  }
+
+  .PPackage__container{
+    gap: 70px;
+  }
+
+  .PPackage__card{
+    margin-left: 0;
+    padding: 50px 35px;
+  }
+
+  .PPackage__imageWrap{
+    left: -40px;
+    width: 210px;
+  }
+
+  .PPackage__content{
+    padding-left: 120px;
+  }
+
+  .PPackage__title{
+    font-size: 28px;
+  }
+}
+
+
+/* ---------- Mobile ---------- */
+@media (max-width: 600px){
+
+  .Package{
+    padding: 60px 5%;
+  }
+
+  .PPackage__headingFlower{
+    width: 110px;
+  }
+
+  .PPackage__card{
+    padding: 40px 25px;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  /* image moves to top */
+  .PPackage__imageWrap{
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 20px;
+  }
+
+  .PPackage__content{
+    padding: 0;
+  }
+
+  .PPackage__title{
+    font-size: 26px;
+  }
+
+  .PPackage__price strong{
+    font-size: 28px;
+  }
+}
+
+
+/* ---------- Small Mobile ---------- */
+@media (max-width: 400px){
+
+  .Package{
+    padding: 50px 4%;
+  }
+
+  .PPackage__card{
+    padding: 30px 20px;
+  }
+
+  .PPackage__title{
+    font-size: 24px;
+  }
+
+  .PPackage__btn{
+    width: 100%;
+    text-align: center;
+  }
+}

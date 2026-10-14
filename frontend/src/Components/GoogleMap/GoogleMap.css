@@ -1,0 +1,74 @@
+:root {
+  --primary-red: #b31d3d;
+  --text-dark: #1f1f1f;
+  --text-gray: #757575;
+  --light-bg: #f4f5f8;
+}
+
+/* MAP SECTION */
+.map-section {
+  width: 100%;
+  padding: 70px 0 100px;
+  background: #ffffff;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.map-title-wrapper {
+  margin-bottom: 40px;
+}
+
+.map-title {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text-dark);
+  text-transform: uppercase;
+}
+
+.map-subtitle {
+  font-size: 15px;
+  color: var(--text-gray);
+  margin-top: 5px;
+  letter-spacing: 0.4px;
+}
+
+/* MAP CONTAINER */
+.map-container {
+  width: 90%;
+  height: 500px;
+  margin: auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: fadeUp 0.9s ease forwards;
+  opacity: 0;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .map-container {
+    height: 350px;
+  }
+
+  .map-title {
+    font-size: 32px;
+  }
+}

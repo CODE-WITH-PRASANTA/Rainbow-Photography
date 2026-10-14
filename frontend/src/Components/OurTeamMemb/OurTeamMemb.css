@@ -1,0 +1,253 @@
+.otm-wrapper {
+  padding: 120px 20px;
+  background: #f8f8f8;
+  overflow: hidden;
+}
+
+.otm-container {
+  max-width: 1300px;
+  margin: auto;
+}
+
+/* ================= GRID ================= */
+
+.otm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 90px 40px;
+}
+
+/* ================= CARD ================= */
+
+.otm-card {
+  text-align: center;
+  position: relative;
+}
+
+.otm-card h3 {
+  margin-top: 35px;
+  font-size: 28px;
+  font-family: "Playfair Display", serif;
+  color: #222;
+  letter-spacing: 1px;
+}
+
+.otm-card span {
+  font-size: 15px;
+  color: #999;
+}
+
+/* ================= IMAGE BOX ================= */
+
+.otm-imageBox {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: auto;
+}
+
+/* ================= PERFECT STABLE DIAMOND ================= */
+
+.otm-diamond {
+  width: 240px;
+  height: 240px;
+  position: relative;
+  margin: auto;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  overflow: hidden;
+  z-index: 3;
+}
+
+.otm-diamond img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* ================= FLOWERS ================= */
+
+.otm-flower-white {
+  position: absolute;
+  width: 365px;
+  height: 234px;
+  top: 31px;
+  left: -57px;
+  z-index: 1;
+  opacity: 0.35;
+  transition: transform 0.6s ease;
+}
+
+.otm-flower-blue {
+  position: absolute;
+  width: 327px;
+  bottom: -17px;
+  right: -13px;
+  z-index: 4;
+  transition: transform 0.6s ease;
+}
+
+/* ================= HOVER EFFECT ================= */
+
+.otm-card:hover .otm-diamond img {
+  transform: scale(1.1);
+}
+
+/* Smooth Floating (NO zoom conflict) */
+.otm-card:hover .otm-flower-white {
+  animation: otmFloatWhite 4s ease-in-out infinite;
+}
+
+.otm-card:hover .otm-flower-blue {
+  animation: otmFloatBlue 4s ease-in-out infinite;
+}
+
+@keyframes otmFloatWhite {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-15px, -12px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes otmFloatBlue {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(15px, 12px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ================= MOBILE SLIDER ================= */
+
+.otm-slider {
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.otm-slider-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+}
+
+.otm-slide {
+  min-width: 100%;
+}
+
+.otm-arrow {
+  position: absolute;
+  top: 45%;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 20px;
+  transition: 0.3s ease;
+}
+
+.otm-arrow:hover {
+  background: #d4a373;
+  color: #fff;
+}
+
+.otm-arrow.left {
+  left: 10px;
+}
+.otm-arrow.right {
+  right: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .otm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .otm-grid {
+    display: none;
+  }
+
+  .otm-slider {
+    display: block;
+  }
+
+  .otm-imageBox {
+    width: 220px;
+    height: 220px;
+    position: relative;
+  }
+
+  .otm-diamond {
+    width: 190px;
+    height: 190px;
+  }
+
+  .otm-card h3 {
+    font-size: 22px;
+  }
+
+  /* 🌸 PERFECT MOBILE FLOWER ALIGNMENT */
+
+  .otm-flower-white {
+    width: 170px;
+    height: auto;
+    top: 10px;
+    left: -35px;
+    opacity: 0.25;
+  }
+
+  .otm-flower-blue {
+    width: 182px;
+    height: auto;
+    bottom: 60px;
+    right: 12px;
+  }
+
+  /* Softer floating for small screens */
+  .otm-card:hover .otm-flower-white {
+    animation: otmFloatWhiteMobile 4s ease-in-out infinite;
+  }
+
+  .otm-card:hover .otm-flower-blue {
+    animation: otmFloatBlueMobile 4s ease-in-out infinite;
+  }
+
+  @keyframes otmFloatWhiteMobile {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-6px, -5px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes otmFloatBlueMobile {
+    0% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(6px, 5px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+}

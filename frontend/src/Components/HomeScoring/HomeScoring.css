@@ -1,0 +1,104 @@
+/* ===== ROOT ===== */
+
+.HomeScoring{
+  padding:110px 5%;
+  background:#f6f6f6;
+}
+
+/* ===== CONTAINER ===== */
+
+.HomeScoring__container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:40px;
+  align-items:center;
+}
+
+/* ===== ITEM ===== */
+
+.HomeScoring__item{
+  position:relative;
+  text-align:center;
+}
+
+/* flower background */
+
+.HomeScoring__flower{
+  position:absolute;
+  width:120px;
+  top:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  
+  pointer-events:none;
+}
+
+/* ===== NUMBER ===== */
+
+.HomeScoring__number{
+  font-family:"Cormorant Garamond",serif;
+  font-size: clamp(46px,5vw,88px);
+  color:#d07c4a;
+  font-weight:400;
+  transition:.35s;
+}
+
+/* hover effect */
+
+.HomeScoring__item:hover .HomeScoring__number{
+  transform:translateY(-4px) scale(1.05);
+  color: rgb(141, 115, 85);
+}
+
+/* ===== TEXT ===== */
+
+.HomeScoring__text{
+  margin-top:14px;
+  line-height:1.6;
+  max-width:240px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ===== DIVIDER ===== */
+
+.HomeScoring__divider{
+  position:absolute;
+  right:-25px;
+  top:50%;
+  transform:translateY(-50%);
+  height:90px;
+  opacity:.8;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:1024px){
+
+  .HomeScoring__container{
+    grid-template-columns:repeat(2,1fr);
+    gap:60px 40px;
+  }
+
+  .HomeScoring__divider{
+    display:none;
+  }
+}
+
+@media(max-width:600px){
+
+  .HomeScoring{
+    padding:80px 5%;
+  }
+
+  .HomeScoring__container{
+    grid-template-columns:1fr;
+    gap:50px;
+  }
+
+  .HomeScoring__flower{
+    width:90px;
+  }
+}

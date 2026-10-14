@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap");
+
+/* =========================
+   BASE SECTION CENTERED
+========================= */
+.price-plan {
+  width: 100%;
+  min-height: 100vh; /* ✅ center vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 60px 0;
+}
+
+.price-plan__wrapper {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+}
+
+/* =========================
+   GRID
+========================= */
+.price-plan__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  align-items: stretch;
+}
+
+/* =========================
+   CARD
+========================= */
+.price-plan__card {
+  padding: 20px 10px 30px;
+  transition: transform 0.4s ease;
+}
+
+.price-plan__card:hover {
+  transform: translateY(-6px);
+}
+
+/* ✅ Highlight middle */
+.price-plan__card--active {
+  transform: scale(1.05);
+}
+
+/* =========================
+   PRICE
+========================= */
+.price-plan__priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: "Cinzel", serif;
+  margin-bottom: 20px;
+}
+
+.price-plan__currency {
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.price-plan__price {
+  font-size: 92px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.price-plan__per {
+  font-size: 38px;
+  font-weight: 600;
+}
+
+/* =========================
+   TITLE
+========================= */
+.price-plan__title {
+  font-family: "Cinzel", serif;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.price-plan__desc {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* =========================
+   LIST
+========================= */
+.price-plan__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px;
+  display: grid;
+  gap: 10px;
+  color: #666;
+  font-family: "Inter", sans-serif;
+}
+
+.price-plan__item {
+  font-size: 16px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.price-plan__btn {
+  border: none;
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: #b0143b;
+  color: #fff;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.price-plan__btn:hover {
+  background: #9f0f35;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   REVEAL
+========================= */
+.price-plan__reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.8s ease;
+}
+
+.price-plan__reveal--in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1100px) {
+  .price-plan__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .price-plan {
+    min-height: auto;
+    padding: 60px 0;
+  }
+
+  .price-plan__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .price-plan__card--active {
+    transform: none;
+  }
+
+  .price-plan__price {
+    font-size: 70px;
+  }
+}
