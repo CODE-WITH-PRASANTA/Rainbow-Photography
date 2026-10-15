@@ -20,6 +20,8 @@ import Galary from "./Pages/Galary/Galary";
 import Pricing from "./Pages/Pricing/Pricing";
 import Contact from "./Pages/Contact/Contact";
 import MainFaq from "./Pages/MainFaq/MainFaq";
+import FloatingForm from "./Components/FloatingForm/FloatingForm";
+import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
 
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
@@ -58,6 +60,8 @@ function App() {
       {/* Common Footer Sections */}
       <GetInTouch />
       <Footer />
+      <FloatingIcons/>
+      <FloatingForm/>
     </BrowserRouter>
   );
 }

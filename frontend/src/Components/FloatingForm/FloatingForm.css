@@ -1,0 +1,1225 @@
+/* =========================================
+   MOMENTS STUDIO — PREMIUM CAMERA EXPERIENCE
+   Open / close motion is driven from JSX
+   (Web Animations API, transform + opacity only).
+========================================= */
+
+.photo-intro {
+  --gold: #d8b477;
+  --gold-light: #f4dfb5;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0c0c0b;
+  color: #f8f4ec;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.photo-intro *,
+.photo-intro *::before,
+.photo-intro *::after {
+  box-sizing: border-box;
+}
+
+.photo-intro button,
+.photo-intro input,
+.photo-intro select,
+.photo-intro textarea {
+  font-family: inherit;
+}
+
+.photo-intro button:focus-visible,
+.photo-intro input:focus-visible,
+.photo-intro select:focus-visible,
+.photo-intro textarea:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* BACKGROUND */
+
+.photo-intro-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse at 50% 36%,
+      rgba(155, 111, 57, 0.19),
+      transparent 39%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(105, 76, 39, 0.1),
+      transparent 45%
+    ),
+    #0c0c0b;
+}
+
+.photo-intro-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.23;
+  background-image: radial-gradient(
+    rgba(215, 180, 119, 0.2) 0.6px,
+    transparent 0.7px
+  );
+  background-size: 11px 11px;
+}
+
+.photo-intro-pattern::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  border: 1px solid rgba(215, 180, 119, 0.12);
+}
+
+/* BRAND */
+
+.photo-intro-brand {
+  position: absolute;
+  top: max(24px, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  animation: photo-brand-enter 700ms ease backwards;
+}
+
+.photo-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 3px;
+  border: 1px solid rgba(215, 180, 119, 0.4);
+  border-radius: 11px;
+  background: linear-gradient(145deg, #30271b, #13120f);
+  color: var(--gold);
+  font-size: 21px;
+}
+
+.photo-brand-name {
+  color: var(--gold-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.6px;
+}
+
+.photo-brand-subtitle {
+  color: #8d877c;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+/* CAMERA STAGE */
+
+.photo-camera-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 100px 20px 35px;
+}
+
+.photo-camera-button {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 240px;
+  height: 185px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(0);
+  animation: photo-camera-float 3.8s ease-in-out infinite;
+}
+
+.photo-camera-button:disabled {
+  cursor: default;
+}
+
+/* Freeze the float in place so the lens position stays exact */
+.photo-phase-opening .photo-camera-button,
+.photo-phase-form .photo-camera-button,
+.photo-phase-closing .photo-camera-button,
+.photo-phase-leaving .photo-camera-button {
+  animation-play-state: paused;
+}
+
+.photo-camera-aura {
+  position: absolute;
+  inset: 18px -15px 0;
+  border-radius: 50%;
+  background: rgba(215, 180, 119, 0.11);
+  filter: blur(25px);
+  pointer-events: none;
+  transition: opacity 600ms ease;
+}
+
+.photo-camera {
+  position: absolute;
+  inset: 28px 0 12px;
+  display: block;
+  border: 2px solid #5c564b;
+  border-radius: 19px;
+  background: linear-gradient(
+    145deg,
+    #48453d 0%,
+    #2a2923 25%,
+    #181816 62%,
+    #090909 100%
+  );
+  box-shadow:
+    inset 0 3px 4px rgba(255, 255, 255, 0.16),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.7),
+    0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.photo-camera-viewfinder {
+  position: absolute;
+  top: -25px;
+  left: 48px;
+  width: 74px;
+  height: 26px;
+  border: 2px solid #5c564b;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(145deg, #38352e, #1c1b17);
+}
+
+.photo-camera-viewfinder span {
+  position: absolute;
+  top: 7px;
+  left: 18px;
+  width: 34px;
+  height: 5px;
+  border-radius: 4px;
+  background: #080808;
+}
+
+.photo-camera-branding {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  color: #e1d0ac;
+  font-family: Georgia, serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.photo-camera-flash-unit {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 19px;
+  border: 2px solid #615948;
+  border-radius: 4px;
+  background: #11110f;
+}
+
+.photo-camera-flash-unit span {
+  width: 14px;
+  height: 8px;
+  border-radius: 2px;
+  background: #e7d8b9;
+}
+
+/* CAMERA LENS */
+
+.photo-camera-lens {
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  border: 5px solid #4d493f;
+  border-radius: 50%;
+  background: radial-gradient(circle, #25241f, #050505 70%);
+  box-shadow:
+    0 0 0 4px #25241f,
+    0 0 0 7px #11110f,
+    inset 0 0 0 3px #070707,
+    0 0 22px rgba(215, 180, 119, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+/* Glow lives on a pseudo-element so only opacity is animated */
+.photo-camera-lens::after {
+  position: absolute;
+  inset: -9px;
+  content: "";
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 3px rgba(225, 193, 138, 0.9),
+    0 0 38px 12px rgba(215, 180, 119, 0.55);
+  transition: opacity 420ms ease;
+}
+
+.photo-lens-outer {
+  display: grid;
+  place-items: center;
+  width: 79%;
+  height: 79%;
+  border: 5px solid #776a50;
+  border-radius: 50%;
+  background: #0b0c0b;
+  box-shadow: inset 0 0 0 3px #14130f;
+}
+
+.photo-lens-aperture {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    #16191a 0deg 16deg,
+    #4a4437 16deg 28deg
+  );
+  animation: photo-aperture-rotate 22s linear infinite;
+}
+
+.photo-lens-center {
+  width: 43%;
+  height: 43%;
+  border: 3px solid #a58a59;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #82949a,
+    #18272b 45%,
+    #020303 75%
+  );
+  box-shadow:
+    0 0 10px rgba(119, 163, 180, 0.24),
+    inset 0 0 8px #000;
+}
+
+.photo-lens-reflection {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  width: 16px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transform: rotate(-42deg);
+}
+
+.photo-camera-led {
+  position: absolute;
+  right: 27px;
+  bottom: 22px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e14c40;
+  box-shadow: 0 0 10px rgba(225, 76, 64, 0.7);
+  animation: photo-led-pulse 2s infinite;
+}
+
+.photo-camera-grip {
+  position: absolute;
+  top: 31%;
+  right: -2px;
+  width: 11px;
+  height: 37%;
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(90deg, #080808, #302e28);
+}
+
+.photo-camera-shadow {
+  position: absolute;
+  right: 20px;
+  bottom: 4px;
+  left: 20px;
+  height: 12px;
+  border-radius: 50%;
+  background: #000;
+  filter: blur(8px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* INTRO TEXT — always mounted, so the camera never jumps */
+
+.photo-intro-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 31px;
+  text-align: center;
+  transition:
+    opacity 380ms ease,
+    transform 520ms var(--ease-out);
+  animation: photo-copy-enter 750ms ease backwards;
+}
+
+.photo-intro-copy.is-hidden {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  pointer-events: none;
+}
+
+.photo-intro-eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.photo-intro-copy h1 {
+  margin: 12px 0 9px;
+  color: #f6f1e8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 5vw, 47px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -1px;
+}
+
+.photo-intro-copy h1 em {
+  color: var(--gold);
+}
+
+.photo-intro-copy > p {
+  margin: 0;
+  color: #b2aa9d;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.photo-click-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 22px;
+  color: #c5b9a3;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+.photo-click-hint > span {
+  width: 22px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.photo-auto-hint {
+  margin-top: 10px;
+  color: #736b5d;
+  font-size: 7px;
+  letter-spacing: 1.3px;
+}
+
+/* SHUTTER FLASH + LENS FEEDBACK */
+
+.photo-shutter-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background: #fff5e1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.photo-phase-opening .photo-shutter-flash {
+  animation: photo-shutter-flash 520ms ease-out both;
+}
+
+.photo-phase-leaving .photo-shutter-flash {
+  animation: photo-shutter-flash-soft 700ms ease-out both;
+}
+
+.photo-phase-opening .photo-camera {
+  animation: photo-shutter-click 520ms ease-out both;
+}
+
+.photo-phase-leaving .photo-camera {
+  animation: photo-camera-receive 650ms var(--ease-out) both;
+}
+
+.photo-phase-opening .photo-camera-lens::after,
+.photo-phase-leaving .photo-camera-lens::after {
+  opacity: 1;
+}
+
+/* FORM OVERLAY */
+
+.photo-form-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.photo-form-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: rgba(4, 4, 4, 0.68);
+  opacity: 1;
+  cursor: default;
+}
+
+.photo-phase-opening .photo-form-backdrop {
+  animation: photo-backdrop-in 650ms ease both;
+}
+
+.photo-phase-closing .photo-form-backdrop {
+  pointer-events: none;
+  animation: photo-backdrop-out 760ms ease-in both;
+}
+
+/* FORM CARD — transform/opacity are animated from JSX */
+
+.photo-form-card {
+  position: relative;
+  z-index: 2;
+  width: min(420px, calc(100vw - 24px));
+  max-height: calc(100dvh - 28px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgba(215, 180, 119, 0.44);
+  border-radius: 15px;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(146, 101, 48, 0.13),
+      transparent 44%
+    ),
+    linear-gradient(145deg, #1b1a16, #10100f 65%, #17140f);
+  color: #f7f3eb;
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.48),
+    0 0 25px rgba(215, 180, 119, 0.06);
+  scrollbar-width: thin;
+  scrollbar-color: #80623a #171715;
+  transform-origin: center center;
+}
+
+/* Hidden until the JS animation takes over (prevents a first-frame flash) */
+.photo-phase-opening .photo-form-card {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.photo-phase-closing .photo-form-card {
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.photo-form-card::before {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: block;
+  height: 3px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #8f6b39,
+    #f0d5a0,
+    #b88c4c,
+    transparent
+  );
+}
+
+/* HEADER */
+
+.photo-form-header {
+  position: sticky;
+  top: 3px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 15px;
+  border-bottom: 1px solid rgba(215, 180, 119, 0.14);
+  background: #141411;
+}
+
+.photo-form-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.photo-form-logo {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(215, 180, 119, 0.42);
+  border-radius: 10px;
+  background: linear-gradient(145deg, #30271b, #171612);
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.photo-form-brand strong {
+  display: block;
+  color: var(--gold-light);
+  font-size: 10px;
+  letter-spacing: 1.3px;
+}
+
+.photo-form-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #918a7e;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.photo-form-close {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+  border: 1px solid rgba(215, 180, 119, 0.28);
+  border-radius: 50%;
+  background: #25231e;
+  color: #f6f0e4;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    transform 300ms ease;
+}
+
+.photo-form-close:hover {
+  background: var(--gold);
+  color: #111;
+  transform: rotate(90deg);
+}
+
+/* FORM CONTENT */
+
+.photo-form-content {
+  padding: 14px 17px 15px;
+}
+
+.photo-form-heading {
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.photo-form-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--gold);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.photo-form-eyebrow i {
+  width: 20px;
+  height: 1px;
+  background: rgba(215, 180, 119, 0.7);
+}
+
+.photo-form-heading h2 {
+  margin: 8px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(27px, 4vw, 32px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.7px;
+}
+
+.photo-form-heading h2 em {
+  color: var(--gold);
+}
+
+.photo-form-heading > p {
+  max-width: 300px;
+  margin: 7px auto 0;
+  color: #aaa59a;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* FIELDS */
+
+.photo-enquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.photo-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+
+.photo-field label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #e0dbd0;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.photo-field label b {
+  color: var(--gold);
+}
+
+.photo-field label small {
+  color: #817c72;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.photo-field input,
+.photo-field select,
+.photo-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 39px;
+  padding: 9px 11px;
+  border: 1px solid #38352e;
+  border-radius: 7px;
+  outline: none;
+  background: linear-gradient(135deg, #22211d, #1a1a17);
+  color: #f7f3eb;
+  font-family: inherit;
+  font-size: 11px;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.photo-field input::placeholder,
+.photo-field textarea::placeholder {
+  color: #77746b;
+  opacity: 1;
+}
+
+.photo-field input:focus,
+.photo-field select:focus,
+.photo-field textarea:focus {
+  border-color: #c9a064;
+  box-shadow: 0 0 0 2px rgba(215, 180, 119, 0.08);
+}
+
+.photo-field select {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.photo-field select option {
+  background: #1a1a17;
+  color: #f7f3eb;
+}
+
+.photo-field input[type="date"] {
+  color-scheme: dark;
+  font-size: 11px;
+}
+
+.photo-field textarea {
+  min-height: 54px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.photo-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.photo-form-error {
+  margin: -2px 0 0;
+  color: #ff9b91;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* SUBMIT */
+
+.photo-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 43px;
+  margin-top: 1px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 238, 203, 0.28);
+  border-radius: 7px;
+  background: linear-gradient(110deg, #e1c38e, #bd904e);
+  color: #17120a;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    filter 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.photo-submit-button > span:first-child {
+  flex: 1;
+  padding-left: 18px;
+  text-align: center;
+}
+
+.photo-submit-button > span:last-child {
+  font-size: 19px;
+  transition: transform 220ms ease;
+}
+
+.photo-submit-button:hover:not(:disabled) {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(190, 144, 78, 0.12);
+}
+
+.photo-submit-button:hover > span:last-child {
+  transform: translate(3px, -2px);
+}
+
+.photo-submit-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.photo-form-privacy {
+  margin: -2px 0 0;
+  color: #8c867a;
+  font-size: 8px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* FINAL EXIT — whole overlay fades after the form lands in the lens */
+
+.photo-intro.photo-phase-leaving {
+  pointer-events: none;
+  animation: photo-overlay-exit 700ms ease-in 230ms both;
+}
+
+/* =========================================
+   KEYFRAMES
+========================================= */
+
+@keyframes photo-brand-enter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes photo-camera-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
+}
+
+@keyframes photo-aperture-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes photo-led-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes photo-copy-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes photo-shutter-click {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.94);
+  }
+  70% {
+    transform: scale(1.025);
+  }
+}
+
+@keyframes photo-camera-receive {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.965);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes photo-shutter-flash {
+  0% {
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-shutter-flash-soft {
+  0% {
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes photo-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-overlay-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .photo-camera-button {
+    width: 215px;
+    height: 175px;
+  }
+
+  .photo-intro-copy h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-intro-brand {
+    top: max(18px, env(safe-area-inset-top));
+  }
+
+  .photo-brand-mark {
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
+
+  .photo-brand-name {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .photo-brand-subtitle {
+    font-size: 7px;
+    letter-spacing: 1.7px;
+  }
+
+  .photo-camera-stage {
+    padding: 100px 15px 30px;
+  }
+
+  .photo-camera-button {
+    width: 190px;
+    height: 155px;
+  }
+
+  .photo-camera {
+    inset: 25px 0 10px;
+    border-radius: 16px;
+  }
+
+  .photo-camera-viewfinder {
+    top: -20px;
+    left: 36px;
+    width: 60px;
+    height: 21px;
+  }
+
+  .photo-camera-viewfinder span {
+    top: 6px;
+    left: 14px;
+    width: 30px;
+    height: 4px;
+  }
+
+  .photo-camera-branding {
+    top: 17px;
+    left: 17px;
+    font-size: 9px;
+  }
+
+  .photo-camera-flash-unit {
+    top: 18px;
+    right: 17px;
+    width: 23px;
+    height: 16px;
+  }
+
+  .photo-camera-lens {
+    width: 88px;
+    height: 88px;
+  }
+
+  .photo-intro-copy {
+    margin-top: 28px;
+  }
+
+  .photo-intro-eyebrow {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .photo-intro-copy h1 {
+    font-size: clamp(30px, 8vw, 38px);
+  }
+
+  .photo-intro-copy > p {
+    max-width: 290px;
+    font-size: 11px;
+  }
+
+  .photo-click-hint {
+    gap: 7px;
+    margin-top: 22px;
+    font-size: 7px;
+    letter-spacing: 1.4px;
+  }
+
+  .photo-click-hint > span {
+    width: 15px;
+  }
+
+  .photo-auto-hint {
+    font-size: 7px;
+  }
+
+  .photo-form-layer {
+    padding: 8px;
+  }
+
+  .photo-form-card {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    border-radius: 13px;
+  }
+
+  .photo-form-header {
+    padding: 10px 12px;
+  }
+
+  .photo-form-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .photo-form-brand strong {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .photo-form-brand small {
+    font-size: 7px;
+  }
+
+  .photo-form-content {
+    padding: 12px 12px 13px;
+  }
+
+  .photo-form-heading {
+    margin-bottom: 11px;
+  }
+
+  .photo-form-heading h2 {
+    font-size: 27px;
+  }
+
+  .photo-form-heading > p {
+    max-width: 280px;
+    font-size: 9px;
+  }
+
+  .photo-enquiry-form {
+    gap: 9px;
+  }
+
+  .photo-form-grid {
+    gap: 7px;
+  }
+
+  .photo-field label {
+    font-size: 9px;
+  }
+
+  .photo-field input,
+  .photo-field select,
+  .photo-field textarea {
+    min-height: 38px;
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .photo-field textarea {
+    min-height: 48px;
+  }
+
+  .photo-submit-button {
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 350px) {
+  .photo-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .photo-form-content {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .photo-intro-copy h1 {
+    font-size: 29px;
+  }
+}
+
+@media (max-height: 700px) {
+  .photo-form-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .photo-form-heading {
+    margin-bottom: 9px;
+  }
+
+  .photo-form-heading h2 {
+    font-size: 26px;
+  }
+
+  .photo-enquiry-form {
+    gap: 8px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-intro *,
+  .photo-intro *::before,
+  .photo-intro *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

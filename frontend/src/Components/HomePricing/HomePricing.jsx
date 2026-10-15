@@ -12,29 +12,51 @@ import flowerHeading from "../../assets/TwinFlower-1.webp";
 
 const data = [
   {
+    id: 1,
     title: "Full Wedding",
     img: couple1,
+    price: 250000,
+    period: "/1 Night Package",
+    features: [
+      "Blairquhan Castle",
+      "Three-course wedding meal",
+      "Evening buffet with tea",
+      "One wedding per day",
+      "Regency architecture",
+    ],
   },
   {
+    id: 2,
     title: "Religious Wedding",
     img: couple2,
+    price: 180000,
+    period: "/1 Night Package",
+    features: [
+      "Blairquhan Castle",
+      "Three-course wedding meal",
+      "Evening buffet with tea",
+      "One wedding per day",
+      "Regency architecture",
+    ],
   },
 ];
+
+// Formats numbers into the standard Indian numbering system (e.g. 2,50,000)
+const formatINR = (amount) => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
 
 const HomePricing = () => {
   return (
     <section className="HomePricing">
-
       {/* ===== HEADING ===== */}
       <div className="HomePricing__heading">
-        <span className="HomePricing__label">
-          WEDDING PRICING PLANS
-        </span>
-
-        <h2 className="HomePricing__mainTitle">
-          Best Pricing Packages
-        </h2>
-
+        <span className="HomePricing__label">WEDDING PRICING PLANS</span>
+        <h2 className="HomePricing__mainTitle">Best Pricing Packages</h2>
         <img
           src={flowerHeading}
           alt=""
@@ -44,16 +66,14 @@ const HomePricing = () => {
 
       {/* ===== CARDS ===== */}
       <div className="HomePricing__container">
-
-        {data.map((card, i) => (
-          <div className="HomePricing__card" key={i}>
-
+        {data.map((card) => (
+          <div className="HomePricing__card" key={card.id}>
             {/* flower bg */}
             <img src={flowerCard} className="HomePricing__flower" alt="" />
 
             {/* couple image */}
             <div className="HomePricing__imageWrap">
-              <img src={card.img} alt="" />
+              <img src={card.img} alt={card.title} />
             </div>
 
             {/* content */}
@@ -61,26 +81,22 @@ const HomePricing = () => {
               <h3 className="HomePricing__title">{card.title}</h3>
 
               <ul className="HomePricing__list">
-                <li><FiCheck /> Blairquhan Castle</li>
-                <li><FiCheck /> Three-course wedding meal</li>
-                <li><FiCheck /> Evening buffet with tea</li>
-                <li><FiCheck /> One wedding per day</li>
-                <li><FiCheck /> Regency architecture</li>
+                {card.features.map((feature, idx) => (
+                  <li key={idx}>
+                    <FiCheck /> {feature}
+                  </li>
+                ))}
               </ul>
 
               <div className="HomePricing__price">
-                <strong>$3400</strong>
-                <span>/1 Night Package</span>
+                <strong>{formatINR(card.price)}</strong>
+                <span>{card.period}</span>
               </div>
 
-              <button className="HomePricing__btn">
-                Get Package
-              </button>
+              <button className="HomePricing__btn">Get Package</button>
             </div>
-
           </div>
         ))}
-
       </div>
     </section>
   );

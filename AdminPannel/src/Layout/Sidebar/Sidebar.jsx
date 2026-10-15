@@ -17,7 +17,7 @@ import "./Sidebar.css";
 const menuItems = [
   {
     text: "Dashboard",
-    path: "/",
+    path: "/dashboard",
     icon: FiGrid,
     description: "Overview",
   },
