@@ -1,19 +1,27 @@
-/* ================= ROOT ================= */
+
+/* =====================================================
+   ROOT SECTION
+===================================================== */
 
 .HomeWedingClicks {
   position: relative;
+  isolation: isolate;
   padding: clamp(70px, 8vw, 110px) 5%;
   overflow: hidden;
+  background: transparent;
 }
 
-/* ================= BG SPLIT ================= */
+/* =====================================================
+   BACKGROUND SPLIT
+   70% ORANGE + 30% WHITE
+===================================================== */
 
 .HomeWedingClicks__bg {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
+  pointer-events: none;
 
-  /* 70% orange + 30% white */
   background: linear-gradient(
     to bottom,
     #c97446 0%,
@@ -23,108 +31,335 @@
   );
 }
 
-/* ================= DECOR IMAGE ================= */
+/* =====================================================
+   DECORATIVE IMAGE
+===================================================== */
 
 .HomeWedingClicks__decor {
   position: absolute;
   left: -20px;
   top: 25%;
   width: 300px;
-  
+  max-width: 35%;
+  height: auto;
+  object-fit: contain;
   z-index: -1;
   pointer-events: none;
+  opacity: 0.9;
+
   animation: HomeWedingClicksFloat 6s ease-in-out infinite;
 }
 
 @keyframes HomeWedingClicksFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-18px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
 }
 
-/* ================= CONTAINER ================= */
+/* =====================================================
+   CONTAINER
+===================================================== */
 
 .HomeWedingClicks__container {
+  width: 100%;
   max-width: 1250px;
-  margin: auto;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* ================= HEADER ================= */
+/* =====================================================
+   SECTION HEADER
+===================================================== */
 
 .HomeWedingClicks__header {
- 
-  margin-bottom: 50px;
+  margin-bottom: 45px;
+  text-align: left;
 }
 
-.HomeWedingClicks__label{
+.HomeWedingClicks__label {
+  display: inline-block;
+  margin-bottom: 12px;
+
   font-family: "Cormorant Garamond", serif;
-  letter-spacing: 3px;
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  line-height: 1.5;
+  text-transform: uppercase;
   color: #ffe9d9;
 }
 
-.HomeWedingClicks__title{
+.HomeWedingClicks__title {
+  margin: 0;
+
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(40px, 5vw, 70px);
   font-weight: 400;
+  line-height: 1.1;
   letter-spacing: 2px;
-  color: #fff;
   text-transform: capitalize;
+  color: #ffffff;
 }
 
-/* ================= GRID ================= */
-
-/* ================= GRID ================= */
+/* =====================================================
+   GALLERY GRID
+===================================================== */
 
 .HomeWedingClicks__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* always 3 */
-  gap: 24px; /* smaller spacing */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  align-items: stretch;
 }
 
-/* remove wide layout */
+/* All gallery images use the same width */
+
 .HomeWedingClicks__wide {
   grid-column: span 1;
 }
 
-/* smaller image height */
+/* =====================================================
+   GALLERY IMAGE ITEM
+===================================================== */
+
 .HomeWedingClicks__item {
+  position: relative;
+  width: 100%;
+  height: 230px;
   overflow: hidden;
   border-radius: 6px;
-  height: 230px; /* decrease size */
+  background: #f1e5dd;
+  isolation: isolate;
+  box-shadow: 0 8px 24px rgba(64, 35, 22, 0.1);
 }
 
 .HomeWedingClicks__item img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .5s ease;
+  object-position: center;
+
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
 }
 
-/* hover */
-.HomeWedingClicks__item:hover img {
-  transform: scale(1.06);
+/* Optional subtle image overlay */
+
+.HomeWedingClicks__item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.16),
+    transparent 45%
+  );
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
-/* ================= HOVER ================= */
+
+/* Image hover effects */
 
 .HomeWedingClicks__item:hover img {
   transform: scale(1.08);
 }
 
-/* ================= RESPONSIVE ================= */
+.HomeWedingClicks__item:hover::after {
+  opacity: 1;
+}
 
-@media (max-width: 1024px) {
-  .HomeWedingClicks__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* =====================================================
+   LOADING STATE
+===================================================== */
 
-  .HomeWedingClicks__wide {
-    grid-column: span 2;
+.HomeWedingClicks__loading {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  color: #ffffff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  text-align: center;
+}
+
+.HomeWedingClicks__loader {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+
+  animation: HomeWedingClicksSpin 0.8s linear infinite;
+}
+
+@keyframes HomeWedingClicksSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@media (max-width: 600px) {
+/* =====================================================
+   ERROR AND EMPTY STATES
+===================================================== */
+
+.HomeWedingClicks__error,
+.HomeWedingClicks__empty {
+  width: 100%;
+  min-height: 130px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  border: 1px solid rgba(201, 116, 70, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+
+  color: #6b4634;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.HomeWedingClicks__retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+
+  background: #c97446;
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.HomeWedingClicks__retry:hover {
+  background: #a85c35;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.HomeWedingClicks__pagination {
+  width: 100%;
+  margin-top: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.HomeWedingClicks__pageInfo {
+  margin: 0 12px;
+
+  color: #6b4634;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.HomeWedingClicks__pageBtn {
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid rgba(201, 116, 70, 0.45);
+  border-radius: 4px;
+
+  background: #ffffff;
+  color: #a85c35;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    color 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.HomeWedingClicks__pageBtn:hover:not(:disabled) {
+  background: #c97446;
+  border-color: #c97446;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.HomeWedingClicks__pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.HomeWedingClicks__pageBtn.active {
+  background: #c97446;
+  border-color: #c97446;
+  color: #ffffff;
+}
+
+/* =====================================================
+   TABLET RESPONSIVE
+===================================================== */
+
+@media (max-width: 1024px) {
+  .HomeWedingClicks {
+    padding: 75px 4%;
+  }
+
+  .HomeWedingClicks__container {
+    max-width: 900px;
+  }
+
+  .HomeWedingClicks__header {
+    margin-bottom: 35px;
+  }
+
   .HomeWedingClicks__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
@@ -132,12 +367,141 @@
     grid-column: span 1;
   }
 
-  .HomeWedingClicks__title {
-    color: #fff;
+  .HomeWedingClicks__item {
+    height: 240px;
   }
 
   .HomeWedingClicks__decor {
-    width: 180px;
-    left: -60px;
+    width: 230px;
+    left: -35px;
+  }
+}
+
+/* =====================================================
+   MOBILE RESPONSIVE
+===================================================== */
+
+@media (max-width: 600px) {
+  .HomeWedingClicks {
+    padding: 60px 5% 55px;
+  }
+
+  .HomeWedingClicks__bg {
+    background: linear-gradient(
+      to bottom,
+      #c97446 0%,
+      #c97446 58%,
+      #ffffff 58%,
+      #ffffff 100%
+    );
+  }
+
+  .HomeWedingClicks__header {
+    margin-bottom: 28px;
+    text-align: left;
+  }
+
+  .HomeWedingClicks__label {
+    margin-bottom: 10px;
+    font-size: 12px;
+    letter-spacing: 2.5px;
+  }
+
+  .HomeWedingClicks__title {
+    font-size: clamp(36px, 10vw, 48px);
+    line-height: 1.12;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .HomeWedingClicks__grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .HomeWedingClicks__wide {
+    grid-column: span 1;
+  }
+
+  .HomeWedingClicks__item {
+    height: clamp(210px, 65vw, 300px);
+    border-radius: 5px;
+  }
+
+  .HomeWedingClicks__decor {
+    top: 18%;
+    left: -55px;
+    width: 175px;
+    max-width: 45%;
+    opacity: 0.7;
+  }
+
+  .HomeWedingClicks__pagination {
+    margin-top: 28px;
+    gap: 8px;
+  }
+
+  .HomeWedingClicks__pageInfo {
+    flex-basis: 100%;
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+
+  .HomeWedingClicks__pageBtn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .HomeWedingClicks__loading {
+    font-size: 18px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+  .HomeWedingClicks {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .HomeWedingClicks__title {
+    font-size: 34px;
+  }
+
+  .HomeWedingClicks__item {
+    height: 210px;
+  }
+
+  .HomeWedingClicks__pagination {
+    gap: 6px;
+  }
+
+  .HomeWedingClicks__pageBtn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 9px;
+  }
+}
+
+/* =====================================================
+   REDUCED MOTION ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .HomeWedingClicks__decor,
+  .HomeWedingClicks__loader {
+    animation: none;
+  }
+
+  .HomeWedingClicks__item img,
+  .HomeWedingClicks__item::after,
+  .HomeWedingClicks__pageBtn,
+  .HomeWedingClicks__retry {
+    transition: none;
   }
 }

@@ -1,77 +1,109 @@
-/* ============================= */
-/* WRAPPER */
-/* ============================= */
+
+/* =====================================================
+   WRAPPER
+===================================================== */
 
 .gallery-wrapper {
   width: 100%;
   padding: 80px 10%;
   background: #fdfdfd;
   text-align: center;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* ============================= */
-/* HEADER */
-/* ============================= */
+.gallery-wrapper * {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.gallery-header {
+  max-width: 900px;
+  margin: 0 auto;
+}
 
 .gallery-title {
+  margin: 0 0 10px;
+  font-family: "Playfair Display", serif;
   font-size: 42px;
-  font-family: 'Playfair Display', serif;
   font-weight: 400;
-  margin-bottom: 10px;
+  line-height: 1.25;
   color: #1a1a1a;
 }
 
 .gallery-subtitle {
+  margin: 0 0 60px;
   font-size: 14px;
+  line-height: 1.8;
   color: #999;
-  margin-bottom: 60px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* ============================= */
-/* DESKTOP GRID SYSTEM */
-/* ============================= */
+/* =====================================================
+   DESKTOP GALLERY GRID
+===================================================== */
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 220px;
   gap: 20px;
+
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+
+  overflow: visible;
 }
 
-/* ============================= */
-/* BASE ITEM */
-/* ============================= */
+/* =====================================================
+   GALLERY ITEMS
+===================================================== */
 
 .gallery-item {
   position: relative;
+  min-width: 0;
   overflow: hidden;
   background: #f5f5f5;
-  transition: transform 0.5s ease;
+  border-radius: 3px;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
 .gallery-item:hover {
-  transform: scale(1.03);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 .image-container {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .gallery-item img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  object-position: center;
+
+  transition: transform 0.6s ease;
 }
 
-/* ============================= */
-/* GRID ARRANGEMENT LOGIC */
-/* ============================= */
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* =====================================================
+   MASONRY ARRANGEMENT
+===================================================== */
 
 .gallery-item.tall {
   grid-row: span 2;
@@ -86,15 +118,184 @@
   grid-row: span 1;
 }
 
-/* ============================= */
-/* TABLET RESPONSIVE */
-/* ============================= */
+/* =====================================================
+   LOADING / ERROR / EMPTY STATES
+===================================================== */
+
+.photo-gallery-status {
+  width: 100%;
+  min-height: 180px;
+  padding: 30px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  color: #777;
+  font-size: 15px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.photo-gallery-status p {
+  margin: 0;
+}
+
+.photo-gallery-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid #e9e9e9;
+  border-top-color: #c97446;
+  border-radius: 50%;
+
+  animation: photoGallerySpin 0.8s linear infinite;
+}
+
+@keyframes photoGallerySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.photo-gallery-retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 11px 20px;
+  border: 1px solid #c97446;
+  border-radius: 3px;
+
+  background: #c97446;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.photo-gallery-retry:hover {
+  background: #fff;
+  color: #c97446;
+}
+
+/* =====================================================
+   MOBILE PAGINATION DOTS
+===================================================== */
+
+.pagination-dots {
+  display: none;
+}
+
+/* =====================================================
+   PAGE PAGINATION
+===================================================== */
+
+.photo-pagination {
+  width: 100%;
+  margin: 40px auto 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.photo-pagination-pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.photo-pagination-btn,
+.photo-pagination-number {
+  height: 42px;
+  min-width: 42px;
+  padding: 0 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid #e1d5ce;
+  border-radius: 3px;
+
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.photo-pagination-btn:hover:not(:disabled),
+.photo-pagination-number:hover:not(.active) {
+  background: #f8eee8;
+  border-color: #c97446;
+  color: #a75d39;
+}
+
+.photo-pagination-number.active {
+  background: #c97446;
+  border-color: #c97446;
+  color: #fff;
+}
+
+.photo-pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.photo-pagination-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.photo-gallery-count {
+  margin: 18px 0 0;
+  color: #999;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* =====================================================
+   TABLET RESPONSIVE
+===================================================== */
 
 @media (max-width: 1024px) {
+  .gallery-wrapper {
+    padding: 70px 5%;
+  }
+
+  .gallery-title {
+    font-size: 36px;
+  }
+
+  .gallery-subtitle {
+    margin-bottom: 40px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
 
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: 250px;
+    gap: 18px;
   }
 
   .gallery-item.wide,
@@ -103,88 +304,208 @@
     grid-column: span 1;
     grid-row: span 1;
   }
+
+  .gallery-item.tall {
+    grid-row: span 2;
+  }
+
+  .pagination-dots {
+    display: none;
+  }
 }
 
-/* ============================= */
-/* PREMIUM MOBILE SLIDER */
-/* ============================= */
+/* =====================================================
+   MOBILE HORIZONTAL SLIDER
+===================================================== */
 
 @media (max-width: 600px) {
-
   .gallery-wrapper {
+    padding: 55px 0 45px;
     overflow: hidden;
-    padding: 60px 0;
+  }
+
+  .gallery-header {
+    padding: 0 20px;
   }
 
   .gallery-title {
-    font-size: 28px;
+    font-size: 29px;
+    line-height: 1.3;
   }
 
   .gallery-subtitle {
-    font-size: 12px;
     margin-bottom: 30px;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 1.2px;
   }
 
-  /* Convert grid to horizontal slider */
+  /* Horizontal image slider */
+
   .gallery-grid {
-    display: flex !important;
+    display: flex;
+    width: 100%;
+    max-width: none;
+    gap: 0;
+    margin: 0;
+
     overflow-x: auto;
     overflow-y: hidden;
+
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    gap: 0;
+
+    scrollbar-width: none;
   }
 
-  /* Hide scrollbar */
   .gallery-grid::-webkit-scrollbar {
     display: none;
   }
 
-  .gallery-item {
-    min-width: 100%;
-    height: 380px;
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-  }
-
-  /* Remove grid span rules on mobile */
-  .gallery-item.wide,
+  .gallery-item,
   .gallery-item.tall,
+  .gallery-item.wide,
   .gallery-item.small {
-    grid-column: unset !important;
-    grid-row: unset !important;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    height: 360px;
+
+    grid-column: auto;
+    grid-row: auto;
+
+    border-radius: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
-  /* ============================= */
-  /* PAGINATION DOTS (Mobile Only) */
-  /* ============================= */
+  .gallery-item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .gallery-item:hover img {
+    transform: none;
+  }
+
+  /* Slider dots */
 
   .pagination-dots {
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin-top: 25px;
-    gap: 10px;
+    gap: 9px;
+
+    margin-top: 24px;
+    padding: 0 15px;
   }
 
-  .dot {
+  .pagination-dots .dot {
+    display: block;
     width: 8px;
     height: 8px;
+    flex: 0 0 auto;
+    padding: 0;
+
+    border: none;
+    border-radius: 20px;
     background: #d6d6d6;
-    border-radius: 50%;
-    transition: all 0.4s ease;
+
+    cursor: pointer;
+
+    transition:
+      width 0.3s ease,
+      background 0.3s ease;
   }
 
-  .dot.active {
-    width: 22px;
-    border-radius: 20px;
+  .pagination-dots .dot.active {
+    width: 23px;
     background: #111;
+  }
+
+  /* Page controls */
+
+  .photo-pagination {
+    margin-top: 30px;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .photo-pagination-pages {
+    gap: 5px;
+  }
+
+  .photo-pagination-btn,
+  .photo-pagination-number {
+    height: 38px;
+    min-width: 36px;
+    padding: 0 9px;
+    font-size: 12px;
+  }
+
+  .photo-pagination-btn {
+    gap: 4px;
+  }
+
+  .photo-pagination-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .photo-gallery-count {
+    margin-top: 14px;
+    font-size: 12px;
   }
 }
 
-/* Hide pagination completely on tablet & desktop */
-@media (min-width: 601px) {
-  .pagination-dots {
-    display: none !important;
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+  .gallery-title {
+    font-size: 26px;
+  }
+
+  .gallery-item,
+  .gallery-item.tall,
+  .gallery-item.wide,
+  .gallery-item.small {
+    height: 310px;
+  }
+
+  .photo-pagination {
+    gap: 5px;
+  }
+
+  .photo-pagination-btn,
+  .photo-pagination-number {
+    height: 35px;
+    min-width: 32px;
+    padding: 0 7px;
+    font-size: 11px;
+  }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item,
+  .gallery-item img,
+  .photo-pagination-btn,
+  .photo-pagination-number,
+  .pagination-dots .dot {
+    transition: none;
+  }
+
+  .photo-gallery-spinner {
+    animation: none;
+  }
+
+  .gallery-grid {
+    scroll-behavior: auto;
   }
 }

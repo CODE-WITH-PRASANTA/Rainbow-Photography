@@ -1,5 +1,11 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import React, { useMemo, useState, useRef, useEffect } from "react";
 import {
   Images,
   Image as ImageIcon,
@@ -15,9 +21,13 @@ import {
   Camera,
   Eye,
 } from "lucide-react";
+
+import API, { IMG_URL } from "../../api/axios";
 import "./Gallary.css";
 
 const ITEMS_PER_PAGE = 5;
+const API_URL = "/gallery";
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 const categories = [
   "Wedding",
@@ -33,68 +43,120 @@ const categories = [
   "Other",
 ];
 
-const initialImages = [
-  {
-    id: 1,
-    title: "Golden Hour Wedding",
-    category: "Wedding",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=85",
-  },
-  {
-    id: 2,
-    title: "Wedding Rings",
-    category: "Engagement",
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=85",
-  },
-  {
-    id: 3,
-    title: "Little Moments",
-    category: "Newborn",
-    image:
-      "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=700&q=85",
-  },
-  {
-    id: 4,
-    title: "Sunset Together",
-    category: "Pre-Wedding",
-    image:
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=85",
-  },
-  {
-    id: 5,
-    title: "Floral Celebration",
-    category: "Events",
-    image:
-      "https://images.unsplash.com/photo-1519225421980-888cb6b5f3a7?auto=format&fit=crop&w=700&q=85",
-  },
-  {
-    id: 6,
-    title: "Studio Essentials",
-    category: "Product",
-    image:
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=700&q=85",
-  },
-];
+/* =========================================================
+   HELPER FUNCTIONS
+========================================================= */
+
+const getErrorMessage = (error, fallback) => {
+  return (
+    error?.response?.data?.message ||
+    error?.response?.data?.error ||
+    error?.message ||
+    fallback
+  );
+};
+
+const normalizeImageUrl = (image) => {
+  if (!image) return "";
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://") ||
+    image.startsWith("blob:") ||
+    image.startsWith("data:")
+  ) {
+    return image;
+  }
+
+  const imageBase = String(IMG_URL || "").replace(/\/+$/, "");
+  const imagePath = image.startsWith("/") ? image : `/${image}`;
+
+  return `${imageBase}${imagePath}`;
+};
+
+const normalizeGalleryItem = (item) => ({
+  ...item,
+  id: item._id || item.id,
+  title: item.title || "",
+  category: item.category || "Other",
+  image: normalizeImageUrl(item.image || item.imageUrl || item.url),
+});
+
+/* =========================================================
+   GALLERY COMPONENT
+========================================================= */
 
 const Gallary = () => {
-  const [images, setImages] = useState(initialImages);
+  const [images, setImages] = useState([]);
+
   const [form, setForm] = useState({
     title: "",
     category: "",
   });
+
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const [editingId, setEditingId] = useState(null);
   const [preview, setPreview] = useState("");
   const [imageFile, setImageFile] = useState(null);
+
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
   const [deleteId, setDeleteId] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
 
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   const fileInputRef = useRef(null);
+  const previewUrlRef = useRef("");
+
+  /* =========================================================
+     FETCH GALLERY IMAGES
+  ========================================================= */
+
+  const fetchGallery = useCallback(async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await API.get(API_URL);
+
+      const responseData = response.data;
+
+      const galleryData = Array.isArray(responseData)
+        ? responseData
+        : Array.isArray(responseData?.data)
+          ? responseData.data
+          : Array.isArray(responseData?.gallery)
+            ? responseData.gallery
+            : Array.isArray(responseData?.images)
+              ? responseData.images
+              : [];
+
+      setImages(galleryData.map(normalizeGalleryItem));
+    } catch (requestError) {
+      setError(
+        getErrorMessage(
+          requestError,
+          "Unable to load gallery images."
+        )
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchGallery();
+  }, [fetchGallery]);
+
+  /* =========================================================
+     FILTER AND PAGINATION
+  ========================================================= */
 
   const filteredImages = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -130,19 +192,52 @@ const Gallary = () => {
     setCurrentPage(1);
   }, [search]);
 
-  useEffect(() => {
-    if (message || error) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setError("");
-      }, 3500);
+  /* =========================================================
+     AUTO-DISMISS FEEDBACK
+  ========================================================= */
 
-      return () => clearTimeout(timer);
-    }
+  useEffect(() => {
+    if (!message && !error) return undefined;
+
+    const timer = setTimeout(() => {
+      setMessage("");
+      setError("");
+    }, 3500);
+
+    return () => clearTimeout(timer);
   }, [message, error]);
 
+  /* =========================================================
+     PREVIEW URL CLEANUP
+  ========================================================= */
+
+  const clearLocalPreview = () => {
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = "";
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
+
+  /* =========================================================
+     RESET FORM
+  ========================================================= */
+
   const resetForm = () => {
-    setForm({ title: "", category: "" });
+    clearLocalPreview();
+
+    setForm({
+      title: "",
+      category: "",
+    });
+
     setEditingId(null);
     setPreview("");
     setImageFile(null);
@@ -152,6 +247,10 @@ const Gallary = () => {
     }
   };
 
+  /* =========================================================
+     IMAGE VALIDATION AND PREVIEW
+  ========================================================= */
+
   const handleImageChange = (file) => {
     if (!file) return;
 
@@ -160,19 +259,44 @@ const Gallary = () => {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > MAX_IMAGE_SIZE) {
       setError("Image size must be 5MB or less.");
       return;
     }
 
+    clearLocalPreview();
+
+    const objectUrl = URL.createObjectURL(file);
+
+    previewUrlRef.current = objectUrl;
+
     setImageFile(file);
-    setPreview(URL.createObjectURL(file));
+    setPreview(objectUrl);
+
     setError("");
     setMessage("");
   };
 
-  const handleSubmit = (event) => {
+  const handleRemovePreview = (event) => {
+    event.stopPropagation();
+
+    clearLocalPreview();
+
+    setPreview("");
+    setImageFile(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  /* =========================================================
+     CREATE / UPDATE GALLERY IMAGE
+  ========================================================= */
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     setError("");
     setMessage("");
 
@@ -181,51 +305,119 @@ const Gallary = () => {
       return;
     }
 
-    const existingImage = images.find(
-      (item) => item.id === editingId
-    );
+    if (form.title.trim().length > 100) {
+      setError("Image title cannot exceed 100 characters.");
+      return;
+    }
 
-    const selectedImage = preview || existingImage?.image;
-
-    if (!selectedImage) {
+    if (editingId === null && !imageFile) {
       setError("Please upload an image.");
       return;
     }
 
-    const imageData = {
-      id: editingId ?? Date.now(),
-      title: form.title.trim(),
-      category: form.category || "Other",
-      image: selectedImage,
-    };
-
-    if (editingId !== null) {
-      setImages((previous) =>
-        previous.map((item) =>
-          item.id === editingId ? imageData : item
-        )
-      );
-
-      setMessage("Image updated successfully.");
-    } else {
-      setImages((previous) => [imageData, ...previous]);
-      setCurrentPage(1);
-      setMessage("Image added successfully.");
+    if (editingId !== null && !imageFile && !preview) {
+      setError("Please upload an image.");
+      return;
     }
 
-    resetForm();
+    const formData = new FormData();
+
+    formData.append("title", form.title.trim());
+    formData.append("category", form.category || "Other");
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    setSubmitting(true);
+
+    try {
+      let response;
+
+      if (editingId !== null) {
+        response = await API.put(
+          `${API_URL}/${editingId}`,
+          formData
+        );
+      } else {
+        response = await API.post(API_URL, formData);
+      }
+
+      const responseData = response.data;
+
+      const savedItem =
+        responseData?.data ||
+        responseData?.gallery ||
+        responseData?.image ||
+        responseData;
+
+      if (savedItem && (savedItem._id || savedItem.id)) {
+        const normalizedItem = normalizeGalleryItem(savedItem);
+
+        if (editingId !== null) {
+          setImages((previous) =>
+            previous.map((item) =>
+              String(item.id) === String(editingId)
+                ? normalizedItem
+                : item
+            )
+          );
+        } else {
+          setImages((previous) => [
+            normalizedItem,
+            ...previous,
+          ]);
+
+          setCurrentPage(1);
+        }
+      } else {
+        await fetchGallery();
+      }
+
+      setMessage(
+        editingId !== null
+          ? "Image updated successfully."
+          : "Image added successfully."
+      );
+
+      resetForm();
+    } catch (requestError) {
+      setError(
+        getErrorMessage(
+          requestError,
+          editingId !== null
+            ? "Unable to update image."
+            : "Unable to upload image."
+        )
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
+  /* =========================================================
+     EDIT IMAGE
+  ========================================================= */
+
   const handleEdit = (item) => {
+    clearLocalPreview();
+
     setEditingId(item.id);
+
     setForm({
       title: item.title,
-      category: item.category,
+      category: item.category || "Other",
     });
+
     setPreview(item.image);
     setImageFile(null);
+
     setError("");
     setMessage("");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
 
     window.scrollTo({
       top: 0,
@@ -233,18 +425,56 @@ const Gallary = () => {
     });
   };
 
-  const handleDelete = () => {
-    setImages((previous) =>
-      previous.filter((item) => item.id !== deleteId)
-    );
+  /* =========================================================
+     DELETE IMAGE
+  ========================================================= */
 
-    if (editingId === deleteId) {
-      resetForm();
+  const handleDelete = async () => {
+    if (deleteId === null || deleting) return;
+
+    setDeleting(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await API.delete(`${API_URL}/${deleteId}`);
+
+      setImages((previous) =>
+        previous.filter(
+          (item) => String(item.id) !== String(deleteId)
+        )
+      );
+
+      if (String(editingId) === String(deleteId)) {
+        resetForm();
+      }
+
+      if (
+        lightboxImage &&
+        String(lightboxImage.id) === String(deleteId)
+      ) {
+        setLightboxImage(null);
+      }
+
+      setDeleteId(null);
+      setMessage("Image deleted successfully.");
+    } catch (requestError) {
+      setError(
+        getErrorMessage(
+          requestError,
+          "Unable to delete image."
+        )
+      );
+
+      setDeleteId(null);
+    } finally {
+      setDeleting(false);
     }
-
-    setDeleteId(null);
-    setMessage("Image deleted successfully.");
   };
+
+  /* =========================================================
+     PAGINATION HELPERS
+  ========================================================= */
 
   const goToPage = (page) => {
     setCurrentPage(
@@ -261,8 +491,13 @@ const Gallary = () => {
     filteredImages.length
   );
 
+  /* =========================================================
+     RENDER
+  ========================================================= */
+
   return (
     <main className="Gallary-page">
+      {/* PAGE HEADER */}
       <header className="Gallary-heading">
         <div className="Gallary-heading-left">
           <div className="Gallary-heading-icon">
@@ -287,6 +522,7 @@ const Gallary = () => {
         </div>
       </header>
 
+      {/* FEEDBACK */}
       {(message || error) && (
         <div
           className={`Gallary-feedback ${
@@ -312,7 +548,10 @@ const Gallary = () => {
       )}
 
       <div className="Gallary-content-grid">
-        {/* ADD / EDIT FORM */}
+        {/* ===============================================
+            ADD / EDIT FORM
+        =============================================== */}
+
         <section className="Gallary-card Gallary-form-card">
           <div className="Gallary-card-heading">
             <span className="Gallary-card-icon">
@@ -330,6 +569,7 @@ const Gallary = () => {
             className="Gallary-form"
             onSubmit={handleSubmit}
           >
+            {/* IMAGE TITLE */}
             <div className="Gallary-field">
               <label htmlFor="Gallary-title-input">
                 Image Title{" "}
@@ -343,16 +583,17 @@ const Gallary = () => {
                 placeholder="Enter image title"
                 value={form.title}
                 onChange={(event) =>
-                  setForm({
-                    ...form,
+                  setForm((previous) => ({
+                    ...previous,
                     title: event.target.value,
-                  })
+                  }))
                 }
                 maxLength={100}
                 required
               />
             </div>
 
+            {/* CATEGORY */}
             <div className="Gallary-field">
               <label htmlFor="Gallary-category-select">
                 Category (Optional)
@@ -364,16 +605,21 @@ const Gallary = () => {
                   className="Gallary-input Gallary-select"
                   value={form.category}
                   onChange={(event) =>
-                    setForm({
-                      ...form,
+                    setForm((previous) => ({
+                      ...previous,
                       category: event.target.value,
-                    })
+                    }))
                   }
                 >
-                  <option value="">Select category</option>
+                  <option value="">
+                    Select category
+                  </option>
 
                   {categories.map((category) => (
-                    <option key={category} value={category}>
+                    <option
+                      key={category}
+                      value={category}
+                    >
                       {category}
                     </option>
                   ))}
@@ -386,6 +632,7 @@ const Gallary = () => {
               </div>
             </div>
 
+            {/* IMAGE UPLOAD */}
             <div className="Gallary-field Gallary-upload-field">
               <label>
                 Upload Image{" "}
@@ -398,7 +645,9 @@ const Gallary = () => {
                 type="file"
                 accept="image/*"
                 onChange={(event) =>
-                  handleImageChange(event.target.files?.[0])
+                  handleImageChange(
+                    event.target.files?.[0]
+                  )
                 }
               />
 
@@ -410,7 +659,9 @@ const Gallary = () => {
                 }`}
                 role="button"
                 tabIndex={0}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() =>
+                  fileInputRef.current?.click()
+                }
                 onKeyDown={(event) => {
                   if (
                     event.key === "Enter" ||
@@ -425,6 +676,7 @@ const Gallary = () => {
                 }
                 onDrop={(event) => {
                   event.preventDefault();
+
                   handleImageChange(
                     event.dataTransfer.files?.[0]
                   );
@@ -447,15 +699,7 @@ const Gallary = () => {
                       type="button"
                       className="Gallary-remove-preview"
                       aria-label="Remove selected image"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setPreview("");
-                        setImageFile(null);
-
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
+                      onClick={handleRemovePreview}
                     >
                       <X size={16} />
                     </button>
@@ -479,6 +723,7 @@ const Gallary = () => {
               </div>
             </div>
 
+            {/* SELECTED FILE */}
             {imageFile && (
               <div className="Gallary-selected-file">
                 <Check size={15} />
@@ -486,10 +731,12 @@ const Gallary = () => {
               </div>
             )}
 
+            {/* FORM ACTIONS */}
             <div className="Gallary-form-actions">
               <button
                 type="submit"
                 className="Gallary-submit-btn"
+                disabled={submitting}
               >
                 {editingId !== null ? (
                   <Check size={20} />
@@ -497,9 +744,11 @@ const Gallary = () => {
                   <Upload size={20} />
                 )}
 
-                {editingId !== null
-                  ? "Save Changes"
-                  : "Add Image"}
+                {submitting
+                  ? "Please wait..."
+                  : editingId !== null
+                    ? "Save Changes"
+                    : "Add Image"}
               </button>
 
               {editingId !== null && (
@@ -507,6 +756,7 @@ const Gallary = () => {
                   type="button"
                   className="Gallary-cancel-btn"
                   onClick={resetForm}
+                  disabled={submitting}
                 >
                   Cancel
                 </button>
@@ -515,7 +765,10 @@ const Gallary = () => {
           </form>
         </section>
 
-        {/* GALLERY TABLE */}
+        {/* ===============================================
+            GALLERY TABLE
+        =============================================== */}
+
         <section className="Gallary-card Gallary-table-card">
           <div className="Gallary-table-heading">
             <div className="Gallary-card-heading Gallary-table-title-wrap">
@@ -525,12 +778,14 @@ const Gallary = () => {
 
               <div>
                 <h2>Gallery Images</h2>
+
                 <p className="Gallary-count">
                   {images.length} images in your gallery
                 </p>
               </div>
             </div>
 
+            {/* SEARCH */}
             <div className="Gallary-search-wrap">
               <Search
                 size={19}
@@ -550,6 +805,7 @@ const Gallary = () => {
             </div>
           </div>
 
+          {/* TABLE */}
           <div className="Gallary-table-scroll">
             <table className="Gallary-table">
               <thead>
@@ -557,7 +813,9 @@ const Gallary = () => {
                   <th className="Gallary-col-number">
                     Sl. No.
                   </th>
+
                   <th>Image</th>
+
                   <th className="Gallary-col-action">
                     Action
                   </th>
@@ -565,7 +823,17 @@ const Gallary = () => {
               </thead>
 
               <tbody>
-                {paginatedImages.length > 0 ? (
+                {loading ? (
+                  <tr>
+                    <td colSpan="3">
+                      <div className="Gallary-empty-state">
+                        <ImageIcon size={27} />
+                        <strong>Loading gallery...</strong>
+                        <p>Please wait while images load.</p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : paginatedImages.length > 0 ? (
                   paginatedImages.map((item, index) => (
                     <tr key={item.id}>
                       <td className="Gallary-number-cell">
@@ -586,6 +854,7 @@ const Gallary = () => {
                               src={item.image}
                               alt={item.title}
                               className="Gallary-thumbnail"
+                              loading="lazy"
                             />
 
                             <span className="Gallary-thumbnail-hover">
@@ -632,11 +901,29 @@ const Gallary = () => {
                     <td colSpan="3">
                       <div className="Gallary-empty-state">
                         <ImageIcon size={27} />
-                        <strong>No images found</strong>
+
+                        <strong>
+                          {search
+                            ? "No matching images found"
+                            : "No images found"}
+                        </strong>
+
                         <p>
-                          Try another search or add a new gallery
-                          image.
+                          {search
+                            ? "Try another search term."
+                            : "Add a new gallery image to get started."}
                         </p>
+
+                        {!search && (
+                          <button
+                            type="button"
+                            className="Gallary-submit-btn"
+                            onClick={fetchGallery}
+                          >
+                            <Images size={17} />
+                            Refresh Gallery
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -646,65 +933,81 @@ const Gallary = () => {
           </div>
 
           {/* PAGINATION */}
-          <div className="Gallary-pagination">
-            <p className="Gallary-pagination-info">
-              Showing <strong>{firstItem}-{lastItem}</strong>{" "}
-              of <strong>{filteredImages.length}</strong> images
-            </p>
+          {!loading && (
+            <div className="Gallary-pagination">
+              <p className="Gallary-pagination-info">
+                Showing{" "}
+                <strong>
+                  {firstItem}-{lastItem}
+                </strong>{" "}
+                of{" "}
+                <strong>{filteredImages.length}</strong>{" "}
+                images
+              </p>
 
-            <div
-              className="Gallary-pagination-controls"
-              aria-label="Gallery pagination"
-            >
-              <button
-                type="button"
-                className="Gallary-page-btn Gallary-page-arrow"
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                aria-label="Previous page"
+              <div
+                className="Gallary-pagination-controls"
+                aria-label="Gallery pagination"
               >
-                <ChevronLeft size={17} />
-                <span>Previous</span>
-              </button>
-
-              {Array.from(
-                { length: totalPages },
-                (_, index) => index + 1
-              ).map((page) => (
                 <button
                   type="button"
-                  key={page}
-                  className={`Gallary-page-btn Gallary-page-number ${
-                    currentPage === page
-                      ? "Gallary-page-active"
-                      : ""
-                  }`}
-                  onClick={() => goToPage(page)}
-                  aria-label={`Page ${page}`}
-                  aria-current={
-                    currentPage === page ? "page" : undefined
+                  className="Gallary-page-btn Gallary-page-arrow"
+                  onClick={() =>
+                    goToPage(currentPage - 1)
                   }
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
                 >
-                  {page}
+                  <ChevronLeft size={17} />
+                  <span>Previous</span>
                 </button>
-              ))}
 
-              <button
-                type="button"
-                className="Gallary-page-btn Gallary-page-arrow"
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                aria-label="Next page"
-              >
-                <span>Next</span>
-                <ChevronRight size={17} />
-              </button>
+                {Array.from(
+                  { length: totalPages },
+                  (_, index) => index + 1
+                ).map((page) => (
+                  <button
+                    type="button"
+                    key={page}
+                    className={`Gallary-page-btn Gallary-page-number ${
+                      currentPage === page
+                        ? "Gallary-page-active"
+                        : ""
+                    }`}
+                    onClick={() => goToPage(page)}
+                    aria-label={`Page ${page}`}
+                    aria-current={
+                      currentPage === page
+                        ? "page"
+                        : undefined
+                    }
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  className="Gallary-page-btn Gallary-page-arrow"
+                  onClick={() =>
+                    goToPage(currentPage + 1)
+                  }
+                  disabled={currentPage === totalPages}
+                  aria-label="Next page"
+                >
+                  <span>Next</span>
+                  <ChevronRight size={17} />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </section>
       </div>
 
-      {/* DELETE CONFIRMATION */}
+      {/* ===============================================
+          DELETE CONFIRMATION MODAL
+      =============================================== */}
+
       {deleteId !== null && (
         <div
           className="Gallary-modal-backdrop"
@@ -729,7 +1032,7 @@ const Gallary = () => {
             </h3>
 
             <p>
-              This image will be removed from the gallery list.
+              This image will be removed from the gallery.
               This action cannot be undone.
             </p>
 
@@ -738,6 +1041,7 @@ const Gallary = () => {
                 type="button"
                 className="Gallary-modal-cancel"
                 onClick={() => setDeleteId(null)}
+                disabled={deleting}
               >
                 Cancel
               </button>
@@ -746,15 +1050,19 @@ const Gallary = () => {
                 type="button"
                 className="Gallary-modal-delete"
                 onClick={handleDelete}
+                disabled={deleting}
               >
-                Delete Image
+                {deleting ? "Deleting..." : "Delete Image"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* IMAGE PREVIEW */}
+      {/* ===============================================
+          IMAGE LIGHTBOX
+      =============================================== */}
+
       {lightboxImage && (
         <div
           className="Gallary-lightbox"

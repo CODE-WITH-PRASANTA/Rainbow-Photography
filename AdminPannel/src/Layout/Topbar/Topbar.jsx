@@ -18,24 +18,23 @@ import {
 } from "lucide-react";
 import "./Topbar.css";
 
-const BACKEND_BASE_URL = "http://localhost:5000";
-const API_BASE_URL = `${BACKEND_BASE_URL}/api/profiles`;
-
 const DEFAULT_AVATAR =
   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80";
 
+// Avatar helper — no hardcoded backend URL
 const getAvatarUrl = (path) => {
   if (!path) return DEFAULT_AVATAR;
 
   if (
     path.startsWith("http://") ||
     path.startsWith("https://") ||
-    path.startsWith("blob:")
+    path.startsWith("blob:") ||
+    path.startsWith("data:")
   ) {
     return path;
   }
 
-  return `${BACKEND_BASE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
+  return path.startsWith("/") ? path : `/${path}`;
 };
 
 const Topbar = ({ toggleSidebar }) => {
@@ -45,6 +44,7 @@ const Topbar = ({ toggleSidebar }) => {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Local default profile — no backend request
   const [currentProfile, setCurrentProfile] = useState({
     name: "Admin User",
     email: "admin@rainbowphotography.com",
@@ -55,29 +55,8 @@ const Topbar = ({ toggleSidebar }) => {
   const dropdownRef = useRef(null);
   const mobileSearchInputRef = useRef(null);
 
+  // Listen for profile changes from other components
   useEffect(() => {
-    const fetchTopProfile = async () => {
-      try {
-        const response = await fetch(API_BASE_URL);
-        if (!response.ok) {
-          throw new Error("Unable to fetch profile");
-        }
-
-        const result = await response.json();
-
-        if (result.success && result.data?.length > 0) {
-          setCurrentProfile((previous) => ({
-            ...previous,
-            ...result.data[0],
-          }));
-        }
-      } catch (error) {
-        console.error("Failed to load profile:", error);
-      }
-    };
-
-    fetchTopProfile();
-
     const handleProfileUpdate = (event) => {
       if (event.detail) {
         setCurrentProfile((previous) => ({
@@ -97,6 +76,7 @@ const Topbar = ({ toggleSidebar }) => {
     };
   }, []);
 
+  // Close dropdowns when clicking outside
   const closeAllMenus = () => {
     setDropdownOpen(false);
     setNotificationsOpen(false);
@@ -116,10 +96,14 @@ const Topbar = ({ toggleSidebar }) => {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
     };
   }, []);
 
+  // Close menus with Escape
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -135,6 +119,7 @@ const Topbar = ({ toggleSidebar }) => {
     };
   }, []);
 
+  // Fullscreen state
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(Boolean(document.fullscreenElement));
@@ -153,12 +138,14 @@ const Topbar = ({ toggleSidebar }) => {
     };
   }, []);
 
+  // Focus mobile search input
   useEffect(() => {
     if (mobileSearchOpen && mobileSearchInputRef.current) {
       mobileSearchInputRef.current.focus();
     }
   }, [mobileSearchOpen]);
 
+  // Toggle fullscreen
   const toggleFullscreen = async () => {
     try {
       if (!document.fullscreenElement) {
@@ -171,6 +158,7 @@ const Topbar = ({ toggleSidebar }) => {
     }
   };
 
+  // Open one menu and close others
   const openMenu = (setter) => {
     closeAllMenus();
     setter(true);
@@ -184,6 +172,7 @@ const Topbar = ({ toggleSidebar }) => {
             mobileSearchOpen ? "is-hidden" : ""
           }`}
         >
+          {/* LEFT SECTION */}
           <div className="Topbar-left">
             <button
               type="button"
@@ -203,12 +192,14 @@ const Topbar = ({ toggleSidebar }) => {
                 <span className="Topbar-page-title">
                   Rainbow Photography
                 </span>
+
                 <span className="Topbar-page-subtitle">
                   Studio management
                 </span>
               </div>
             </div>
 
+            {/* Desktop Search */}
             <div className="Topbar-search-box">
               <Search
                 size={17}
@@ -228,7 +219,9 @@ const Topbar = ({ toggleSidebar }) => {
             </div>
           </div>
 
+          {/* RIGHT SECTION */}
           <div className="Topbar-right" ref={dropdownRef}>
+            {/* Mobile Search Button */}
             <button
               type="button"
               className="Topbar-action-btn Topbar-mobile-search-btn"
@@ -238,7 +231,7 @@ const Topbar = ({ toggleSidebar }) => {
               <Search size={18} />
             </button>
 
-            {/* Notifications */}
+            {/* NOTIFICATIONS */}
             <div className="Topbar-action-wrapper">
               <button
                 type="button"
@@ -263,6 +256,7 @@ const Topbar = ({ toggleSidebar }) => {
                     <span className="Topbar-dropdown-title">
                       Notifications
                     </span>
+
                     <span className="Topbar-dropdown-badge">
                       3 New
                     </span>
@@ -273,10 +267,13 @@ const Topbar = ({ toggleSidebar }) => {
                       <span className="Topbar-notification-symbol">
                         <Image size={17} />
                       </span>
+
                       <div>
                         <p className="Topbar-notification-text">
-                          Your photography workspace is ready to manage.
+                          Your photography workspace is ready to
+                          manage.
                         </p>
+
                         <span className="Topbar-notification-time">
                           Workspace update
                         </span>
@@ -287,10 +284,13 @@ const Topbar = ({ toggleSidebar }) => {
                       <span className="Topbar-notification-symbol">
                         <Mail size={17} />
                       </span>
+
                       <div>
                         <p className="Topbar-notification-text">
-                          Remember to review your latest client enquiries.
+                          Remember to review your latest client
+                          enquiries.
                         </p>
+
                         <span className="Topbar-notification-time">
                           Enquiry reminder
                         </span>
@@ -301,7 +301,7 @@ const Topbar = ({ toggleSidebar }) => {
               )}
             </div>
 
-            {/* Messages */}
+            {/* CLIENT MESSAGES */}
             <div className="Topbar-action-wrapper">
               <button
                 type="button"
@@ -326,6 +326,7 @@ const Topbar = ({ toggleSidebar }) => {
                     <span className="Topbar-dropdown-title">
                       Client messages
                     </span>
+
                     <span className="Topbar-dropdown-badge">
                       2 New
                     </span>
@@ -336,10 +337,13 @@ const Topbar = ({ toggleSidebar }) => {
                       <span className="Topbar-notification-symbol">
                         <User size={17} />
                       </span>
+
                       <div>
                         <p className="Topbar-notification-text">
-                          Review your client messages and booking requests.
+                          Review your client messages and booking
+                          requests.
                         </p>
+
                         <span className="Topbar-notification-time">
                           Client inbox
                         </span>
@@ -350,13 +354,15 @@ const Topbar = ({ toggleSidebar }) => {
               )}
             </div>
 
-            {/* Fullscreen */}
+            {/* FULLSCREEN */}
             <button
               type="button"
               className="Topbar-action-btn Topbar-fullscreen-btn"
               onClick={toggleFullscreen}
               aria-label={
-                isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
+                isFullscreen
+                  ? "Exit fullscreen"
+                  : "Enter fullscreen"
               }
             >
               {isFullscreen ? (
@@ -366,7 +372,7 @@ const Topbar = ({ toggleSidebar }) => {
               )}
             </button>
 
-            {/* Profile */}
+            {/* PROFILE */}
             <div
               className={`Topbar-user ${
                 dropdownOpen ? "active" : ""
@@ -411,6 +417,7 @@ const Topbar = ({ toggleSidebar }) => {
                 <span className="Topbar-username">
                   {currentProfile.name || "Admin User"}
                 </span>
+
                 <span className="Topbar-role">
                   {currentProfile.travelerType ||
                     "Studio Administrator"}
@@ -433,6 +440,7 @@ const Topbar = ({ toggleSidebar }) => {
                     <p className="Topbar-card-name">
                       {currentProfile.name || "Admin User"}
                     </p>
+
                     <p className="Topbar-card-email">
                       {currentProfile.email ||
                         "admin@rainbowphotography.com"}
@@ -475,7 +483,7 @@ const Topbar = ({ toggleSidebar }) => {
           </div>
         </div>
 
-        {/* Mobile search */}
+        {/* MOBILE SEARCH OVERLAY */}
         {mobileSearchOpen && (
           <div className="Topbar-mobile-search-overlay">
             <Search
