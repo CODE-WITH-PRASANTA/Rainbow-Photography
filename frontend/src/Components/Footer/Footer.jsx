@@ -39,21 +39,21 @@ const Footer = () => {
             <div className="icon-circle">
               <FiMail />
             </div>
-            <span>username@domain.com</span>
+            <span>Rrainbowphotography@gmail.com</span>
           </div>
 
           <div className="contact-item">
             <div className="icon-circle">
               <FiPhone />
             </div>
-            <span>+(123) 456 - 7890 - 456 - 7890</span>
+            <span>+91 7375971966</span>
           </div>
 
           <div className="contact-item">
             <div className="icon-circle">
               <FiMapPin />
             </div>
-            <span>Street New York</span>
+            <span>Charampa, bhadrak, odisha -756101</span>
           </div>
         </div>
 

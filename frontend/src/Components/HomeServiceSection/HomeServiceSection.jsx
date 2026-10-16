@@ -16,8 +16,8 @@ import cardLeaf from "../../assets/cardLeaf-1.webp";
 import decoFlower from "../../assets/TwinFlower-1.webp";
 
 /* reference images */
-import sideImgTop from "../../assets/service4-1.webp";     
-import sideImgBottom from "../../assets/service4-2.webp";
+import sideImgTop from "../../assets/Event-3.webp";     
+import sideImgBottom from "../../assets/Event-4.webp";
 
 const services = [
   {

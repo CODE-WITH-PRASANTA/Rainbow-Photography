@@ -3,8 +3,8 @@ import "./HomeAboutSection.css";
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"></link>
 
 /* images */
-import mainImg from "../../assets/Event-1.webp";        // big wedding stage image
-import peopleImg from "../../assets/Event-2.webp";    // two girls image
+import mainImg from "../../assets/Event-2.webp";        // big wedding stage image
+import peopleImg from "../../assets/Event-1.webp";    // two girls image
 import leaf1 from "../../assets/Leave-1.webp";
 import leaf2 from "../../assets/Leave-2.webp";
 

@@ -2,28 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import "./FloatingIcons.css";
 
 /* ---------------------------------
-   Contact numbers
+   Contact number
 --------------------------------- */
-const CONTACTS = [
-  {
-    id: "primary",
-    label: "Primary",
-    display: "+91 95563 55446",
-    tel: "+919556355446",
-    wa: "919556355446",
-  },
-  {
-    id: "secondary",
-    label: "Secondary",
-    display: "+91 73759 71966",
-    tel: "+917375971966",
-    wa: "917375971966",
-  },
-];
+const CONTACT = {
+  display: "+91 73759 71966",
+  tel: "+917375971966",
+  wa: "917375971966",
+};
 
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Hello! I would like to get more information."
 );
+
+const CALL_HREF = `tel:${CONTACT.tel}`;
+const WHATSAPP_HREF = `https://wa.me/${CONTACT.wa}?text=${WHATSAPP_MESSAGE}`;
+
+/* Show the scroll-to-top button after this many px */
+const SHOW_AFTER = 300;
 
 /* Scroll progress ring: circle r=24 -> circumference */
 const RING_RADIUS = 24;
@@ -60,121 +55,201 @@ const ArrowUpIcon = () => (
 );
 
 /* ---------------------------------
+   Helpers
+--------------------------------- */
+const isPageScroller = (el) =>
+  !el ||
+  el === window ||
+  el === document ||
+  el === document.documentElement ||
+  el === document.body;
+
+/* Reads scroll position of either the window or a custom scroll container */
+const getMetrics = (el) => {
+  if (isPageScroller(el)) {
+    const doc = document.documentElement;
+    const body = document.body;
+    const top = window.scrollY || doc.scrollTop || body.scrollTop || 0;
+    const height = Math.max(doc.scrollHeight, body.scrollHeight);
+    return { top, max: height - window.innerHeight };
+  }
+  return { top: el.scrollTop, max: el.scrollHeight - el.clientHeight };
+};
+
+/* Only treat big containers as "the page scroller" (ignores sliders, textareas, etc.) */
+const isMainScroller = (el) =>
+  el.scrollHeight - el.clientHeight > 200 &&
+  el.clientHeight >= window.innerHeight * 0.5;
+
+/* Smooth ease in/out */
+const easeInOutCubic = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+/* Finds every element that is currently scrolled down */
+const getScrolledElements = (preferred) => {
+  const list = new Set();
+
+  const pageEl = document.scrollingElement || document.documentElement;
+  list.add(pageEl);
+  list.add(document.documentElement);
+  list.add(document.body);
+
+  if (preferred) list.add(preferred);
+
+  document.querySelectorAll("body *").forEach((el) => {
+    if (el.scrollTop > 0) list.add(el);
+  });
+
+  return Array.from(list).filter((el) => el && el.scrollTop > 0);
+};
+
+/* ---------------------------------
    Component
 --------------------------------- */
 const FloatingIcons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [openMenu, setOpenMenu] = useState(null); // "call" | "whatsapp" | null
 
-  const rootRef = useRef(null);
+  /* The element that is actually scrolling (null = window) */
+  const scrollerRef = useRef(null);
 
-  /* Scroll visibility + progress */
+  /* Running scroll-to-top animation (frame id + cleanup) */
+  const animRef = useRef({ frame: 0, stop: null });
+
+  /* Scroll visibility + progress (works for window AND inner containers) */
   useEffect(() => {
     let frame = 0;
 
     const update = () => {
       frame = 0;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      setShowScrollTop(window.scrollY > 300);
-      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+      const { top, max } = getMetrics(scrollerRef.current);
+      setShowScrollTop(top > SHOW_AFTER);
+      setProgress(max > 0 ? Math.min(1, Math.max(0, top / max)) : 0);
     };
 
-    const handleScroll = () => {
+    const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
 
+    const handleScroll = (event) => {
+      const target = event.target;
+
+      if (isPageScroller(target)) {
+        scrollerRef.current = null;
+      } else if (target instanceof Element && isMainScroller(target)) {
+        scrollerRef.current = target;
+      } else {
+        return; // small inner scroller, ignore
+      }
+
+      schedule();
+    };
+
     update();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+
+    /* capture = true catches scroll events from ANY container */
+    document.addEventListener("scroll", handleScroll, {
+      passive: true,
+      capture: true,
+    });
+    window.addEventListener("resize", schedule);
 
     return () => {
       if (frame) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      document.removeEventListener("scroll", handleScroll, { capture: true });
+      window.removeEventListener("resize", schedule);
+      if (animRef.current.stop) animRef.current.stop();
     };
   }, []);
 
-  /* Close menus on outside click / Escape */
-  useEffect(() => {
-    if (!openMenu) return;
+  /* Bottom -> top smooth scroll */
+  const scrollToTop = () => {
+    /* Stop any animation already running */
+    if (animRef.current.stop) animRef.current.stop();
 
-    const handlePointerDown = (event) => {
-      if (rootRef.current && !rootRef.current.contains(event.target)) {
-        setOpenMenu(null);
+    /* If the site uses Lenis smooth-scroll, let it handle the scroll */
+    if (window.lenis && typeof window.lenis.scrollTo === "function") {
+      window.lenis.scrollTo(0, { duration: 1.2 });
+      return;
+    }
+
+    const elements = getScrolledElements(scrollerRef.current);
+    if (!elements.length) return;
+
+    const starts = elements.map((el) => el.scrollTop);
+    const farthest = Math.max(...starts);
+
+    /* Respect "reduce motion" -> jump instantly */
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    /* Disable CSS scroll-behavior while we animate, so it can't fight us */
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.scrollBehavior;
+    const prevBody = body.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    body.style.scrollBehavior = "auto";
+
+    const setPosition = (ratio) => {
+      elements.forEach((el, i) => {
+        const value = Math.round(starts[i] * (1 - ratio));
+        if (el === html || el === body || el === document.scrollingElement) {
+          window.scrollTo(0, value);
+        }
+        el.scrollTop = value;
+      });
+    };
+
+    let cancelled = false;
+
+    const cleanup = () => {
+      cancelled = true;
+      cancelAnimationFrame(animRef.current.frame);
+      window.removeEventListener("wheel", cleanup);
+      window.removeEventListener("touchstart", cleanup);
+      window.removeEventListener("keydown", cleanup);
+      html.style.scrollBehavior = prevHtml;
+      body.style.scrollBehavior = prevBody;
+      animRef.current.stop = null;
+    };
+
+    animRef.current.stop = cleanup;
+
+    if (reduceMotion) {
+      setPosition(1);
+      cleanup();
+      return;
+    }
+
+    /* Longer pages take a bit longer, between 0.5s and 1.4s */
+    const duration = Math.min(1400, Math.max(500, farthest * 0.25));
+    const startTime = performance.now();
+
+    /* If the user scrolls or touches during the animation, stop it */
+    window.addEventListener("wheel", cleanup, { passive: true });
+    window.addEventListener("touchstart", cleanup, { passive: true });
+    window.addEventListener("keydown", cleanup);
+
+    const step = (now) => {
+      if (cancelled) return;
+
+      const t = Math.min(1, (now - startTime) / duration);
+      setPosition(easeInOutCubic(t));
+
+      if (t < 1) {
+        animRef.current.frame = requestAnimationFrame(step);
+      } else {
+        cleanup();
       }
     };
 
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") setOpenMenu(null);
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [openMenu]);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    animRef.current.frame = requestAnimationFrame(step);
   };
-
-  const toggleMenu = (name) => {
-    setOpenMenu((current) => (current === name ? null : name));
-  };
-
-  const renderMenu = (name, type) => (
-    <div
-      className={`FloatingIcons__menu ${
-        openMenu === name ? "FloatingIcons__menu--open" : ""
-      }`}
-      role="menu"
-      aria-hidden={openMenu !== name}
-    >
-      {CONTACTS.map((contact, index) => {
-        const isWhatsApp = type === "whatsapp";
-
-        return (
-          <a
-            key={contact.id}
-            role="menuitem"
-            tabIndex={openMenu === name ? 0 : -1}
-            className={`FloatingIcons__pill FloatingIcons__pill--${type}`}
-            style={{ "--i": index }}
-            href={
-              isWhatsApp
-                ? `https://wa.me/${contact.wa}?text=${WHATSAPP_MESSAGE}`
-                : `tel:${contact.tel}`
-            }
-            target={isWhatsApp ? "_blank" : undefined}
-            rel={isWhatsApp ? "noopener noreferrer" : undefined}
-            onClick={() => setOpenMenu(null)}
-            aria-label={`${isWhatsApp ? "Chat on WhatsApp" : "Call"} ${contact.display}`}
-          >
-            <span className="FloatingIcons__pill-icon">
-              {isWhatsApp ? <WhatsAppIcon /> : <PhoneIcon />}
-            </span>
-
-            <span className="FloatingIcons__pill-text">
-              <small>{contact.label}</small>
-              <strong>{contact.display}</strong>
-            </span>
-          </a>
-        );
-      })}
-    </div>
-  );
 
   return (
-    <aside
-      ref={rootRef}
-      className="FloatingIcons"
-      aria-label="Floating quick actions"
-    >
+    <aside className="FloatingIcons" aria-label="Floating quick actions">
       {/* Scroll to top */}
       <div
         className={`FloatingIcons__item FloatingIcons__item--scroll ${
@@ -205,34 +280,26 @@ const FloatingIcons = () => {
 
       {/* Call */}
       <div className="FloatingIcons__item FloatingIcons__item--call" style={{ "--enter": 1 }}>
-        {renderMenu("call", "call")}
-
-        <button
-          type="button"
+        <a
+          href={CALL_HREF}
           className="FloatingIcons__btn FloatingIcons__btn--call"
-          onClick={() => toggleMenu("call")}
-          aria-label="Call us"
-          aria-haspopup="menu"
-          aria-expanded={openMenu === "call"}
+          aria-label={`Call ${CONTACT.display}`}
         >
           <PhoneIcon />
-        </button>
+        </a>
       </div>
 
       {/* WhatsApp */}
       <div className="FloatingIcons__item FloatingIcons__item--whatsapp" style={{ "--enter": 2 }}>
-        {renderMenu("whatsapp", "whatsapp")}
-
-        <button
-          type="button"
+        <a
+          href={WHATSAPP_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
           className="FloatingIcons__btn FloatingIcons__btn--whatsapp"
-          onClick={() => toggleMenu("whatsapp")}
-          aria-label="Chat on WhatsApp"
-          aria-haspopup="menu"
-          aria-expanded={openMenu === "whatsapp"}
+          aria-label={`Chat on WhatsApp ${CONTACT.display}`}
         >
           <WhatsAppIcon />
-        </button>
+        </a>
       </div>
     </aside>
   );

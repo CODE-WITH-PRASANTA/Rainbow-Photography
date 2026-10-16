@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -7,112 +6,143 @@ const path = require("path");
 
 const connectDB = require("./src/config/db");
 const galleryRoutes = require("./src/routes/galleryRoutes");
+const testimonialRoutes = require("./src/routes/testimonialRoutes");
 
 const app = express();
 
-// Middleware — allow localhost on any port
+// =========================================
+// CORS CONFIGURATION
+// =========================================
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests without an Origin header (e.g. Postman)
+      // Allow server-to-server, curl, Postman, mobile requests
       if (!origin) {
         return callback(null, true);
       }
 
       try {
-        const url = new URL(origin);
+        const parsed = new URL(origin);
+        const isLocalHost = [
+          "localhost",
+          "127.0.0.1",
+          "::1"
+        ].includes(parsed.hostname);
 
-        if (
-          ["localhost", "127.0.0.1", "::1"].includes(url.hostname) &&
-          ["http:", "https:"].includes(url.protocol)
-        ) {
+        if (isLocalHost && ["http:", "https:"].includes(parsed.protocol)) {
           return callback(null, true);
         }
-      } catch (error) {
-        // Invalid origin
+      } catch (err) {
+        // Failed parsing origin header
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      return callback(new Error("Not allowed by CORS policy"));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// =========================================
+// BODY PARSING MIDDLEWARES
+// =========================================
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// Static uploads
+// =========================================
+// STATIC ASSETS
+// =========================================
+// Maps http://localhost:5000/uploads/* -> ./src/uploads/*
 app.use(
   "/uploads",
   express.static(path.join(__dirname, "src", "uploads"))
 );
 
-// Routes
+// =========================================
+// APPLICATION ROUTES
+// =========================================
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/testimonials", testimonialRoutes);
 
-// Root route
+// Health check / root
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
-    message: "Rainbow Photography Backend is running",
+    message: "Backend API service is running",
   });
 });
 
-// Health check
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "API is working",
+    message: "API is healthy",
+    uptime: process.uptime(),
   });
 });
 
-// 404 handler
+// =========================================
+// 404 NOT FOUND HANDLER
+// =========================================
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: "Route not found",
-    path: req.originalUrl,
+    message: `Cannot ${req.method} ${req.originalUrl}`,
   });
 });
 
-// Error handler
+// =========================================
+// CENTRAL ERROR HANDLER
+// =========================================
 app.use((err, req, res, next) => {
-  console.error("Server Error:", err.message);
-
   if (res.headersSent) {
     return next(err);
   }
 
-  const statusCode =
-    err.name === "MulterError"
-      ? err.code === "LIMIT_FILE_SIZE"
-        ? 413
-        : 400
-      : err.name === "ValidationError" ||
-          err.name === "CastError"
-        ? 400
-        : err.status || 500;
+  console.error(`[Error] ${req.method} ${req.originalUrl} -`, err.message);
+
+  let statusCode = 500;
+  let message = err.message || "Internal Server Error";
+
+  if (err.name === "MulterError") {
+    statusCode = err.code === "LIMIT_FILE_SIZE" ? 413 : 400;
+    message = err.message;
+  } else if (err.name === "ValidationError" || err.name === "CastError") {
+    statusCode = 400;
+  } else if (err.status) {
+    statusCode = err.status;
+  }
 
   res.status(statusCode).json({
     success: false,
-    message:
-      statusCode >= 500
-        ? "Internal Server Error"
-        : err.message || "Request failed",
+    message: statusCode >= 500 ? "Internal Server Error" : message,
   });
 });
 
-// Database and server
+// =========================================
+// SERVER INITIALIZATION
+// =========================================
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
     await connectDB();
 
-    app.listen(PORT, "0.0.0.0", () => {
+    const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running at http://localhost:${PORT}`);
-      console.log("CORS enabled for localhost on any port");
+      console.log("CORS enabled for local development");
     });
+
+    const shutdown = (signal) => {
+      console.log(`\nReceived ${signal}. Closing server gracefully...`);
+      server.close(() => {
+        console.log("HTTP server closed.");
+        process.exit(0);
+      });
+    };
+
+    process.on("SIGINT", () => shutdown("SIGINT"));
+    process.on("SIGTERM", () => shutdown("SIGTERM"));
   } catch (error) {
     console.error("Database connection failed:", error.message);
     process.exit(1);

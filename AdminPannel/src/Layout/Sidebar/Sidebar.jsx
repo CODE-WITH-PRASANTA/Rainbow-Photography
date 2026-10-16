@@ -10,6 +10,7 @@ import {
   FiX,
   FiCamera,
   FiArrowUpRight,
+  FiMessageSquare,
 } from "react-icons/fi";
 
 import "./Sidebar.css";
@@ -28,6 +29,12 @@ const menuItems = [
     description: "Photo collection",
   },
   {
+    text: "TeamMember",
+    path: "/team-member",
+    icon: FiUsers,
+    description: "Member details",
+  },
+  {
     text: "Package",
     path: "/package",
     icon: FiPackage,
@@ -43,6 +50,12 @@ const menuItems = [
     text: "Enquiry",
     path: "/enquiries",
     icon: FiClipboard,
+    description: "Client requests",
+  },
+  {
+    text: "Testimonial",
+    path: "/testimonial",
+    icon: FiMessageSquare,
     description: "Client requests",
   },
 ];

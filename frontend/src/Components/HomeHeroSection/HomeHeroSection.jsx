@@ -34,12 +34,12 @@ const HomeHeroSection = () => {
         <div className="weddingHero__contact">
           <span className="weddingHero__contactItem">
             <FiPhone />
-            Phone No : +1 836 384 493
+            Phone No : +91 7375971966
           </span>
 
           <span className="weddingHero__contactItem">
             <FiMail />
-            Email Address : username@domain.com
+            Email Address : Rrainbowphotography@gmail.com
           </span>
         </div>
 

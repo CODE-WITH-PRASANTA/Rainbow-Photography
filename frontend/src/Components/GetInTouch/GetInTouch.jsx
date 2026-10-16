@@ -151,17 +151,17 @@ const GetInTouch = () => {
 
           <div className="git-info-item">
             <FiMail className="git-icon" />
-            <p>username@domain.com</p>
+            <p>Rrainbowphotography@gmail.com</p>
           </div>
 
           <div className="git-info-item">
             <FiPhone className="git-icon" />
-            <p>+ (123) 456 - 7890 - 456 - 7890</p>
+            <p>+ 91 7375971966</p>
           </div>
 
           <div className="git-info-item">
             <FiMapPin className="git-icon" />
-            <p>Street New York</p>
+            <p>Charampa, bhadrak, odisha -756101</p>
           </div>
 
           <h3 className="git-connect-title">Get Connected</h3>
