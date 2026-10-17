@@ -7,6 +7,7 @@ const path = require("path");
 const connectDB = require("./src/config/db");
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
+const teamMemberRoutes = require("./src/routes/teamMemberRoutes");
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use(
 // =========================================
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/team-members", teamMemberRoutes);
 
 // Health check / root
 app.get("/", (req, res) => {

@@ -17,6 +17,104 @@
   background: linear-gradient(135deg, #fdf8f2, #f3ebe1);
 }
 
+/* Loading, error and empty states */
+.organizers-message {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 35px 20px;
+  text-align: center;
+  color: #333;
+}
+
+.organizers-message p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.organizers-error p {
+  color: #c62828;
+  margin-bottom: 14px;
+}
+
+.organizers-error button {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+}
+
+.organizers-loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 12px;
+  border: 3px solid #ddd;
+  border-top-color: #c6a15b;
+  border-radius: 50%;
+  animation: organizersSpin 0.8s linear infinite;
+}
+
+@keyframes organizersSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fallback when a member has no photo */
+.organizer-avatar-fallback {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e9d7b0, #a88750);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* Mobile slider viewport */
+.mobile-slider-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.mobile-slider-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.45s ease-in-out;
+  will-change: transform;
+}
+
+.mobile-slider-track .mobile-card {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Pagination controls */
+.pagination-item {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.pagination-item.active {
+  background: #c6a15b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-slider-track,
+  .organizers-loader {
+    animation: none;
+    transition: none;
+  }
+}
+
 .organizers-container {
   max-width: 1200px;
   margin: auto;
