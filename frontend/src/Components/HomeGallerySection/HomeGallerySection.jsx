@@ -243,7 +243,7 @@ const HomeGallerySection = () => {
       {/* Empty gallery */}
       {!loading && !error && images.length === 0 && (
         <div className="gallerySlider__status">
-          <p>No gallery photographs available yet.</p>
+          <p>No show case photographs available yet.</p>
         </div>
       )}
 

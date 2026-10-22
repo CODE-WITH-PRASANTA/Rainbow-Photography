@@ -1,0 +1,719 @@
+.HomeTimelessStory {
+  --HomeTimelessStory-gold: #bd772c;
+  --HomeTimelessStory-gold-light: #e6c992;
+  --HomeTimelessStory-ink: #24211f;
+  --HomeTimelessStory-cream: #fbf7ef;
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(380px, 1.08fr)
+    minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 3.1vw, 58px);
+
+  width: 100%;
+  min-height: 720px;
+  padding: 72px clamp(28px, 4.1vw, 84px);
+  overflow: hidden;
+  box-sizing: border-box;
+
+  color: var(--HomeTimelessStory-ink);
+  background: var(--HomeTimelessStory-cream);
+}
+
+.HomeTimelessStory *,
+.HomeTimelessStory *::before,
+.HomeTimelessStory *::after {
+  box-sizing: border-box;
+}
+
+.HomeTimelessStory__background {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 46%,
+      rgba(255, 255, 255, 0.98),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 0% 50%,
+      rgba(226, 190, 130, 0.17),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at 100% 60%,
+      rgba(226, 190, 130, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(115deg, #faf5eb, #fffdf8 48%, #f8f0e3);
+}
+
+/* Wedding image containers */
+
+.HomeTimelessStory__photo {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+
+  opacity: 0;
+
+  animation:
+    HomeTimelessStory-photo-drop 1.25s
+    cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
+.HomeTimelessStory__photo--left {
+  animation-delay: 0.15s;
+}
+
+.HomeTimelessStory__photo--right {
+  animation-delay: 0.4s;
+}
+
+.HomeTimelessStory__photo-frame {
+  position: relative;
+  width: 100%;
+  height: clamp(400px, 40vw, 600px);
+  padding: 5px;
+
+  overflow: visible;
+  border: 1px solid rgba(190, 127, 46, 0.5);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  box-shadow:
+    0 20px 48px rgba(92, 64, 29, 0.12),
+    0 4px 12px rgba(92, 64, 29, 0.05);
+
+  transition: box-shadow 0.5s ease;
+}
+
+.HomeTimelessStory__photo-frame::before {
+  position: absolute;
+  z-index: -1;
+  inset: -15px;
+
+  border: 1px solid rgba(195, 139, 61, 0.5);
+  border-radius: 7px;
+
+  content: "";
+  pointer-events: none;
+
+  transition:
+    inset 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.HomeTimelessStory__photo:hover .HomeTimelessStory__photo-frame {
+  box-shadow: 0 25px 55px rgba(92, 64, 29, 0.2);
+}
+
+.HomeTimelessStory__photo:hover
+  .HomeTimelessStory__photo-frame::before {
+  inset: -9px;
+  border-color: var(--HomeTimelessStory-gold);
+}
+
+.HomeTimelessStory__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center;
+
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.HomeTimelessStory__photo:hover .HomeTimelessStory__image {
+  transform: scale(1.025);
+}
+
+/* Center typography */
+
+.HomeTimelessStory__content {
+  position: relative;
+  z-index: 3;
+
+  width: 100%;
+  max-width: 600px;
+  justify-self: center;
+
+  text-align: center;
+
+  opacity: 0;
+  animation: HomeTimelessStory-content-rise 1s 0.45s ease-out forwards;
+}
+
+.HomeTimelessStory__eyebrow {
+  margin: 0 0 20px;
+
+  color: var(--HomeTimelessStory-gold);
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(12px, 1vw, 17px);
+  font-weight: 400;
+  letter-spacing: 0.27em;
+  line-height: 1.8;
+}
+
+.HomeTimelessStory__camera-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+
+  margin-bottom: 18px;
+
+  color: var(--HomeTimelessStory-gold);
+}
+
+.HomeTimelessStory__camera-divider span {
+  width: 54px;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--HomeTimelessStory-gold)
+  );
+}
+
+.HomeTimelessStory__camera-divider span:last-child {
+  transform: rotate(180deg);
+}
+
+.HomeTimelessStory__camera-divider svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.HomeTimelessStory__title {
+  margin: 0;
+
+  color: #201e1d;
+
+  font-family: "Bodoni MT", Didot, "Times New Roman", serif;
+  font-size: clamp(38px, 3.45vw, 68px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.HomeTimelessStory__title span {
+  color: var(--HomeTimelessStory-gold);
+
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 1.08em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+.HomeTimelessStory__description {
+  max-width: 470px;
+  margin: 24px auto 0;
+
+  color: #68625c;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 1.05vw, 18px);
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+/* Decorative divider */
+
+.HomeTimelessStory__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 76%;
+  margin: 24px auto 28px;
+
+  color: var(--HomeTimelessStory-gold);
+}
+
+.HomeTimelessStory__ornament span {
+  flex: 1;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #c9944c,
+    transparent
+  );
+}
+
+.HomeTimelessStory__ornament svg {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: 22px;
+}
+
+/* Booking button */
+
+.HomeTimelessStory__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+
+  min-height: 59px;
+  padding: 16px 34px;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+
+  background: linear-gradient(120deg, #c87922, #b96616);
+  box-shadow: 0 8px 22px rgba(165, 93, 25, 0.14);
+
+  color: #fffaf0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 1.05vw, 18px);
+  text-decoration: none;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.HomeTimelessStory__button:hover {
+  transform: translateY(-3px);
+
+  background: linear-gradient(120deg, #d58a34, #aa5811);
+  box-shadow: 0 13px 28px rgba(165, 93, 25, 0.24);
+}
+
+.HomeTimelessStory__button:focus-visible {
+  outline: 3px solid #8d571f;
+  outline-offset: 5px;
+}
+
+.HomeTimelessStory__button svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+
+  transition: transform 0.3s ease;
+}
+
+.HomeTimelessStory__button:hover svg {
+  transform: translateX(5px);
+}
+
+/* Gold botanical leaves */
+
+.HomeTimelessStory__leaf {
+  position: absolute;
+  z-index: 1;
+
+  width: clamp(85px, 10vw, 160px);
+
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: bottom center;
+
+  animation:
+    HomeTimelessStory-leaf-enter 1.3s ease-out forwards,
+    HomeTimelessStory-leaf-float 6s 1.3s ease-in-out infinite;
+}
+
+.HomeTimelessStory__leaf svg {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  overflow: visible;
+
+  filter: drop-shadow(0 5px 7px rgba(140, 95, 36, 0.08));
+}
+
+.HomeTimelessStory__leaf--left-top {
+  top: 1%;
+  left: 26%;
+  animation-delay: 0.4s, 1.7s;
+}
+
+.HomeTimelessStory__leaf--right-top {
+  top: 1%;
+  right: 26%;
+  transform: scaleX(-1);
+  animation-delay: 0.6s, 1.9s;
+}
+
+.HomeTimelessStory__leaf--left-bottom {
+  bottom: -3%;
+  left: 28%;
+  transform: rotate(28deg);
+  animation-delay: 0.75s, 2.05s;
+}
+
+.HomeTimelessStory__leaf--right-bottom {
+  right: 28%;
+  bottom: -3%;
+  transform: scaleX(-1) rotate(28deg);
+  animation-delay: 0.9s, 2.2s;
+}
+
+/* Floating gold particles */
+
+.HomeTimelessStory__gold-particle {
+  position: absolute;
+  z-index: 1;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+  background: #c68a37;
+  box-shadow: 0 0 12px rgba(198, 138, 55, 0.35);
+
+  pointer-events: none;
+
+  animation: HomeTimelessStory-particle 4s ease-in-out infinite;
+}
+
+.HomeTimelessStory__gold-particle--one {
+  top: 12%;
+  left: 46%;
+}
+
+.HomeTimelessStory__gold-particle--two {
+  right: 46%;
+  bottom: 17%;
+  animation-delay: 1s;
+}
+
+.HomeTimelessStory__gold-particle--three {
+  top: 29%;
+  right: 30%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.8s;
+}
+
+/* Animations */
+
+@keyframes HomeTimelessStory-photo-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-65px) scale(0.97);
+    filter: blur(5px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(5px) scale(1);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes HomeTimelessStory-content-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes HomeTimelessStory-leaf-enter {
+  0% {
+    opacity: 0;
+    translate: 0 -25px;
+  }
+
+  100% {
+    opacity: 0.82;
+    translate: 0 0;
+  }
+}
+
+@keyframes HomeTimelessStory-leaf-float {
+  0%,
+  100% {
+    margin-top: 0;
+    rotate: -2deg;
+  }
+
+  50% {
+    margin-top: -12px;
+    rotate: 3deg;
+  }
+}
+
+@keyframes HomeTimelessStory-particle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0) scale(0.8);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: translateY(-14px) scale(1.25);
+  }
+}
+
+/* Laptop screens */
+
+@media (max-width: 1200px) {
+  .HomeTimelessStory {
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(300px, 1.15fr)
+      minmax(0, 0.9fr);
+
+    gap: 25px;
+    min-height: 650px;
+    padding: 65px 32px;
+  }
+
+  .HomeTimelessStory__photo-frame {
+    height: clamp(350px, 43vw, 500px);
+  }
+
+  .HomeTimelessStory__title {
+    font-size: clamp(36px, 4vw, 53px);
+  }
+
+  .HomeTimelessStory__description {
+    font-size: 15px;
+  }
+
+  .HomeTimelessStory__leaf--left-top {
+    left: 24%;
+  }
+
+  .HomeTimelessStory__leaf--right-top {
+    right: 24%;
+  }
+}
+
+/* Tablet layout */
+
+@media (max-width: 900px) {
+  .HomeTimelessStory {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 34px 24px;
+
+    min-height: auto;
+    padding: 60px 28px 65px;
+  }
+
+  .HomeTimelessStory__content {
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .HomeTimelessStory__photo--left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .HomeTimelessStory__photo--right {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .HomeTimelessStory__photo-frame {
+    height: clamp(330px, 57vw, 490px);
+  }
+
+  .HomeTimelessStory__title {
+    font-size: clamp(43px, 7vw, 66px);
+  }
+
+  .HomeTimelessStory__description {
+    max-width: 520px;
+    font-size: 16px;
+  }
+
+  .HomeTimelessStory__leaf--left-top {
+    top: 3%;
+    left: 4%;
+  }
+
+  .HomeTimelessStory__leaf--right-top {
+    top: 3%;
+    right: 4%;
+  }
+
+  .HomeTimelessStory__leaf--left-bottom {
+    bottom: 2%;
+    left: 3%;
+  }
+
+  .HomeTimelessStory__leaf--right-bottom {
+    right: 3%;
+    bottom: 2%;
+  }
+}
+
+/* Mobile layout */
+
+@media (max-width: 560px) {
+  .HomeTimelessStory {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+
+    padding: 50px 22px 42px;
+  }
+
+  .HomeTimelessStory__content {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+  }
+
+  .HomeTimelessStory__photo--left {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .HomeTimelessStory__photo--right {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .HomeTimelessStory__eyebrow {
+    margin-bottom: 13px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+
+  .HomeTimelessStory__camera-divider {
+    margin-bottom: 13px;
+  }
+
+  .HomeTimelessStory__title {
+    font-size: clamp(35px, 9vw, 48px);
+    line-height: 1.12;
+  }
+
+  .HomeTimelessStory__description {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .HomeTimelessStory__ornament {
+    margin: 20px auto 23px;
+  }
+
+  .HomeTimelessStory__button {
+    min-height: 53px;
+    padding: 14px 25px;
+    font-size: 15px;
+  }
+
+  .HomeTimelessStory__photo-frame {
+    height: auto;
+    aspect-ratio: 0.88;
+    max-height: 500px;
+  }
+
+  .HomeTimelessStory__leaf {
+    width: 75px;
+  }
+
+  .HomeTimelessStory__leaf--left-top {
+    top: 0;
+    left: -12px;
+  }
+
+  .HomeTimelessStory__leaf--right-top {
+    top: 0;
+    right: -12px;
+  }
+
+  .HomeTimelessStory__leaf--left-bottom {
+    left: -14px;
+    bottom: 2%;
+  }
+
+  .HomeTimelessStory__leaf--right-bottom {
+    right: -14px;
+    bottom: 2%;
+  }
+
+  .HomeTimelessStory__gold-particle--one {
+    top: 8%;
+    left: 15%;
+  }
+
+  .HomeTimelessStory__gold-particle--two {
+    right: 15%;
+    bottom: 13%;
+  }
+}
+
+/* Small mobile screens */
+
+@media (max-width: 360px) {
+  .HomeTimelessStory {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .HomeTimelessStory__title {
+    font-size: 32px;
+  }
+
+  .HomeTimelessStory__eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+
+  .HomeTimelessStory__button {
+    gap: 12px;
+    padding: 13px 19px;
+  }
+}
+
+/* Accessibility: respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .HomeTimelessStory__photo,
+  .HomeTimelessStory__content,
+  .HomeTimelessStory__leaf,
+  .HomeTimelessStory__gold-particle {
+    animation: none !important;
+    opacity: 1;
+    filter: none;
+  }
+
+  .HomeTimelessStory__photo-frame,
+  .HomeTimelessStory__image,
+  .HomeTimelessStory__button {
+    transition: none;
+  }
+}

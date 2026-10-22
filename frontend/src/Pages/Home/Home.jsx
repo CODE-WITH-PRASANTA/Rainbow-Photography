@@ -9,12 +9,14 @@ import HomeWedingClicks from '../../Components/HomeWeddingClicks/HomeWeddingClic
 import HomePricing from '../../Components/HomePricing/HomePricing'
 import HomeScoring from '../../Components/HomeScoring/HomeScoring'
 import HomeNews from '../../Components/HomeNews/HomeNews'
+import HomeTimelessStory from '../../Components/HomeTimelessStory/HomeTimelessStory'
 
 const Home = () => {
   return (
     <div>
       <HomeHeroSection />
       <HomeGallerySection />
+      <HomeTimelessStory/>
       <HomeAboutSection />
       <HomeServiceSection />
       <HomeHeading />

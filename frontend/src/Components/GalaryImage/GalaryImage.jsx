@@ -205,7 +205,7 @@ const GalaryImage = () => {
         </span>
 
         <h2 className="galaryimage--title">
-          Our Beautiful <span>Gallery</span>
+          Our Beautiful <span>Show Case</span>
         </h2>
 
         <p className="galaryimage--description">

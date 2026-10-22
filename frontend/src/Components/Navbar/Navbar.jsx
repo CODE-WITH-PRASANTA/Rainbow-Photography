@@ -6,8 +6,9 @@ import logo from "../../assets/logo-bg.png";
 const navItems = [
   { name: "Home", path: "/", end: true },
   { name: "About", path: "/about" },
-  { name: "Gallery", path: "/gallery" },
-  { name: "Package", path: "/package" },
+  { name: "Show Case", path: "/gallery" },
+  { name: "Pricing", path: "/package" },
+  { name: "Service", path: "/service" },
   { name: "FAQ", path: "/faq" },
   { name: "Contact", path: "/contact" },
 ];
