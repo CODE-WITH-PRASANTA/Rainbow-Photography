@@ -22,7 +22,7 @@ import Contact from "./Pages/Contact/Contact";
 import MainFaq from "./Pages/MainFaq/MainFaq";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
-
+ 
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
   const { pathname } = useLocation();
