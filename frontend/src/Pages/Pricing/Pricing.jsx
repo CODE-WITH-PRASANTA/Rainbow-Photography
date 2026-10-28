@@ -1,14 +1,16 @@
 import React from 'react'
 import PricingBreadcrum from '../../Components/PricingBreadcrum/PricingBreadcrum'
-import Package from '../../Components/Package/Package'
-import WeddingCompanies from'../../Components/WeddingCompanies/WeddingCompanies'
+import PackageMemories from '../../Components/PackageMemories/PackageMemories'
+import PricingMain from '../../Components/PricingMain/PricingMain'
+import PricingFaq from '../../Components/PricingFaq/PricingFaq'
 
 const Pricing = () => {
   return (
     <div>
       <PricingBreadcrum/>
-      <Package/>
-      <WeddingCompanies/>
+      <PackageMemories/>
+      <PricingMain/>
+      <PricingFaq/>
     </div>
   )
 }

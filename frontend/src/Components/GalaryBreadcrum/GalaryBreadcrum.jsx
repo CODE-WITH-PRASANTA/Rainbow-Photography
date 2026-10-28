@@ -9,12 +9,12 @@ const GalaryBreadcrum = () => {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="gbread-overlay">
-        <h1 className="gbread-title">OUR GALLERY</h1>
+        <h1 className="gbread-title">OUR SHOW CASE</h1>
 
         <div className="gbread-path">
           <span>Home</span>
           <span>›</span>
-          <span>Gallery</span>
+          <span>Show Case</span>
         </div>
       </div>
     </section>

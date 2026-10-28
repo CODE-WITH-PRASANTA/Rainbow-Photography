@@ -1,0 +1,748 @@
+/* =========================================
+   PRICING FAQ — PREMIUM WEDDING THEME
+========================================= */
+
+.PricingFaq {
+  --PricingFaq-gold: #c58a3a;
+  --PricingFaq-gold-dark: #9c641f;
+  --PricingFaq-gold-light: #f0d3a4;
+  --PricingFaq-ink: #242321;
+  --PricingFaq-muted: #77736d;
+  --PricingFaq-cream: #fbf5e9;
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: clamp(60px, 7vw, 100px) clamp(22px, 5vw, 85px) 55px;
+  overflow: hidden;
+  color: var(--PricingFaq-ink);
+  background: var(--PricingFaq-cream);
+  box-sizing: border-box;
+}
+
+.PricingFaq *,
+.PricingFaq *::before,
+.PricingFaq *::after {
+  box-sizing: border-box;
+}
+
+/* Background layers */
+
+.PricingFaq__background {
+  position: absolute;
+  z-index: -5;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 45% 45%,
+      rgba(255, 255, 255, .98) 0%,
+      rgba(255, 252, 245, .96) 43%,
+      rgba(250, 239, 220, .84) 100%
+    ),
+    linear-gradient(
+      115deg,
+      #f0dfc4 0%,
+      #fffaf1 26%,
+      #fffdf9 56%,
+      #f4e5ce 100%
+    );
+}
+
+.PricingFaq__glow {
+  position: absolute;
+  z-index: -4;
+  width: 300px;
+  height: 350px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .18;
+  pointer-events: none;
+}
+
+.PricingFaq__glow--left {
+  top: 10%;
+  left: -200px;
+  background: #d6a75e;
+}
+
+.PricingFaq__glow--right {
+  right: -180px;
+  bottom: 0;
+  background: #d6b27d;
+}
+
+/* Main two-column layout */
+
+.PricingFaq__container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(290px, .82fr) minmax(0, 1.65fr);
+  align-items: center;
+  gap: clamp(35px, 5vw, 95px);
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* Left side */
+
+.PricingFaq__intro {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 470px;
+  justify-self: center;
+  opacity: 0;
+  animation: PricingFaq-intro-enter .9s .12s ease-out forwards;
+}
+
+.PricingFaq__eyebrow {
+  margin: 0 0 14px;
+  color: var(--PricingFaq-gold);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .24em;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.PricingFaq__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 17px;
+  color: var(--PricingFaq-gold);
+}
+
+.PricingFaq__ornament span {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--PricingFaq-gold)
+  );
+}
+
+.PricingFaq__ornament span:last-child {
+  transform: rotate(180deg);
+}
+
+.PricingFaq__ornament svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+
+.PricingFaq__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  color: #202020;
+  font-family: "Bodoni MT", Didot, "Times New Roman", serif;
+  font-size: clamp(43px, 4.1vw, 70px);
+  font-weight: 400;
+  letter-spacing: -.055em;
+  line-height: .98;
+  text-align: center;
+}
+
+.PricingFaq__title span {
+  margin-top: 5px;
+  color: var(--PricingFaq-gold-dark);
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 1.15em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.035em;
+  line-height: 1.05;
+}
+
+.PricingFaq__description {
+  margin: 24px 0 0;
+  color: #77736d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.85;
+  text-align: left;
+}
+
+.PricingFaq__contact-link {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 22px;
+  color: #77736d;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+.PricingFaq__contact-link span {
+  color: var(--PricingFaq-gold-dark);
+  font-weight: 700;
+}
+
+.PricingFaq__contact-link svg {
+  width: 17px;
+  height: 17px;
+  margin-left: 5px;
+  color: var(--PricingFaq-gold-dark);
+  transition: transform .3s ease;
+}
+
+.PricingFaq__contact-link:hover {
+  color: var(--PricingFaq-gold-dark);
+}
+
+.PricingFaq__contact-link:hover svg {
+  transform: translateX(5px);
+}
+
+/* Right side FAQ list */
+
+.PricingFaq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Individual accordion card */
+
+.PricingFaq__item {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(207, 154, 83, .58);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .45);
+  box-shadow: 0 3px 12px rgba(129, 91, 39, .025);
+
+  opacity: 0;
+  animation: PricingFaq-item-enter .7s ease-out forwards;
+  animation-delay: calc(.18s + var(--PricingFaq-item-index) * .12s);
+
+  transition:
+    border-color .3s ease,
+    background-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.PricingFaq__item--open {
+  border-color: var(--PricingFaq-gold);
+  background: rgba(255, 253, 248, .96);
+  box-shadow: 0 9px 28px rgba(129, 91, 39, .09);
+}
+
+/* Question row */
+
+.PricingFaq__question {
+  position: relative;
+  display: grid;
+  grid-template-columns: 45px 35px minmax(0, 1fr) 25px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 91px;
+  padding: 16px 22px;
+  border: none;
+  color: var(--PricingFaq-ink);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.PricingFaq__question:focus-visible {
+  outline: 2px solid var(--PricingFaq-gold);
+  outline-offset: -4px;
+  border-radius: 10px;
+}
+
+/* Plus icon */
+
+.PricingFaq__plus {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 50%;
+  background: linear-gradient(
+    145deg,
+    #e9b66e,
+    #ca8d3e 55%,
+    #b6792d
+  );
+  box-shadow:
+    0 5px 13px rgba(165, 107, 34, .18),
+    inset 0 1px 1px rgba(255, 255, 255, .45);
+  transition:
+    background .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
+}
+
+.PricingFaq__plus span {
+  position: absolute;
+  width: 17px;
+  height: 2px;
+  border-radius: 3px;
+  background: #fff;
+  transition: transform .3s ease;
+}
+
+.PricingFaq__plus span:last-child {
+  transform: rotate(90deg);
+}
+
+.PricingFaq__item--open .PricingFaq__plus {
+  background: linear-gradient(
+    145deg,
+    #bd853b,
+    #9b621f
+  );
+  box-shadow: 0 5px 14px rgba(165, 107, 34, .24);
+}
+
+.PricingFaq__item--open .PricingFaq__plus span:last-child {
+  transform: rotate(0deg);
+}
+
+/* Question number */
+
+.PricingFaq__number {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  justify-content: center;
+  border-right: 1px solid rgba(197, 138, 58, .65);
+  color: var(--PricingFaq-gold-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Question text */
+
+.PricingFaq__question-text {
+  position: relative;
+  z-index: 1;
+  color: #292725;
+  font-family: "Bodoni MT", Didot, "Times New Roman", serif;
+  font-size: clamp(16px, 1.45vw, 23px);
+  font-weight: 500;
+  line-height: 1.5;
+  transition: color .3s ease;
+}
+
+.PricingFaq__item--open .PricingFaq__question-text {
+  color: var(--PricingFaq-gold-dark);
+}
+
+/* Chevron */
+
+.PricingFaq__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--PricingFaq-gold-dark);
+  transition: transform .35s ease;
+}
+
+.PricingFaq__chevron svg {
+  display: block;
+  width: 23px;
+  height: 23px;
+}
+
+.PricingFaq__item--open .PricingFaq__chevron {
+  transform: rotate(180deg);
+}
+
+/* Expandable answer */
+
+.PricingFaq__answer-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows .4s ease,
+    opacity .3s ease;
+}
+
+.PricingFaq__item--open .PricingFaq__answer-wrapper {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.PricingFaq__answer-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.PricingFaq__answer {
+  margin: 0 25px 0 116px;
+  padding: 0 0 23px;
+  color: #77736d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.PricingFaq__item--open .PricingFaq__answer {
+  animation: PricingFaq-answer-enter .35s ease-out both;
+}
+
+/* Decorative floating leaves */
+
+.PricingFaq__botanical {
+  position: absolute;
+  z-index: -1;
+  width: clamp(95px, 12vw, 180px);
+  pointer-events: none;
+  opacity: .68;
+  transform-origin: center;
+  animation: PricingFaq-leaf-float 8s ease-in-out infinite;
+}
+
+.PricingFaq__leaf-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 4px 7px rgba(121, 82, 32, .06));
+}
+
+.PricingFaq__botanical--left {
+  top: 2%;
+  left: -28px;
+  animation-delay: -.7s;
+}
+
+.PricingFaq__botanical--left .PricingFaq__leaf-svg {
+  transform: rotate(-15deg);
+}
+
+.PricingFaq__botanical--right {
+  right: -32px;
+  bottom: 4%;
+  width: clamp(110px, 15vw, 210px);
+  animation-delay: -3.5s;
+}
+
+.PricingFaq__botanical--right .PricingFaq__leaf-svg {
+  transform: scaleX(-1) rotate(-10deg);
+}
+
+/* Bottom ornament */
+
+.PricingFaq__bottom-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 43px auto 0;
+  color: var(--PricingFaq-gold);
+  opacity: .65;
+}
+
+.PricingFaq__bottom-ornament span {
+  width: 45px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.PricingFaq__bottom-ornament span:last-child {
+  transform: rotate(180deg);
+}
+
+.PricingFaq__bottom-ornament svg {
+  display: block;
+  width: 17px;
+  height: 17px;
+}
+
+/* Animations */
+
+@keyframes PricingFaq-intro-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes PricingFaq-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes PricingFaq-answer-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes PricingFaq-leaf-float {
+  0%, 100% {
+    translate: 0 0;
+    rotate: -2deg;
+  }
+  25% {
+    translate: 3px -8px;
+    rotate: 1deg;
+  }
+  50% {
+    translate: 0 -14px;
+    rotate: 3deg;
+  }
+  75% {
+    translate: -3px -6px;
+    rotate: 0deg;
+  }
+}
+
+/* Hover devices: subtle premium interaction */
+
+@media (hover: hover) and (pointer: fine) {
+  .PricingFaq__item:hover {
+    border-color: var(--PricingFaq-gold);
+    background: rgba(255, 253, 248, .95);
+    box-shadow: 0 7px 20px rgba(129, 91, 39, .075);
+  }
+
+  .PricingFaq__item:not(.PricingFaq__item--open):hover
+    .PricingFaq__plus {
+    transform: scale(1.06);
+  }
+
+  .PricingFaq__question:hover .PricingFaq__question-text {
+    color: var(--PricingFaq-gold-dark);
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 1024px) {
+  .PricingFaq {
+    padding: 65px 32px 45px;
+  }
+
+  .PricingFaq__container {
+    grid-template-columns: minmax(240px, .8fr) minmax(0, 1.35fr);
+    gap: 32px;
+  }
+
+  .PricingFaq__title {
+    font-size: clamp(40px, 5vw, 56px);
+  }
+
+  .PricingFaq__description {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .PricingFaq__question {
+    grid-template-columns: 38px 30px minmax(0, 1fr) 21px;
+    gap: 9px;
+    min-height: 80px;
+    padding: 14px;
+  }
+
+  .PricingFaq__plus {
+    width: 37px;
+    height: 37px;
+  }
+
+  .PricingFaq__number {
+    font-size: 17px;
+  }
+
+  .PricingFaq__question-text {
+    font-size: 17px;
+  }
+
+  .PricingFaq__answer {
+    margin-left: 94px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .PricingFaq {
+    padding: 54px 20px 35px;
+  }
+
+  .PricingFaq__container {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 39px;
+    max-width: 560px;
+  }
+
+  .PricingFaq__intro {
+    max-width: 470px;
+  }
+
+  .PricingFaq__eyebrow {
+    font-size: 11px;
+  }
+
+  .PricingFaq__title {
+    font-size: clamp(42px, 10vw, 58px);
+  }
+
+  .PricingFaq__description {
+    max-width: 480px;
+    margin: 20px auto 0;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .PricingFaq__contact-link {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .PricingFaq__list {
+    gap: 12px;
+  }
+
+  .PricingFaq__question {
+    grid-template-columns: 37px 27px minmax(0, 1fr) 20px;
+    gap: 8px;
+    min-height: 75px;
+    padding: 13px;
+  }
+
+  .PricingFaq__plus {
+    width: 35px;
+    height: 35px;
+  }
+
+  .PricingFaq__plus span {
+    width: 14px;
+  }
+
+  .PricingFaq__number {
+    font-size: 16px;
+  }
+
+  .PricingFaq__question-text {
+    font-size: clamp(15px, 3.8vw, 18px);
+    line-height: 1.45;
+  }
+
+  .PricingFaq__chevron svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .PricingFaq__answer {
+    margin: 0 18px 0 85px;
+    padding-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .PricingFaq__botanical--left {
+    top: 0;
+    left: -40px;
+    width: 95px;
+  }
+
+  .PricingFaq__botanical--right {
+    right: -35px;
+    bottom: 2%;
+    width: 100px;
+  }
+
+  .PricingFaq__bottom-ornament {
+    margin-top: 30px;
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 380px) {
+  .PricingFaq {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .PricingFaq__question {
+    grid-template-columns: 31px 24px minmax(0, 1fr) 17px;
+    gap: 6px;
+    padding: 11px 9px;
+  }
+
+  .PricingFaq__plus {
+    width: 30px;
+    height: 30px;
+  }
+
+  .PricingFaq__number {
+    font-size: 14px;
+  }
+
+  .PricingFaq__question-text {
+    font-size: 14px;
+  }
+
+  .PricingFaq__answer {
+    margin-left: 70px;
+    margin-right: 12px;
+    font-size: 12px;
+  }
+}
+
+/* Accessibility: respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .PricingFaq__intro,
+  .PricingFaq__item,
+  .PricingFaq__botanical {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .PricingFaq__item,
+  .PricingFaq__plus,
+  .PricingFaq__chevron,
+  .PricingFaq__contact-link svg {
+    transition: none;
+  }
+
+  .PricingFaq__answer-wrapper {
+    transition: none;
+  }
+}
