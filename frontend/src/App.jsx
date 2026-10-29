@@ -22,6 +22,7 @@ import Contact from "./Pages/Contact/Contact";
 import MainFaq from "./Pages/MainFaq/MainFaq";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
+import Servicemain from "./Pages/Servicemain/Servicemain";
 
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/package" element={<Pricing />} />
         <Route path="/faq" element={<MainFaq />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/servicemain" element={<Servicemain />}/>
       </Routes>
 
       {/* Common Footer Sections */}
@@ -62,7 +64,9 @@ function App() {
       <Footer />
       <FloatingIcons/>
       <FloatingForm/>
+      
     </BrowserRouter>
+     
   );
 }
 

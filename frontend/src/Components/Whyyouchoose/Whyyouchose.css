@@ -1,0 +1,194 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.why-choose-us {
+  width: 100%;
+  margin-top: 6rem;      /* Space from the component above */
+  margin-bottom: 5rem;   /* Small space below */
+  padding: 32px 5% 50px;
+  box-sizing: border-box;
+  background: #fafafa;
+  font-family: "Poppins", sans-serif;
+  color: #080808;
+}
+
+.why-container {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+}
+
+/* MAIN HEADING */
+
+.why-heading {
+  margin: 0 0 40px;
+  text-align: center;
+  font-size: clamp(27px, 2.3vw, 35px);
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* THREE FEATURE COLUMNS */
+
+.why-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 38px;
+  align-items: start;
+}
+
+.why-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+  padding: 0 10px;
+  animation: whyFadeIn 0.8s ease both;
+}
+
+.why-feature:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.why-feature:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ICONS */
+
+.why-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 17px;
+  transition: transform 0.35s ease;
+}
+
+.why-feature:hover .why-icon-wrapper {
+  transform: translateY(-7px) scale(1.04);
+}
+
+.why-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* FEATURE TITLES */
+
+.why-feature-title {
+  margin: 0 0 17px;
+  font-size: clamp(18px, 1.6vw, 27px);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* FEATURE DESCRIPTIONS */
+
+.why-feature-description {
+  max-width: 430px;
+  margin: 0;
+  font-size: clamp(14px, 1.2vw, 20px);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+/* ENTRY ANIMATION */
+
+@keyframes whyFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TABLETS */
+
+@media (max-width: 900px) {
+  .why-choose-us {
+    padding: 35px 4% 55px;
+  }
+
+  .why-features {
+    gap: 20px;
+  }
+
+  .why-icon-wrapper {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 18px;
+  }
+
+  .why-feature {
+    padding: 0 5px;
+  }
+
+  .why-feature-title {
+    font-size: 19px;
+  }
+
+  .why-feature-description {
+    font-size: 14px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .why-choose-us {
+    padding: 35px 20px 45px;
+  }
+
+  .why-heading {
+    margin-bottom: 35px;
+    font-size: 28px;
+  }
+
+  .why-features {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .why-feature {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .why-icon-wrapper {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 15px;
+  }
+
+  .why-feature-title {
+    margin-bottom: 12px;
+    font-size: 21px;
+  }
+
+  .why-feature-description {
+    max-width: 360px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .why-feature {
+    animation: none;
+  }
+
+  .why-icon-wrapper {
+    transition: none;
+  }
+}
