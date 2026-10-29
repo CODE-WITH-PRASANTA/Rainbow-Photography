@@ -23,6 +23,9 @@ import MainFaq from "./Pages/MainFaq/MainFaq";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
  
+import Servicemain from "./Pages/Servicemain/Servicemain";
+import EnquireForm from "./Components/EnquireForm/EnquireForm";
+
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -55,6 +58,7 @@ function App() {
         <Route path="/package" element={<Pricing />} />
         <Route path="/faq" element={<MainFaq />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/servicemain" element={<Servicemain />}/>
       </Routes>
 
       {/* Common Footer Sections */}
@@ -62,7 +66,10 @@ function App() {
       <Footer />
       <FloatingIcons/>
       <FloatingForm/>
+      <EnquireForm />
+      
     </BrowserRouter>
+     
   );
 }
 
