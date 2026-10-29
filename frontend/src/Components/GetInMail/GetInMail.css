@@ -14,7 +14,7 @@
 
   position: relative;
   overflow: hidden;
-  padding: 40px 6% 50px;
+  padding: 80px 6% 50px;
   background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
   font-family: "Poppins", sans-serif;
   color: var(--text);
@@ -54,7 +54,7 @@
 /* ================= HEADING ================= */
 .rp-head {
   text-align: center;
-  max-width: 760px;
+  max-width: 1000px;
   margin: 0 auto 50px;
 }
 .rp-eyebrow {
@@ -100,7 +100,8 @@
   font-size: 20px;
   line-height: 1.8;
   color: var(--muted);
-  margin: 0;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 /* ================= GRID ================= */
@@ -386,7 +387,8 @@ a.rp-item:hover {
   transition: all 0.3s ease;
 }
 .rp-btn-primary {
-  flex: 1 1 220px;
+  flex: 1 1 auto;
+  min-width: 200px;
   border: none;
   color: #fff;
   background: linear-gradient(135deg, #b9791f, var(--brown) 55%, var(--brown-dark));
@@ -484,6 +486,8 @@ a.rp-item:hover {
 @media (max-width: 768px) {
   .rp-head { margin-bottom: 50px; }
   .rp-lead { font-size: 18px; }
+  .rp-title { white-space: normal; }
+  .rp-title span { display: block; margin: 4px 0 0; }
   .rp-row { grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
 }
 
@@ -499,7 +503,9 @@ a.rp-item:hover {
   .rp-stats strong { font-size: 22px; }
   .rp-stats span { font-size: 10px; letter-spacing: 1px; }
   .rp-actions { flex-direction: column; }
-  .rp-btn { width: 100%; padding: 15px 20px; }
+  .rp-actions { gap: 12px; }
+  .rp-btn { width: 100%; padding: 15px 20px; font-size: 13px; letter-spacing: 1.5px; }
+  .rp-btn-primary { flex: none; min-width: 0; }
   .rp-divider i { width: 50px; }
   .rp-eyebrow { letter-spacing: 4px; font-size: 12px; }
 }
