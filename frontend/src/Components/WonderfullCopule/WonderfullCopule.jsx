@@ -7,7 +7,6 @@ import event2 from "../../assets/Price-2.webp";
 import floral from "../../assets/iconflowers-3.webp";
 
 const WonderfullCopule = () => {
-  // ✅ component base class
   const base = "wonderful-couple";
 
   useEffect(() => {
@@ -19,58 +18,78 @@ const WonderfullCopule = () => {
           if (e.isIntersecting) e.target.classList.add(`${base}__show`);
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [base]);
 
   return (
-    <section className={base}>
+    <section className={base} aria-labelledby="featured-story-title">
       {/* Decorative right floral */}
-      <img src={floral} alt="" className={`${base}__floral`} />
+      <img
+        src={floral}
+        alt=""
+        aria-hidden="true"
+        className={`${base}__floral`}
+        loading="lazy"
+      />
 
-      {/* Watermark */}
-      <div className={`${base}__watermark`}>WENDOLA</div>
+      {/* Watermark branding */}
+      <div className={`${base}__watermark`} aria-hidden="true">
+        RAINBOW
+      </div>
 
       <div className={`${base}__container`}>
         <div className={`${base}__grid`}>
-          {/* LEFT */}
+          {/* LEFT COLUMN */}
           <div className={`${base}__left ${base}__animate`}>
             <div className={`${base}__imgSmall`}>
-              <img src={event1} alt="Wedding couple" />
+              <img
+                src={event1}
+                alt="Romantic portrait of an intimate wedding couple by Rainbow Photography"
+                loading="lazy"
+              />
             </div>
 
             <div className={`${base}__quote`}>
+              <span className={`${base}__tag`}>FEATURED LOVE STORY</span>
               <p>
-                TODAY, WE CELEBRATE THE LOVE
+                TWO SOULS, ONE HEARTBEAT.
                 <br />
-                AND COMMITMENT OF THIS
+                EVERY FRAME WE CAPTURE IS A
                 <br />
-                WONDERFUL COUPLE.
+                POEM OF ETERNAL PROMISES.
               </p>
 
-              <button className={`${base}__btn`} type="button">
-                VIEW MAP
-              </button>
+              <a
+                href="#portfolio"
+                className={`${base}__btn`}
+                aria-label="Explore more featured wedding stories and gallery"
+              >
+                <span>VIEW GALLERY</span>
+              </a>
             </div>
           </div>
 
-          {/* RIGHT */}
+          {/* RIGHT COLUMN */}
           <div className={`${base}__right`}>
             <div className={`${base}__text ${base}__animate`}>
+              <h2 id="featured-story-title" className={`${base}__heading`}>
+                Framing Pure Emotion, Lighting & Love
+              </h2>
+
               <p className={`${base}__desc`}>
-                From the vibrant flowers and trees to the gently flowing streams,
-                this park provides the perfect backdrop for the joyous occasion.
-                As we stand here today, surrounded by the beauty of this park, we
-                are reminded of the enduring power of the love.
+                From the gentle morning prep jitters to the triumphant sacred vows,
+                Rainbow Photography preserves every subtle nuance with delicate artistic care.
+                We craft evocative, cinematic visual heirlooms where natural light, genuine
+                unscripted laughter, and timeless romance shine effortlessly.
               </p>
 
               <div className={`${base}__time`}>
                 <span className={`${base}__clock`} aria-hidden="true">
-                  {/* simple clock icon */}
-                  <svg viewBox="0 0 24 24" width="22" height="22">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
                     <path
                       d="M12 8v5l3 2"
                       fill="none"
@@ -90,13 +109,17 @@ const WonderfullCopule = () => {
                   </svg>
                 </span>
                 <span className={`${base}__timeText`}>
-                  10:30 AM IN THE QUARE VILLA
+                  DESTINATION & ROYAL WEDDING SPECIALISTS
                 </span>
               </div>
             </div>
 
             <div className={`${base}__imgLarge ${base}__animate`}>
-              <img src={event2} alt="Wedding ceremony" />
+              <img
+                src={event2}
+                alt="Cinematic outdoor wedding celebration captured by Rainbow Photography"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

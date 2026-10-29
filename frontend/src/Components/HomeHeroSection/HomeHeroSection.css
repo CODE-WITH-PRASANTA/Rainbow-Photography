@@ -1,277 +1,1647 @@
-/* ================= ROOT ================= */
-.weddingHero {
+
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
+
+.HomeHeroSection {
+  --hero-accent: #d9ac45;
+  --hero-accent-light: #f4d991;
+  --hero-gold-dark: #a97a1e;
+
+  --hero-gold-text: #241808;
+
+  --hero-gold-gradient: linear-gradient(
+    135deg,
+    #f8e6ae 0%,
+    #e4bb59 40%,
+    #c18f2b 75%,
+    #a97a1e 100%
+  );
+
+  --hero-gold-glow: rgba(217, 172, 69, 0.25);
+
+  --hero-text: #ffffff;
+  --hero-muted: rgba(255, 255, 255, 0.78);
+
+  --hero-ease: cubic-bezier(0.65, 0, 0.25, 1);
+
+  --hero-autoplay: 3s;
+  --hero-slide-time: 0.9s;
+
+  --hero-card-w: clamp(200px, 16vw, 310px);
+  --hero-card-gap: clamp(16px, 2vw, 38px);
+
+  --hero-card-h: calc(var(--hero-card-w) * 1.3);
+  --hero-card-h-active: calc(var(--hero-card-w) * 1.66);
+
   position: relative;
+
+  width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
+
   overflow: hidden;
-  font-family: "Playfair Display", serif;
-  background: #f7f6f3;
+  isolation: isolate;
+
+  background: #17110e;
+  color: var(--hero-text);
+
+  font-family: "Poppins", sans-serif;
 }
 
-/* ================= BG ================= */
-.weddingHero__bg {
+/* Global component reset */
+
+.HomeHeroSection *,
+.HomeHeroSection *::before,
+.HomeHeroSection *::after {
+  box-sizing: border-box;
+}
+
+.HomeHeroSection ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.HomeHeroSection button {
+  font: inherit;
+}
+
+.HomeHeroSection a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   FULL-SCREEN BACKGROUND
+========================================================= */
+
+.HomeHeroSection__backgrounds {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
-  z-index: 0;
+  z-index: -1;
+
+  overflow: hidden;
+  background: #17110e;
 }
 
-/* ================= FLOWERS ================= */
-.weddingHero__flower {
+.HomeHeroSection__background {
   position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  will-change: transform;
+  inset: 0;
+
+  overflow: hidden;
+
+  opacity: 0;
+  transform: scale(1);
+
+  transform-origin: 60% 45%;
+
+  transition:
+    opacity 1.1s ease,
+    transform 0s linear 1.1s;
+
+  will-change: opacity;
 }
 
-/* left big */
-.weddingHero__flower--leftBig {
-  left: 0;
-  top: 120px;
-  width: 440px;
-  opacity: 0.9;
-  animation: weddingFloatSlow 8s ease-in-out infinite;
+.HomeHeroSection__background:nth-child(even) {
+  transform-origin: 35% 55%;
 }
 
-/* right faded */
-.weddingHero__flower--rightFade {
-  right: 0;
-  top: 170px;
-  height: 480px;
-  width: 440px;
-  opacity: .30;
-  animation: weddingFloat 7s ease-in-out infinite;
+.HomeHeroSection__background.is-active {
+  opacity: 1;
+  transform: scale(1.1);
+
+  transition:
+    opacity 1.1s ease,
+    transform 6s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* twin */
-.weddingHero__flower--twin {
-  left: 50%;
-  bottom: 90px;
-  width: 280px;
-  opacity: 0.7;
+.HomeHeroSection__background-image {
+  display: block;
 
-  animation: weddingZoomBreath 6s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
 }
 
-/* yellow */
-.weddingHero__flower--yellow {
-  right: 370px;
-  bottom: 30px;
-  width: 130px;
-  animation: weddingFloatRotate 7s ease-in-out infinite;
-}
+/* Cinematic overlay */
 
-/* ================= FLOAT ANIMATION ================= */
-@keyframes weddingFloat {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-18px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes weddingFloatSlow {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-28px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes weddingFloatRotate {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-16px) rotate(3deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
-/* ================= TOP BAR ================= */
-.weddingHero__topBar {
+.HomeHeroSection__overlay {
   position: absolute;
-  top: 118px;
-  right: 30px;
-  z-index: 3;
+  inset: 0;
 
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  background: #eae7df;
-  padding: 10px 18px;
-  border-radius: 40px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 8, 6, 0.94) 0%,
+      rgba(12, 8, 6, 0.82) 28%,
+      rgba(12, 8, 6, 0.62) 48%,
+      rgba(12, 8, 6, 0.25) 76%,
+      rgba(12, 8, 6, 0.38) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(12, 8, 6, 0.72) 0%,
+      transparent 48%,
+      rgba(12, 8, 6, 0.2) 100%
+    );
 }
 
-.weddingHero__contact {
-  display: flex;
-  gap: 20px;
-  font-size: 14px;
-  color: #555;
-  font-family: Inter, sans-serif;
-}
+/* =========================================================
+   LEFT VERTICAL TIMELINE
+========================================================= */
 
-.weddingHero__contactItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.HomeHeroSection__timeline {
+  position: absolute;
 
-/* ================= SOCIAL ICONS ================= */
-.weddingHero__social {
-  display: flex;
-  gap: 10px;
-}
+  top: 50%;
+  left: clamp(14px, 2.2vw, 40px);
 
-.weddingHero__socialBtn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: none;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  font-size: 15px;
-  transition: all .35s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-/* lift */
-.weddingHero__socialBtn:hover {
-  transform: translateY(-4px) scale(1.05);
-}
-
-/* facebook */
-.weddingHero__socialBtn--facebook:hover {
-  background: #1877f2;
-  color: #fff;
-  box-shadow: 0 10px 25px rgba(24,119,242,.35);
-}
-
-/* google */
-.weddingHero__socialBtn--google:hover {
-  background: #ea4335;
-  color: #fff;
-  box-shadow: 0 10px 25px rgba(234,67,53,.35);
-}
-
-/* close */
-.weddingHero__socialBtn--close:hover {
-  background: #111;
-  color: #fff;
-  transform: rotate(90deg) scale(1.05);
-}
-
-/* ================= CONTENT ================= */
-.weddingHero__content {
-  position: relative;
-  z-index: 2;
-
-  min-height: 100vh;
+  z-index: 5;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
 
-  padding: 40px 20px;
+  gap: clamp(2px, 1.1vh, 12px);
+
+  transform: translateY(-50%);
 }
 
-.weddingHero__dividerImg {
-  width: 140px;
-  left: -30px;
-  margin-bottom: 30px;
+.HomeHeroSection__timeline::before {
+  content: "";
+
+  position: absolute;
+
+  top: -28px;
+  bottom: -28px;
+  left: 50%;
+
+  width: 1px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  transform: translateX(-50%);
+
+  z-index: -1;
 }
 
-/* HERO TITLE — EXACT TEMPLATE STYLE */
-.weddingHero__title {
-  font-family: "Playfair Display", serif;
-
-  font-size: 72px;        /* desktop exact */
-  font-weight: 500;       /* template uses medium */
-  line-height: 1.15;
-  letter-spacing: 1px;
-
-  color: #111;
-  margin-bottom: 18px;
+.HomeHeroSection__timeline-item {
+  display: flex;
 }
 
-.weddingHero__title span {
+.HomeHeroSection__timeline-button {
+  display: grid;
+  place-items: center;
+
+  width: 28px;
+  height: 28px;
+
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.HomeHeroSection__timeline-dot {
+  display: grid;
+  place-items: center;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  font-size: 0;
+  font-weight: 600;
+
+  transition:
+    width 0.35s var(--hero-ease),
+    height 0.35s var(--hero-ease),
+    background-color 0.3s ease;
+}
+
+.HomeHeroSection__timeline-button:hover
+  .HomeHeroSection__timeline-dot {
+  background: var(--hero-accent);
+}
+
+.HomeHeroSection__timeline-button.is-active
+  .HomeHeroSection__timeline-dot {
+  width: 25px;
+  height: 25px;
+
+  background: var(--hero-gold-gradient);
+
+  color: var(--hero-gold-text);
+
+  font-size: 10px;
+
+  box-shadow: 0 0 0 4px rgba(217, 172, 69, 0.18);
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.HomeHeroSection__inner {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+
+  padding:
+    70px
+    0
+    60px
+    clamp(76px, 8.5vw, 150px);
+}
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.HomeHeroSection__content {
+  position: relative;
+  z-index: 2;
+
+  flex: 0 0 47%;
+  width: 47%;
+  max-width: 660px;
+
+  padding-right: 35px;
+}
+
+.HomeHeroSection__content-inner {
+  width: 100%;
+  max-width: 630px;
+}
+
+/* Brand identity */
+
+.HomeHeroSection__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 25px;
+
+  animation: HomeHeroSection-rise 0.7s ease both;
+}
+
+.HomeHeroSection__brand-line {
   display: block;
+
+  width: 34px;
+  height: 2px;
+
+  background: var(--hero-gold-gradient);
+}
+
+.HomeHeroSection__brand-name {
+  color: var(--hero-accent-light);
+
+  font-size: 0.79rem;
+  font-weight: 600;
+
+  letter-spacing: 0.2em;
+  line-height: 1.6;
+}
+
+/* Small introductory label */
+
+.HomeHeroSection__eyebrow {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: rgba(255, 255, 255, 0.74);
+
+  font-size: 0.72rem;
+  font-weight: 500;
+
+  letter-spacing: 0.19em;
+  line-height: 1.8;
+
+  animation: HomeHeroSection-rise 0.8s 0.05s both;
+}
+
+/* Main headline */
+
+.HomeHeroSection__title {
+  margin: 0 0 19px;
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+
+  font-size: clamp(3.1rem, 5.1vw, 5.1rem);
+  font-weight: 500;
+
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+
+  text-wrap: balance;
+
+  animation: HomeHeroSection-rise 0.85s 0.1s both;
+}
+
+.HomeHeroSection__title-accent {
+  color: var(--hero-accent-light);
   font-weight: 500;
 }
 
-.weddingHero__title span {
-  display: block;
-}
+/* Main brand description */
 
-.weddingHero__subtitle {
-  font-family: Inter, sans-serif;
+.HomeHeroSection__intro {
+  max-width: 490px;
 
-  font-size: 20px;
+  margin: 0 0 25px;
+
+  color: var(--hero-muted);
+
+  font-size: clamp(0.84rem, 0.95vw, 0.97rem);
   font-weight: 400;
-  color: #555;
 
-  margin-top: 10px;
-}
-@keyframes weddingZoomBreath {
-  0% {
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    transform: translateX(-50%) scale(1.08);
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-  }
-}
-/* ================= RESPONSIVE ================= */
-@media (max-width: 1200px) {
-  .weddingHero__title { font-size: 60px; }
+  line-height: 1.9;
+
+  animation: HomeHeroSection-rise 0.85s 0.16s both;
 }
 
-@media (max-width: 992px) {
-  .weddingHero__title { font-size: 46px; }
+/* Active service information */
+
+.HomeHeroSection__service {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 8px;
+
+  animation: HomeHeroSection-rise 0.8s 0.2s both;
 }
 
-@media (max-width: 600px) {
-  .weddingHero__title { font-size: 34px; }
+.HomeHeroSection__service-number {
+  color: var(--hero-accent-light);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  letter-spacing: 0.1em;
 }
 
-@media (max-width: 992px) {
-  .weddingHero__title {
-    font-size: 46px;
+.HomeHeroSection__service-divider {
+  display: block;
+
+  width: 28px;
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.HomeHeroSection__service-label {
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 0.72rem;
+  font-weight: 500;
+
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+/* Current photography service heading */
+
+.HomeHeroSection__service-title {
+  margin: 0 0 10px;
+
+  color: #ffffff;
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+
+  font-size: clamp(1.75rem, 2.4vw, 2.45rem);
+  font-weight: 600;
+
+  line-height: 1.12;
+
+  text-wrap: balance;
+
+  animation: HomeHeroSection-rise 0.8s 0.24s both;
+}
+
+/* Changing service description */
+
+.HomeHeroSection__description {
+  max-width: 490px;
+
+  margin: 0 0 23px;
+
+  color: rgba(255, 255, 255, 0.73);
+
+  font-size: clamp(0.78rem, 0.88vw, 0.9rem);
+  font-weight: 400;
+
+  line-height: 1.8;
+
+  animation: HomeHeroSection-rise 0.8s 0.3s both;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.HomeHeroSection__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+  margin-bottom: 25px;
+
+  animation: HomeHeroSection-rise 0.8s 0.36s both;
+}
+
+.HomeHeroSection__button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  min-height: 49px;
+
+  padding: 13px 22px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 239, 195, 0.6);
+  border-radius: 4px;
+
+  background: var(--hero-gold-gradient);
+  background-size: 160% 160%;
+
+  color: var(--hero-gold-text);
+
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  letter-spacing: 0.015em;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 9px 25px var(--hero-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-position 0.4s ease;
+}
+
+.HomeHeroSection__button svg {
+  flex-shrink: 0;
+
+  width: 17px;
+  height: 17px;
+
+  transition: transform 0.3s ease;
+}
+
+.HomeHeroSection__button:hover {
+  transform: translateY(-3px);
+
+  background-position: 100% 50%;
+
+  box-shadow: 0 14px 30px rgba(217, 172, 69, 0.32);
+}
+
+.HomeHeroSection__button:hover svg {
+  transform: translateX(4px);
+}
+
+.HomeHeroSection__button::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 65%;
+  height: 100%;
+
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  pointer-events: none;
+}
+
+.HomeHeroSection__button:hover::after {
+  left: 150%;
+  transition: left 0.7s ease;
+}
+
+.HomeHeroSection__secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 49px;
+
+  padding: 12px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 4px;
+
+  background: rgba(255, 255, 255, 0.045);
+
+  color: #ffffff;
+
+  font-size: 0.79rem;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.HomeHeroSection__secondary-button:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--hero-accent);
+
+  background: rgba(217, 172, 69, 0.12);
+}
+
+/* Brand signature */
+
+.HomeHeroSection__signature {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: rgba(255, 255, 255, 0.61);
+
+  font-size: 0.68rem;
+  font-weight: 400;
+
+  letter-spacing: 0.035em;
+
+  animation: HomeHeroSection-rise 0.8s 0.4s both;
+}
+
+.HomeHeroSection__signature-line {
+  width: 22px;
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: var(--hero-accent);
+}
+
+/* =========================================================
+   RIGHT-SIDE IMAGE CAROUSEL
+========================================================= */
+
+.HomeHeroSection__carousel {
+  position: absolute;
+
+  top: 50%;
+  left: 51%;
+  right: 0;
+
+  z-index: 2;
+
+  width: auto;
+
+  transform: translateY(-50%);
+}
+
+/* Portfolio heading */
+
+.HomeHeroSection__carousel-heading {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 20px;
+
+  padding-right: 35px;
+
+  color: var(--hero-accent-light);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  letter-spacing: 0.2em;
+}
+
+.HomeHeroSection__carousel-heading-line {
+  display: block;
+
+  flex: 1;
+
+  max-width: 100px;
+  height: 1px;
+
+  background: rgba(244, 217, 145, 0.55);
+}
+
+/* Carousel viewport */
+
+.HomeHeroSection__viewport {
+  width: 100%;
+
+  height: calc(var(--hero-card-h-active) + 8px);
+
+  overflow: hidden;
+}
+
+/* Endless right-to-left track */
+
+.HomeHeroSection__track {
+  display: flex;
+  align-items: center;
+
+  gap: var(--hero-card-gap);
+
+  height: 100%;
+
+  transform: translate3d(
+    calc(
+      var(--hero-shift, 0) *
+      -1 *
+      (var(--hero-card-w) + var(--hero-card-gap))
+    ),
+    0,
+    0
+  );
+
+  transition: transform var(--hero-slide-time) var(--hero-ease);
+
+  will-change: transform;
+}
+
+.HomeHeroSection__track.is-static {
+  transition: none;
+}
+
+.HomeHeroSection__slide {
+  flex: 0 0 var(--hero-card-w);
+
+  width: var(--hero-card-w);
+
+  min-width: 0;
+}
+
+/* Individual cards */
+
+.HomeHeroSection__card {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  height: var(--hero-card-h);
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+
+  background: #211914;
+  color: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  opacity: 0.76;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.28);
+
+  transition:
+    height var(--hero-slide-time) var(--hero-ease),
+    opacity 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.HomeHeroSection__track.is-static .HomeHeroSection__card {
+  transition: none;
+}
+
+.HomeHeroSection__card.is-active {
+  height: var(--hero-card-h-active);
+
+  opacity: 1;
+
+  border-color: rgba(232, 195, 100, 0.8);
+
+  box-shadow:
+    0 25px 55px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(232, 195, 100, 0.18);
+}
+
+/* Card image */
+
+.HomeHeroSection__card-image {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  user-select: none;
+  -webkit-user-drag: none;
+
+  transition:
+    transform 1.1s var(--hero-ease),
+    filter 0.4s ease;
+}
+
+.HomeHeroSection__card:hover .HomeHeroSection__card-image {
+  transform: scale(1.055);
+}
+
+.HomeHeroSection__card::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.16) 52%,
+    rgba(0, 0, 0, 0.83) 100%
+  );
+
+  pointer-events: none;
+}
+
+/* Card number */
+
+.HomeHeroSection__card-number {
+  position: absolute;
+
+  top: 15px;
+  left: 15px;
+
+  z-index: 1;
+
+  display: grid;
+  place-items: center;
+
+  width: 31px;
+  height: 31px;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+
+  background: rgba(20, 15, 11, 0.3);
+
+  color: #ffffff;
+
+  font-size: 0.66rem;
+  font-weight: 500;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Card captions */
+
+.HomeHeroSection__card-caption {
+  position: absolute;
+
+  left: 15px;
+  right: 12px;
+  bottom: 17px;
+
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.HomeHeroSection__card-title {
+  color: #ffffff;
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
+  font-weight: 600;
+
+  line-height: 1.15;
+
+  text-wrap: balance;
+}
+
+.HomeHeroSection__card-label {
+  color: var(--hero-accent-light);
+
+  font-size: 0.64rem;
+  font-weight: 500;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   CAROUSEL CONTROLS
+========================================================= */
+
+.HomeHeroSection__controls {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 22px;
+  padding-right: 30px;
+}
+
+.HomeHeroSection__controls-left {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+.HomeHeroSection__arrow {
+  display: grid;
+  place-items: center;
+
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.HomeHeroSection__arrow:hover {
+  transform: scale(1.06);
+
+  border-color: var(--hero-accent);
+
+  background: var(--hero-gold-gradient);
+
+  color: var(--hero-gold-text);
+}
+
+.HomeHeroSection__progress {
+  position: relative;
+
+  flex: 1;
+
+  min-width: 35px;
+  height: 2px;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.HomeHeroSection__progress-bar {
+  position: absolute;
+  inset: 0;
+
+  background: var(--hero-gold-gradient);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  animation: HomeHeroSection-progress var(--hero-autoplay) linear forwards;
+}
+
+.HomeHeroSection__progress-bar.is-paused {
+  animation-play-state: paused;
+}
+
+.HomeHeroSection__progress-count {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  flex-shrink: 0;
+
+  color: #ffffff;
+
+  font-size: 0.68rem;
+  font-weight: 500;
+
+  letter-spacing: 0.05em;
+}
+
+.HomeHeroSection__progress-count span {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.HomeHeroSection__button:focus-visible,
+.HomeHeroSection__secondary-button:focus-visible,
+.HomeHeroSection__arrow:focus-visible,
+.HomeHeroSection__card:focus-visible,
+.HomeHeroSection__timeline-button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes HomeHeroSection-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 17px, 0);
   }
 
-  .weddingHero__topBar {
-    right: 16px;
-    left: 16px;
-    justify-content: space-between;
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes HomeHeroSection-progress {
+  from {
+    transform: scaleX(0);
   }
 
-  .weddingHero__contact {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* =========================================================
+   LARGE DESKTOPS
+========================================================= */
+
+@media (min-width: 1800px) {
+  .HomeHeroSection__content {
+    max-width: 700px;
+  }
+
+  .HomeHeroSection__title {
+    font-size: 5.6rem;
+  }
+
+  .HomeHeroSection__intro {
+    font-size: 1rem;
+  }
+
+  .HomeHeroSection__description {
+    font-size: 0.94rem;
+  }
+}
+
+/* =========================================================
+   LAPTOPS
+========================================================= */
+
+@media (max-width: 1280px) {
+  .HomeHeroSection {
+    --hero-card-w: clamp(175px, 17vw, 235px);
+    --hero-card-gap: 18px;
+  }
+
+  .HomeHeroSection__inner {
+    padding-left: 82px;
+  }
+
+  .HomeHeroSection__content {
+    flex-basis: 48%;
+    width: 48%;
+
+    padding-right: 25px;
+  }
+
+  .HomeHeroSection__carousel {
+    left: 52%;
+  }
+
+  .HomeHeroSection__title {
+    font-size: clamp(3rem, 4.6vw, 4.3rem);
+  }
+
+  .HomeHeroSection__brand {
+    margin-bottom: 20px;
+  }
+
+  .HomeHeroSection__intro {
+    line-height: 1.75;
+  }
+
+  .HomeHeroSection__description {
+    line-height: 1.7;
+  }
+}
+
+/* =========================================================
+   SMALL LAPTOPS / LANDSCAPE TABLETS
+========================================================= */
+
+@media (max-width: 1024px) {
+  .HomeHeroSection {
+    --hero-card-w: clamp(155px, 18vw, 190px);
+    --hero-card-gap: 16px;
+  }
+
+  .HomeHeroSection__inner {
+    padding-left: 70px;
+    padding-top: 55px;
+    padding-bottom: 45px;
+  }
+
+  .HomeHeroSection__content {
+    flex-basis: 48%;
+    width: 48%;
+
+    padding-right: 22px;
+  }
+
+  .HomeHeroSection__carousel {
+    left: 53%;
+  }
+
+  .HomeHeroSection__title {
+    font-size: clamp(2.8rem, 4.5vw, 3.8rem);
+  }
+
+  .HomeHeroSection__intro {
+    font-size: 0.82rem;
+    margin-bottom: 19px;
+  }
+
+  .HomeHeroSection__service-title {
+    font-size: 1.9rem;
+  }
+
+  .HomeHeroSection__description {
+    font-size: 0.76rem;
+    margin-bottom: 19px;
+  }
+
+  .HomeHeroSection__actions {
+    gap: 10px;
+  }
+
+  .HomeHeroSection__button {
+    padding: 12px 16px;
+    font-size: 0.74rem;
+  }
+
+  .HomeHeroSection__secondary-button {
+    padding: 11px 13px;
+    font-size: 0.74rem;
+  }
+
+  .HomeHeroSection__arrow {
+    width: 39px;
+    height: 39px;
+  }
+}
+
+/* =========================================================
+   TABLETS AND MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .HomeHeroSection {
+    --hero-card-w: clamp(135px, 38vw, 185px);
+    --hero-card-gap: 14px;
+
+    --hero-card-h: calc(var(--hero-card-w) * 1.22);
+    --hero-card-h-active: calc(var(--hero-card-w) * 1.43);
+
+    min-height: 100svh;
+  }
+
+  .HomeHeroSection__overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(12, 8, 6, 0.56) 0%,
+        rgba(12, 8, 6, 0.72) 40%,
+        rgba(12, 8, 6, 0.94) 100%
+      );
+  }
+
+  .HomeHeroSection__timeline {
     display: none;
   }
 
-  .weddingHero__flower--leftBig,
-  .weddingHero__flower--rightFade {
-    width: 260px;
+  .HomeHeroSection__inner {
+    display: flex;
+
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+
+    gap: 30px;
+
+    min-height: 100svh;
+
+    padding: 100px 0 30px 20px;
   }
 
-  .weddingHero__flower--twin,
-  .weddingHero__flower--yellow {
+  .HomeHeroSection__content {
+    flex: 0 0 auto;
+
+    width: 100%;
+    max-width: 650px;
+
+    padding-right: 20px;
+  }
+
+  .HomeHeroSection__content-inner {
+    max-width: 600px;
+  }
+
+  .HomeHeroSection__brand {
+    margin-bottom: 20px;
+  }
+
+  .HomeHeroSection__brand-name {
+    font-size: 0.72rem;
+  }
+
+  .HomeHeroSection__eyebrow {
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+  }
+
+  .HomeHeroSection__title {
+    font-size: clamp(3rem, 9vw, 4.5rem);
+
+    margin-bottom: 16px;
+  }
+
+  .HomeHeroSection__intro {
+    max-width: 550px;
+
+    font-size: 0.85rem;
+    line-height: 1.8;
+
+    margin-bottom: 22px;
+  }
+
+  .HomeHeroSection__service-title {
+    font-size: 2rem;
+  }
+
+  .HomeHeroSection__description {
+    max-width: 550px;
+
+    font-size: 0.8rem;
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+  }
+
+  .HomeHeroSection__actions {
+    margin-bottom: 20px;
+  }
+
+  .HomeHeroSection__signature {
+    font-size: 0.65rem;
+  }
+
+  .HomeHeroSection__carousel {
+    position: relative;
+
+    top: auto;
+    left: auto;
+    right: auto;
+
+    width: 100%;
+
+    transform: none;
+  }
+
+  .HomeHeroSection__carousel-heading {
+    margin-bottom: 14px;
+    padding-right: 20px;
+  }
+
+  .HomeHeroSection__viewport {
+    height: calc(var(--hero-card-h-active) + 8px);
+  }
+
+  .HomeHeroSection__controls {
+    margin-top: 17px;
+    padding-right: 20px;
+  }
+
+  .HomeHeroSection__card-caption {
+    left: 12px;
+    right: 10px;
+    bottom: 13px;
+  }
+
+  .HomeHeroSection__card-title {
+    font-size: 1.05rem;
+  }
+
+  .HomeHeroSection__card-label {
+    font-size: 0.59rem;
+  }
+}
+
+/* =========================================================
+   MOBILE PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+  .HomeHeroSection {
+    --hero-card-w: clamp(125px, 39vw, 165px);
+    --hero-card-gap: 12px;
+
+    --hero-card-h: calc(var(--hero-card-w) * 1.2);
+    --hero-card-h-active: calc(var(--hero-card-w) * 1.4);
+  }
+
+  .HomeHeroSection__inner {
+    gap: 25px;
+
+    padding: 92px 0 23px 16px;
+  }
+
+  .HomeHeroSection__content {
+    padding-right: 16px;
+  }
+
+  .HomeHeroSection__brand {
+    gap: 9px;
+    margin-bottom: 17px;
+  }
+
+  .HomeHeroSection__brand-line {
+    width: 24px;
+  }
+
+  .HomeHeroSection__brand-name {
+    font-size: 0.66rem;
+    letter-spacing: 0.15em;
+  }
+
+  .HomeHeroSection__eyebrow {
+    font-size: 0.59rem;
+    line-height: 1.7;
+  }
+
+  .HomeHeroSection__title {
+    font-size: clamp(2.65rem, 11vw, 3.45rem);
+    line-height: 1;
+  }
+
+  .HomeHeroSection__intro {
+    font-size: 0.79rem;
+    line-height: 1.75;
+
+    margin-bottom: 19px;
+  }
+
+  .HomeHeroSection__service {
+    gap: 10px;
+  }
+
+  .HomeHeroSection__service-label {
+    font-size: 0.65rem;
+  }
+
+  .HomeHeroSection__service-title {
+    font-size: 1.8rem;
+    line-height: 1.12;
+  }
+
+  .HomeHeroSection__description {
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .HomeHeroSection__actions {
+    gap: 10px;
+  }
+
+  .HomeHeroSection__button {
+    min-height: 45px;
+    padding: 11px 14px;
+
+    gap: 8px;
+
+    font-size: 0.71rem;
+  }
+
+  .HomeHeroSection__button svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .HomeHeroSection__secondary-button {
+    min-height: 45px;
+    padding: 10px 12px;
+
+    font-size: 0.7rem;
+  }
+
+  .HomeHeroSection__signature {
+    align-items: flex-start;
+
+    font-size: 0.58rem;
+    line-height: 1.6;
+  }
+
+  .HomeHeroSection__carousel-heading {
+    font-size: 0.62rem;
+  }
+
+  .HomeHeroSection__arrow {
+    width: 37px;
+    height: 37px;
+  }
+
+  .HomeHeroSection__controls {
+    gap: 10px;
+  }
+
+  .HomeHeroSection__progress-count {
+    gap: 4px;
+    font-size: 0.61rem;
+  }
+
+  .HomeHeroSection__card {
+    border-radius: 9px;
+  }
+
+  .HomeHeroSection__card-number {
+    top: 10px;
+    left: 10px;
+
+    width: 26px;
+    height: 26px;
+
+    font-size: 0.6rem;
+  }
+
+  .HomeHeroSection__card-title {
+    font-size: 0.98rem;
+  }
+
+  .HomeHeroSection__card-label {
+    font-size: 0.55rem;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+  .HomeHeroSection {
+    --hero-card-w: 124px;
+    --hero-card-gap: 10px;
+  }
+
+  .HomeHeroSection__inner {
+    padding-left: 13px;
+    padding-top: 85px;
+  }
+
+  .HomeHeroSection__content {
+    padding-right: 13px;
+  }
+
+  .HomeHeroSection__title {
+    font-size: 2.55rem;
+  }
+
+  .HomeHeroSection__intro {
+    font-size: 0.75rem;
+  }
+
+  .HomeHeroSection__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .HomeHeroSection__button,
+  .HomeHeroSection__secondary-button {
+    width: fit-content;
+  }
+
+  .HomeHeroSection__controls {
+    padding-right: 13px;
+  }
+}
+
+/* =========================================================
+   SHORT DESKTOP SCREENS
+========================================================= */
+
+@media (max-height: 760px) and (min-width: 769px) {
+  .HomeHeroSection__inner {
+    padding-top: 35px;
+    padding-bottom: 30px;
+  }
+
+  .HomeHeroSection__brand {
+    margin-bottom: 13px;
+  }
+
+  .HomeHeroSection__eyebrow {
+    margin-bottom: 9px;
+  }
+
+  .HomeHeroSection__title {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 12px;
+  }
+
+  .HomeHeroSection__intro {
+    margin-bottom: 15px;
+    line-height: 1.65;
+  }
+
+  .HomeHeroSection__service-title {
+    font-size: 1.85rem;
+  }
+
+  .HomeHeroSection__description {
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+
+  .HomeHeroSection__actions {
+    margin-bottom: 14px;
+  }
+
+  .HomeHeroSection__carousel-heading {
+    margin-bottom: 12px;
+  }
+
+  .HomeHeroSection__controls {
+    margin-top: 14px;
+  }
+
+  .HomeHeroSection__timeline-button {
+    width: 23px;
+    height: 23px;
+  }
+
+  .HomeHeroSection__timeline-button.is-active
+    .HomeHeroSection__timeline-dot {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* =========================================================
+   LANDSCAPE PHONES
+========================================================= */
+
+@media (max-height: 520px) and
+  (max-width: 900px) and
+  (orientation: landscape) {
+  .HomeHeroSection {
+    --hero-card-w: 120px;
+  }
+
+  .HomeHeroSection__inner {
+    flex-direction: row;
+    align-items: center;
+
+    padding: 25px 0 25px 28px;
+
+    gap: 0;
+  }
+
+  .HomeHeroSection__content {
+    flex: 0 0 47%;
+    width: 47%;
+    max-width: none;
+
+    padding-right: 18px;
+  }
+
+  .HomeHeroSection__carousel {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    right: 0;
+
+    width: auto;
+
+    transform: translateY(-50%);
+  }
+
+  .HomeHeroSection__title {
+    font-size: 2.5rem;
+  }
+
+  .HomeHeroSection__intro {
+    font-size: 0.72rem;
+    line-height: 1.55;
+  }
+
+  .HomeHeroSection__service-title {
+    font-size: 1.6rem;
+  }
+
+  .HomeHeroSection__description {
+    font-size: 0.7rem;
+  }
+
+  .HomeHeroSection__timeline {
     display: none;
   }
 }
 
-@media (max-width: 600px) {
-  .weddingHero__title {
-    font-size: 34px;
+/* =========================================================
+   REDUCED MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .HomeHeroSection *,
+  .HomeHeroSection *::before,
+  .HomeHeroSection *::after {
+    scroll-behavior: auto !important;
   }
 
-  .weddingHero__flower--rightFade {
-    display: none;
+  .HomeHeroSection__background,
+  .HomeHeroSection__background.is-active {
+    transform: none;
+    transition: opacity 0.5s ease;
   }
 
-  .weddingHero__flower--leftBig {
-    width: 200px;
-    top: 180px;
-    opacity: 0.5;
+  .HomeHeroSection__card-image {
+    transition: none;
+  }
+
+  .HomeHeroSection__content-inner > *,
+  .HomeHeroSection__progress-bar {
+    animation: none !important;
+  }
+
+  .HomeHeroSection__progress-bar {
+    transform: scaleX(1);
   }
 }

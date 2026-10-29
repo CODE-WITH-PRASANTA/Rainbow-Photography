@@ -3,29 +3,34 @@ import "./PricingFaq.css";
 
 const pricingFaqItems = [
   {
-    question: "What's the difference between Signature & Intimate?",
+    question: "What is the difference between Luxe, Signature & Intimate packages?",
     answer:
-      "The Signature package includes cinematic wedding films, a teaser, a trailer, and extended coverage for both the bride and groom. The Intimate package includes photography, standard video coverage, a highlight film, and full wedding videos. Choose the package that best matches your celebration and memories.",
+      "Our Luxe Collection is the ultimate royal experience featuring senior master leads, pre-wedding shoot, 4K multi-camera cinema, custom composed love anthem, and AI guest face recognition. The Signature Story is our most popular package, providing comprehensive 2-day dual-side photo & cinema coverage with drone shots, teasers, and luxury albums. The Intimate Affair is tailored for smaller, close-knit gatherings focusing on candid moments, ceremony highlights, and a signature photobook.",
   },
   {
-    question: "Do You Have Any Time Limit For Shooting Our Events?",
+    question: "Do you have any hourly limit or time restrictions for events?",
     answer:
-      "We plan our photography and cinematography schedule according to your wedding itinerary. Our coverage depends on your selected package, event schedule, and agreed booking details. We discuss everything with you in advance to capture the important moments beautifully.",
+      "No, we do not believe in watching the clock during your big day. We align our crew strictly around your planned rituals and wedding timeline—from the bride getting ready and Baraat arrival until the final Vidai ceremony concludes. Any extra extended rituals are communicated and coordinated smoothly without rushing your precious moments.",
   },
   {
-    question: "Who has to select the final pictures?",
+    question: "How does the final photo selection and album design process work?",
     answer:
-      "Our team carefully selects and edits the photographs according to your package. If your package includes photo selection, you can choose your favourite images from the gallery before the final album is designed.",
+      "Within 10–14 days after your celebrations, we deliver all color-graded high-resolution photos through an exclusive, password-protected online client gallery. You and your family can shortlist your favorites directly from your phone or laptop. Once selected, our senior design artists craft the custom layouts and send you a digital preview for approval before sending them for fine-art handcrafted printing.",
   },
   {
-    question: "What's your payment structure?",
+    question: "What is the payment structure and booking schedule?",
     answer:
-      "We generally arrange payments in stages: an advance to confirm your booking, an agreed instalment before the event, and the remaining balance according to the booking terms. The exact payment schedule will be discussed and confirmed when you book.",
+      "To ensure exclusive reservation of your date, we accept a 25% advance retainer upon signing the contract. 60% is scheduled before or on the primary wedding dates, and the remaining 15% balance is cleared upon delivery of your raw files and digital preview proofs. We provide formal receipts and milestone agreements for complete transparency.",
   },
   {
-    question: "How early should we book you?",
+    question: "How early should we book Rainbow Photography?",
     answer:
-      "We recommend booking 6–12 months in advance, especially for popular wedding dates and peak seasons. Earlier bookings give us more time to plan your photography, cinematography, and special creative requirements.",
+      "Because auspicious wedding dates (lagna dates) sell out fast, couples typically book us 6 to 12 months in advance. Early booking secures your chosen dates, locks in package prices against seasonal revisions, and allows our creative team ample time to scout locations and plan your pre-wedding story.",
+  },
+  {
+    question: "Do you travel for destination weddings across India & abroad?",
+    answer:
+      "Yes! While based in Odisha, our crew regularly travels across India and international destination venues. For outstation events, client provisions or reimbursement for travel (flights/trains) and venue stay for our crew members are simply added to the standard package.",
   },
 ];
 
@@ -105,14 +110,14 @@ const PricingFaqLeaf = ({ className = "" }) => (
 );
 
 const PricingFaq = () => {
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState(0);
 
   const toggleFaq = (index) => {
     setOpenFaq((current) => (current === index ? null : index));
   };
 
   return (
-    <section className="PricingFaq" id="pricing-faq">
+    <section className="PricingFaq" id="pricing-faq" aria-labelledby="pricing-faq-title">
       {/* Decorative background */}
       <div className="PricingFaq__background" aria-hidden="true" />
       <div className="PricingFaq__glow PricingFaq__glow--left" aria-hidden="true" />
@@ -133,10 +138,10 @@ const PricingFaq = () => {
         <PricingFaqLeaf />
       </div>
 
-      {/* Left introduction */}
       <div className="PricingFaq__container">
+        {/* Left introduction */}
         <div className="PricingFaq__intro">
-          <p className="PricingFaq__eyebrow">HAVE A QUESTION?</p>
+          <p className="PricingFaq__eyebrow">HAVE QUESTIONS?</p>
 
           <div className="PricingFaq__ornament" aria-hidden="true">
             <span />
@@ -151,24 +156,21 @@ const PricingFaq = () => {
             <span />
           </div>
 
-          <h2 className="PricingFaq__title">
+          <h2 id="pricing-faq-title" className="PricingFaq__title">
             Frequently
-            <span>Questions</span>
+            <span>Asked Questions</span>
           </h2>
 
           <p className="PricingFaq__description">
-            Leading the wedding photography &amp; film industry in Odisha
-            for the past 11 years, we at RS Wedding Bells know that your
-            special day deserves to be captured beautifully and cherished
-            for a lifetime. Recognized for delivering the best wedding
-            photography in Bhubaneswar, our team believes that your special
-            day deserves to be captured with creativity, emotion, and
-            perfection.
+            Celebrating over a decade of visual excellence, Rainbow Photography is 
+            celebrated for turning intimate nuptials and grandeur weddings into timeless 
+            cinematic heirlooms. Here are clarity-first answers to everything you need to 
+            know about our approach, deliverables, and shooting process.
           </p>
 
           <a className="PricingFaq__contact-link" href="/contact">
-            Still have questions?
-            <span> Let's talk </span>
+            Have a custom requirement?
+            <span> Let's connect </span>
             <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
                 d="M3 10H16M11 5L16 10L11 15"
@@ -182,7 +184,7 @@ const PricingFaq = () => {
         </div>
 
         {/* Right FAQ accordion */}
-        <div className="PricingFaq__list">
+        <div className="PricingFaq__list" role="region" aria-label="Wedding Pricing FAQs">
           {pricingFaqItems.map((item, index) => {
             const isOpen = openFaq === index;
             const answerId = `PricingFaq-answer-${index}`;
@@ -208,7 +210,7 @@ const PricingFaq = () => {
                   </span>
 
                   <span className="PricingFaq__number">
-                    {index + 1}.
+                    {String(index + 1).padStart(2, "0")}.
                   </span>
 
                   <span className="PricingFaq__question-text">
@@ -232,7 +234,7 @@ const PricingFaq = () => {
                   className="PricingFaq__answer-wrapper"
                   id={answerId}
                   aria-hidden={!isOpen}
-                  inert={!isOpen}
+                  inert={!isOpen ? "" : undefined}
                 >
                   <div className="PricingFaq__answer-inner">
                     <p className="PricingFaq__answer">{item.answer}</p>
