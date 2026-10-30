@@ -1,0 +1,811 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   MaternityShootPackage
+   ========================================================== */
+
+.MaternityShootPackage {
+  --msp-gold: #d9ac45;
+  --msp-gold-light: #f7e2a1;
+  --msp-gold-dark: #a97a1e;
+  --msp-gold-text: #2b1c04;
+  --msp-gold-gradient: linear-gradient(135deg, #f7e2a1 0%, #e0b44e 38%, #c18f2b 70%, #a97a1e 100%);
+  --msp-gold-glow: rgba(217, 172, 69, 0.38);
+  --msp-text: #ffffff;
+  --msp-muted: rgba(255, 255, 255, 0.72);
+  --msp-card: rgba(20, 15, 10, 0.72);
+  --msp-line: rgba(217, 172, 69, 0.22);
+  --msp-ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+
+  position: relative;
+  width: 100%;
+  padding: clamp(56px, 8vw, 110px) clamp(16px, 3vw, 40px) clamp(64px, 8vw, 120px);
+  overflow: hidden;
+  color: var(--msp-text);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #0b0907;
+  isolation: isolate;
+}
+
+.MaternityShootPackage *,
+.MaternityShootPackage *::before,
+.MaternityShootPackage *::after {
+  box-sizing: border-box;
+}
+
+.MaternityShootPackage ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.MaternityShootPackage h2,
+.MaternityShootPackage h3,
+.MaternityShootPackage h4,
+.MaternityShootPackage h5,
+.MaternityShootPackage p {
+  margin: 0;
+}
+
+/* ---------- Background ---------- */
+
+.MaternityShootPackage__background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: #0b0907;
+  background-image: var(--package-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.MaternityShootPackage__background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 500px at 50% 0%, rgba(217, 172, 69, 0.16), transparent 70%),
+    linear-gradient(180deg, rgba(8, 6, 4, 0.9) 0%, rgba(8, 6, 4, 0.8) 40%, rgba(8, 6, 4, 0.93) 100%);
+}
+
+@media (min-width: 1025px) and (hover: hover) {
+  .MaternityShootPackage__background {
+    background-attachment: fixed;
+  }
+}
+
+.MaternityShootPackage__container {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.MaternityShootPackage__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.MaternityShootPackage__eyebrow {
+  margin-bottom: 16px;
+  padding: 8px 20px;
+  border: 1px solid var(--msp-line);
+  border-radius: 999px;
+  background: rgba(217, 172, 69, 0.08);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--msp-gold-light);
+  animation: MaternityShootPackage-rise 0.8s var(--msp-ease) both;
+}
+
+.MaternityShootPackage__title {
+  max-width: 16em;
+  font-size: clamp(2rem, 4.8vw, 3.9rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: MaternityShootPackage-rise 0.8s var(--msp-ease) 0.08s both;
+}
+
+.MaternityShootPackage__title-accent {
+  background: var(--msp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.MaternityShootPackage__divider {
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 24px 0 20px;
+  border-radius: 3px;
+  background: var(--msp-gold-gradient);
+  animation: MaternityShootPackage-grow 0.9s var(--msp-ease) 0.2s both;
+}
+
+.MaternityShootPackage__subtitle {
+  max-width: 44em;
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.75;
+  color: var(--msp-muted);
+  animation: MaternityShootPackage-rise 0.8s var(--msp-ease) 0.16s both;
+}
+
+/* ---------- Stats ---------- */
+
+.MaternityShootPackage__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 2vw, 22px);
+  max-width: 860px;
+  margin: clamp(34px, 5vw, 56px) auto clamp(56px, 8vw, 96px);
+}
+
+.MaternityShootPackage__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: clamp(16px, 2.4vw, 26px) 12px;
+  border: 1px solid var(--msp-line);
+  border-radius: 18px;
+  background: var(--msp-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.MaternityShootPackage__stat-value {
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--msp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.MaternityShootPackage__stat-label {
+  font-size: clamp(0.68rem, 1.1vw, 0.88rem);
+  letter-spacing: 0.06em;
+  color: var(--msp-muted);
+}
+
+/* ---------- Section heading ---------- */
+
+.MaternityShootPackage__section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(28px, 4vw, 46px);
+  text-align: center;
+}
+
+.MaternityShootPackage__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--msp-gold);
+}
+
+.MaternityShootPackage__kicker::before,
+.MaternityShootPackage__kicker::after {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--msp-gold));
+}
+
+.MaternityShootPackage__kicker::after {
+  transform: scaleX(-1);
+}
+
+.MaternityShootPackage__section-title {
+  font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.MaternityShootPackage__section-text {
+  max-width: 38em;
+  margin-top: 12px;
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--msp-muted);
+}
+
+/* ---------- Scroll reveal ---------- */
+
+.MaternityShootPackage__reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition: opacity 0.9s var(--msp-ease), transform 0.9s var(--msp-ease);
+  transition-delay: var(--delay, 0ms);
+}
+
+.MaternityShootPackage__reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ---------- Wedding cards ---------- */
+
+.MaternityShootPackage__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 32px);
+  align-items: stretch;
+  margin-bottom: clamp(64px, 9vw, 110px);
+}
+
+.MaternityShootPackage__cell {
+  display: flex;
+}
+
+.MaternityShootPackage__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: clamp(24px, 2.6vw, 36px);
+  border: 1px solid var(--msp-line);
+  border-radius: 24px;
+  background:
+    radial-gradient(420px 220px at 50% 0%, rgba(217, 172, 69, 0.12), transparent 70%),
+    var(--msp-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  transition: transform 0.6s var(--msp-ease), border-color 0.5s ease,
+    box-shadow 0.6s var(--msp-ease);
+}
+
+.MaternityShootPackage__card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(217, 172, 69, 0.6);
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 40px rgba(217, 172, 69, 0.14);
+}
+
+.MaternityShootPackage__card.is-featured {
+  border-color: rgba(247, 226, 161, 0.7);
+  background:
+    radial-gradient(460px 260px at 50% 0%, rgba(217, 172, 69, 0.24), transparent 72%),
+    rgba(26, 19, 10, 0.82);
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 60px rgba(217, 172, 69, 0.2);
+}
+
+.MaternityShootPackage__badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 20px;
+  border-radius: 999px;
+  background: var(--msp-gold-gradient);
+  color: var(--msp-gold-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px var(--msp-gold-glow);
+}
+
+.MaternityShootPackage__card-title {
+  font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.MaternityShootPackage__card-tagline {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--msp-muted);
+  text-align: center;
+}
+
+.MaternityShootPackage__price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 22px 0 26px;
+  padding: 18px 0;
+  border-top: 1px solid var(--msp-line);
+  border-bottom: 1px solid var(--msp-line);
+}
+
+.MaternityShootPackage__price-amount {
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--msp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.MaternityShootPackage__price-note {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--msp-muted);
+}
+
+.MaternityShootPackage__block {
+  margin-bottom: 24px;
+}
+
+.MaternityShootPackage__block--grow {
+  flex: 1 1 auto;
+}
+
+.MaternityShootPackage__block-title {
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--msp-gold);
+}
+
+.MaternityShootPackage__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.MaternityShootPackage__chip {
+  padding: 6px 14px;
+  border: 1px solid rgba(217, 172, 69, 0.4);
+  border-radius: 999px;
+  background: rgba(217, 172, 69, 0.08);
+  font-size: 0.8rem;
+  color: var(--msp-gold-light);
+}
+
+/* ---------- Check list ---------- */
+
+.MaternityShootPackage__list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.MaternityShootPackage__list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.MaternityShootPackage__check {
+  display: grid;
+  place-items: center;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--msp-gold-gradient);
+  color: var(--msp-gold-text);
+}
+
+.MaternityShootPackage__list-text {
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- Buttons ---------- */
+
+.MaternityShootPackage__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 8px;
+  padding: 14px 44px;
+  border: 1px solid var(--msp-gold);
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+  color: var(--msp-gold-light);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.35s ease, color 0.35s ease, transform 0.3s ease,
+    box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.MaternityShootPackage__button:hover {
+  background: var(--msp-gold-gradient);
+  border-color: rgba(255, 238, 190, 0.7);
+  color: var(--msp-gold-text);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px var(--msp-gold-glow);
+}
+
+.MaternityShootPackage__button--solid {
+  border-color: rgba(255, 238, 190, 0.6);
+  background: var(--msp-gold-gradient);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: var(--msp-gold-text);
+  box-shadow: 0 12px 28px var(--msp-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.MaternityShootPackage__button--solid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.MaternityShootPackage__button--solid:hover {
+  background-position: 100% 50%;
+  box-shadow: 0 18px 38px rgba(217, 172, 69, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.MaternityShootPackage__button--solid:hover::after {
+  left: 130%;
+  transition: left 0.8s ease;
+}
+
+/* ---------- Pre-wedding ---------- */
+
+.MaternityShootPackage__pre {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(22px, 3.4vw, 48px);
+  margin-bottom: clamp(64px, 9vw, 110px);
+  padding: clamp(22px, 3.4vw, 46px);
+  border: 1px solid var(--msp-line);
+  border-radius: 28px;
+  background:
+    radial-gradient(520px 260px at 0% 0%, rgba(217, 172, 69, 0.14), transparent 70%),
+    var(--msp-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.MaternityShootPackage__pre-prices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.6vw, 18px);
+}
+
+.MaternityShootPackage__tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: clamp(16px, 2vw, 24px);
+  border: 1px solid var(--msp-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.5s var(--msp-ease), border-color 0.4s ease,
+    background-color 0.4s ease;
+}
+
+.MaternityShootPackage__tile:hover {
+  transform: translateY(-5px);
+  border-color: rgba(217, 172, 69, 0.65);
+  background: rgba(217, 172, 69, 0.09);
+}
+
+.MaternityShootPackage__tile-days {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--msp-gold);
+}
+
+.MaternityShootPackage__tile-place {
+  font-size: 0.92rem;
+  color: var(--msp-muted);
+}
+
+.MaternityShootPackage__tile-price {
+  margin-top: 8px;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--msp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.MaternityShootPackage__pre-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MaternityShootPackage__pre-info .MaternityShootPackage__list {
+  margin-bottom: 26px;
+}
+
+.MaternityShootPackage__pre-info .MaternityShootPackage__button {
+  align-self: flex-start;
+}
+
+/* ---------- Services ---------- */
+
+.MaternityShootPackage__services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+  gap: clamp(10px, 1.4vw, 16px);
+  margin-bottom: clamp(64px, 9vw, 110px);
+}
+
+.MaternityShootPackage__service {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 22px;
+  border: 1px solid var(--msp-line);
+  border-radius: 16px;
+  background: var(--msp-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.MaternityShootPackage__service:hover {
+  border-color: rgba(217, 172, 69, 0.6);
+  background: rgba(34, 25, 14, 0.82);
+}
+
+.MaternityShootPackage__service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.MaternityShootPackage__service-name {
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+.MaternityShootPackage__service-note {
+  font-size: 0.78rem;
+  color: var(--msp-muted);
+}
+
+.MaternityShootPackage__service-price {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--msp-gold-gradient);
+  color: var(--msp-gold-text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.MaternityShootPackage__service-price.is-request {
+  border: 1px solid rgba(217, 172, 69, 0.45);
+  background: transparent;
+  color: var(--msp-gold-light);
+  font-weight: 500;
+}
+
+/* ---------- Customize ---------- */
+
+.MaternityShootPackage__custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 60px) clamp(20px, 4vw, 56px);
+  border: 1px solid rgba(217, 172, 69, 0.5);
+  border-radius: 28px;
+  background:
+    radial-gradient(520px 240px at 50% 0%, rgba(217, 172, 69, 0.22), transparent 72%),
+    rgba(20, 15, 10, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px rgba(217, 172, 69, 0.12);
+  text-align: center;
+}
+
+.MaternityShootPackage__custom-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.MaternityShootPackage__custom-text {
+  max-width: 36em;
+  margin: 16px 0 28px;
+  font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+  line-height: 1.75;
+  color: var(--msp-muted);
+}
+
+.MaternityShootPackage__custom .MaternityShootPackage__button {
+  margin-top: 0;
+}
+
+/* ---------- Focus ---------- */
+
+.MaternityShootPackage__button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes MaternityShootPackage-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes MaternityShootPackage-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+/* Featured card stands out on desktop */
+@media (min-width: 1100px) {
+  .MaternityShootPackage__cell:nth-child(2) {
+    margin-top: -18px;
+    margin-bottom: 18px;
+  }
+}
+
+/* Laptops / small desktops */
+@media (max-width: 1099px) {
+  .MaternityShootPackage__grid {
+    grid-template-columns: minmax(0, 640px);
+    justify-content: center;
+    row-gap: 36px;
+  }
+
+  .MaternityShootPackage__card.is-featured {
+    order: -1;
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .MaternityShootPackage__pre {
+    grid-template-columns: 1fr;
+  }
+
+  .MaternityShootPackage__pre-info {
+    align-items: center;
+  }
+
+  .MaternityShootPackage__pre-info .MaternityShootPackage__button {
+    align-self: center;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .MaternityShootPackage__kicker::before,
+  .MaternityShootPackage__kicker::after {
+    width: 20px;
+  }
+
+  .MaternityShootPackage__stat {
+    padding: 14px 6px;
+    border-radius: 14px;
+  }
+
+  .MaternityShootPackage__card {
+    border-radius: 20px;
+  }
+
+  .MaternityShootPackage__button {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
+  }
+
+  .MaternityShootPackage__pre {
+    border-radius: 22px;
+  }
+
+  .MaternityShootPackage__service {
+    padding: 16px 18px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .MaternityShootPackage__pre-prices {
+    grid-template-columns: 1fr;
+  }
+
+  .MaternityShootPackage__stats {
+    gap: 8px;
+  }
+
+  .MaternityShootPackage__stat-label {
+    letter-spacing: 0;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .MaternityShootPackage__eyebrow,
+  .MaternityShootPackage__title,
+  .MaternityShootPackage__subtitle,
+  .MaternityShootPackage__divider {
+    animation: none;
+  }
+
+  .MaternityShootPackage__reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .MaternityShootPackage__card,
+  .MaternityShootPackage__tile,
+  .MaternityShootPackage__button {
+    transition-duration: 0.01ms;
+  }
+}

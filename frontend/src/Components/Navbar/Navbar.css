@@ -11,8 +11,11 @@
   --rp-gold: #c69a52;
   --rp-gold-dark: #a87935;
   --rp-gold-light: #e8d2a6;
+  --rp-gold-bg: rgba(198, 154, 82, 0.08);
   --rp-border: rgba(23, 23, 23, 0.09);
   --rp-shadow: 0 8px 35px rgba(0, 0, 0, 0.055);
+  --rp-dropdown-shadow: 0 16px 45px rgba(23, 23, 23, 0.12),
+    0 2px 8px rgba(198, 154, 82, 0.12);
   --rp-transition: 0.3s ease;
 }
 
@@ -90,7 +93,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 2.5vw, 38px);
+  gap: clamp(18px, 2.2vw, 36px);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -115,12 +118,14 @@
   font-weight: 500;
   letter-spacing: 0.35px;
   text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   white-space: nowrap;
   transition: color var(--rp-transition);
 }
 
 /* Animated gold underline */
-
 .rp-nav-link::after {
   content: "";
   position: absolute;
@@ -153,6 +158,133 @@
 .rp-logo:focus-visible {
   outline: 2px solid var(--rp-gold);
   outline-offset: 5px;
+}
+
+/* =======================
+   DESKTOP DROPDOWN
+======================= */
+
+.rp-dropdown-container {
+  display: flex;
+  align-items: center;
+}
+
+.rp-dropdown-trigger {
+  gap: 5px;
+}
+
+.rp-dropdown-chevron {
+  transition: transform var(--rp-transition), stroke var(--rp-transition);
+}
+
+.rp-dropdown-container:hover .rp-dropdown-chevron,
+.rp-dropdown-container.open .rp-dropdown-chevron {
+  transform: rotate(180deg);
+  stroke: var(--rp-gold-dark);
+}
+
+.rp-dropdown-menu {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  min-width: 290px;
+  background: var(--rp-white);
+  border-radius: 12px;
+  border: 1px solid rgba(198, 154, 82, 0.28);
+  box-shadow: var(--rp-dropdown-shadow);
+  padding: 10px 8px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.28s ease;
+  z-index: 1010;
+}
+
+/* Elegant gold top accent bar */
+.rp-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rp-gold),
+    var(--rp-gold-light),
+    transparent
+  );
+  border-radius: 2px;
+}
+
+/* Invisible bridge so mouse hover doesn't break between link and menu */
+.rp-dropdown-menu::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 0;
+  width: 100%;
+  height: 14px;
+}
+
+.rp-dropdown-container:hover .rp-dropdown-menu,
+.rp-dropdown-container.open .rp-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.rp-dropdown-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rp-dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  color: var(--rp-text);
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition:
+    background var(--rp-transition),
+    color var(--rp-transition),
+    transform var(--rp-transition);
+}
+
+.rp-dropdown-bullet {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rp-gold-light);
+  flex-shrink: 0;
+  transition:
+    transform var(--rp-transition),
+    background var(--rp-transition);
+}
+
+.rp-dropdown-link:hover,
+.rp-dropdown-link.active {
+  background: #faf6ef;
+  color: var(--rp-gold-dark);
+  transform: translateX(4px);
+}
+
+.rp-dropdown-link:hover .rp-dropdown-bullet,
+.rp-dropdown-link.active .rp-dropdown-bullet {
+  background: var(--rp-gold-dark);
+  transform: scale(1.6);
 }
 
 /* =======================
@@ -286,7 +418,6 @@
 }
 
 /* Mobile header */
-
 .rp-mobile-header {
   display: flex;
   align-items: center;
@@ -341,9 +472,8 @@
 }
 
 /* Sidebar caption */
-
 .rp-mobile-caption {
-  margin: 30px 0 14px;
+  margin: 28px 0 12px;
   color: var(--rp-gold-dark);
   font-size: 10px;
   font-weight: 700;
@@ -351,7 +481,6 @@
 }
 
 /* Mobile links */
-
 .rp-mobile-links {
   display: flex;
   flex-direction: column;
@@ -360,7 +489,7 @@
   padding: 0;
 }
 
-.rp-mobile-links li {
+.rp-mobile-links > li {
   margin: 0;
   padding: 0;
   border-bottom: 1px solid var(--rp-border);
@@ -368,17 +497,23 @@
 }
 
 .rp-mobile-link {
-  min-height: 64px;
+  min-height: 62px;
+  width: 100%;
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr) 24px;
   align-items: center;
   gap: 12px;
   padding: 12px 4px;
   color: var(--rp-text);
+  font-family: inherit;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.15px;
   text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
   transition:
     color var(--rp-transition),
     padding var(--rp-transition);
@@ -419,9 +554,73 @@
   transform: translate(0, 0);
 }
 
+/* Mobile Accordion for Services */
+.rp-accordion-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease, color 0.3s ease;
+  font-size: 17px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rp-accordion-icon.rotate {
+  transform: rotate(180deg);
+  color: var(--rp-gold-dark);
+}
+
+.rp-mobile-sublist-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background: rgba(198, 154, 82, 0.035);
+  border-radius: 8px;
+}
+
+.rp-mobile-sublist-wrapper.open {
+  max-height: 350px;
+  margin-bottom: 8px;
+}
+
+.rp-mobile-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0 10px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rp-mobile-sublink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: color var(--rp-transition), background var(--rp-transition), transform var(--rp-transition);
+}
+
+.rp-sublink-bullet {
+  font-size: 9px;
+  color: var(--rp-gold);
+}
+
+.rp-mobile-sublink:hover,
+.rp-mobile-sublink.active {
+  color: var(--rp-gold-dark);
+  background: rgba(198, 154, 82, 0.1);
+  transform: translateX(4px);
+}
+
 .rp-mobile-link:focus-visible,
 .rp-mobile-close:focus-visible,
-.rp-menu-toggle:focus-visible {
+.rp-menu-toggle:focus-visible,
+.rp-mobile-sublink:focus-visible {
   outline: 2px solid var(--rp-gold);
   outline-offset: 4px;
 }
@@ -463,7 +662,7 @@
 }
 
 /* =======================
-   LARGE DESKTOP
+   RESPONSIVE BREAKPOINTS
 ======================= */
 
 @media (min-width: 1600px) {
@@ -486,14 +685,10 @@
   }
 }
 
-/* =======================
-   LAPTOP
-======================= */
-
 @media (max-width: 1200px) {
   .rp-nav-container {
     padding: 0 30px;
-    gap: 24px;
+    gap: 20px;
   }
 
   .rp-logo img {
@@ -502,7 +697,7 @@
   }
 
   .rp-nav-menu {
-    gap: 22px;
+    gap: 20px;
   }
 
   .rp-nav-link {
@@ -510,11 +705,7 @@
   }
 }
 
-/* =======================
-   TABLET & MOBILE
-======================= */
-
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .rp-navbar {
     padding: 8px 0;
   }
@@ -538,10 +729,6 @@
     display: flex;
   }
 }
-
-/* =======================
-   MOBILE
-======================= */
 
 @media (max-width: 600px) {
   .rp-navbar {
@@ -575,14 +762,10 @@
   }
 
   .rp-mobile-link {
-    min-height: 59px;
+    min-height: 58px;
     font-size: 17px;
   }
 }
-
-/* =======================
-   SMALL MOBILE
-======================= */
 
 @media (max-width: 380px) {
   .rp-nav-container {
