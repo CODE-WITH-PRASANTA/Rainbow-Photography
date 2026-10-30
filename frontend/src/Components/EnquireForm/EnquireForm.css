@@ -1,0 +1,1279 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* =========================================================
+   ENQUIRE FORM - Rainbow Photography
+   Theme: Elegant Charcoal / Midnight Obsidian + Warm Rose Gold Accents
+   ========================================================= */
+
+.enquire-form-trigger,
+.enquire-form-backdrop {
+  --ef-bg: #0d0f12;
+  --ef-panel: #13171c;
+  --ef-panel-2: #181d24;
+  --ef-primary: #e09f58;
+  --ef-primary-soft: #f4c088;
+  --ef-primary-mid: #c7823b;
+  --ef-primary-deep: #8b4e18;
+  --ef-accent: #f2c14e;
+  --ef-white: #ffffff;
+  --ef-body: #d8dee4;
+  --ef-muted: #8b95a2;
+  --ef-border: rgba(255, 255, 255, 0.1);
+  --ef-field: rgba(255, 255, 255, 0.05);
+  --ef-error: #ff7575;
+  --ef-glow: rgba(224, 159, 88, 0.35);
+  --ef-ease: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.enquire-form-trigger,
+.enquire-form-trigger *,
+.enquire-form-trigger *::before,
+.enquire-form-trigger *::after,
+.enquire-form-backdrop,
+.enquire-form-backdrop *,
+.enquire-form-backdrop *::before,
+.enquire-form-backdrop *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   SIDE TRIGGER BUTTON
+   ========================================================= */
+
+.enquire-form-trigger {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 99990;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 48px;
+  min-height: 150px;
+  padding: 14px 6px;
+  padding-right: calc(6px + env(safe-area-inset-right, 0px));
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  background: linear-gradient(150deg, #b87b3e, #7a4214);
+  color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transform: translateY(-50%);
+  box-shadow: -6px 10px 28px rgba(0, 0, 0, 0.45);
+  transition: var(--ef-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.enquire-form-trigger::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(225deg, rgba(255, 255, 255, 0.25), transparent 45%);
+  pointer-events: none;
+}
+
+.enquire-form-trigger:hover {
+  width: 56px;
+  box-shadow: -8px 12px 34px var(--ef-glow);
+}
+
+.enquire-form-trigger:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.enquire-form-trigger:focus-visible {
+  outline: 2px solid var(--ef-accent);
+  outline-offset: 3px;
+}
+
+.enquire-form-trigger-dot {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ef-accent);
+  animation: enquireFormPulse 2s infinite;
+}
+
+.enquire-form-trigger-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.enquire-form-trigger-text {
+  position: relative;
+  z-index: 1;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BACKDROP
+   ========================================================= */
+
+.enquire-form-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100dvh;
+  padding: 20px;
+
+  background: rgba(8, 10, 14, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: enquireFormFade 0.25s ease forwards;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.enquire-form-card {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  width: min(100%, 920px);
+  max-height: calc(100dvh - 40px);
+
+  border: 1px solid var(--ef-border);
+  border-radius: 22px;
+  background: var(--ef-bg);
+  overflow: hidden;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.7);
+  animation: enquireFormPop 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ---------- Close ---------- */
+
+.enquire-form-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(13, 15, 18, 0.8);
+  color: #fff;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: var(--ef-ease);
+}
+
+.enquire-form-close:hover {
+  background: var(--ef-primary);
+  border-color: var(--ef-primary);
+  transform: rotate(90deg);
+  box-shadow: 0 6px 18px var(--ef-glow);
+}
+
+.enquire-form-close:focus-visible {
+  outline: 2px solid var(--ef-accent);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   LEFT PROMO
+   ========================================================= */
+
+.enquire-form-promo {
+  position: relative;
+  min-width: 0;
+  background-color: #12151a;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.enquire-form-promo-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(13, 16, 21, 0.6) 0%, rgba(13, 16, 21, 0.85) 55%, rgba(10, 12, 16, 0.98) 100%),
+    radial-gradient(circle at 0 0, rgba(224, 159, 88, 0.25), transparent 55%);
+}
+
+.enquire-form-promo-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+  height: 100%;
+  padding: 34px 30px 30px;
+  color: #fff;
+}
+
+.enquire-form-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 16px;
+  padding: 6px 12px;
+
+  border: 1px solid rgba(224, 159, 88, 0.35);
+  border-radius: 999px;
+  background: rgba(224, 159, 88, 0.12);
+  color: var(--ef-primary-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.enquire-form-badge-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ef-primary-soft);
+  box-shadow: 0 0 8px rgba(244, 192, 136, 0.8);
+}
+
+.enquire-form-promo-title {
+  margin: 0 0 12px;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.enquire-form-promo-title span {
+  color: var(--ef-primary-soft);
+}
+
+.enquire-form-promo-desc {
+  max-width: 340px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+/* ---------- Features ---------- */
+
+.enquire-form-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.enquire-form-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.enquire-form-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(224, 159, 88, 0.2);
+  color: var(--ef-primary-soft);
+}
+
+.enquire-form-feature strong {
+  display: block;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.enquire-form-feature small {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* ---------- Call button ---------- */
+
+.enquire-form-call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 9px 20px 9px 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  text-decoration: none;
+  transition: var(--ef-ease);
+}
+
+.enquire-form-call-btn:hover {
+  border-color: var(--ef-primary);
+  background: rgba(224, 159, 88, 0.2);
+  transform: translateY(-2px);
+}
+
+.enquire-form-call-btn:focus-visible {
+  outline: 2px solid var(--ef-accent);
+  outline-offset: 3px;
+}
+
+.enquire-form-call-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #c7823b, #8b4e18);
+  color: #fff;
+}
+
+.enquire-form-call-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.enquire-form-call-text small {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.enquire-form-call-text strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   RIGHT PANE
+   ========================================================= */
+
+.enquire-form-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 36px 36px 28px;
+
+  background:
+    radial-gradient(circle at 92% 4%, rgba(224, 159, 88, 0.12), transparent 34%),
+    linear-gradient(155deg, #161b22 0%, #111419 55%, #0b0d11 100%);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.enquire-form-pane > * {
+  flex-shrink: 0;
+}
+
+.enquire-form-pane::-webkit-scrollbar {
+  width: 5px;
+}
+
+.enquire-form-pane::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Header ---------- */
+
+.enquire-form-header {
+  margin-bottom: 22px;
+  padding-right: 36px;
+}
+
+.enquire-form-form-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--ef-primary-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.enquire-form-title {
+  margin: 0 0 8px;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.enquire-form-title::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--ef-primary), var(--ef-accent));
+}
+
+.enquire-form-subtitle {
+  margin: 0;
+  color: var(--ef-muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FORM FIELDS
+   ========================================================= */
+
+.enquire-form-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.enquire-form-field {
+  min-width: 0;
+}
+
+.enquire-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 6px 2px;
+  color: var(--ef-body);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.enquire-form-label em {
+  color: var(--ef-muted);
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.enquire-form-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.enquire-form-field input[type="text"],
+.enquire-form-field input[type="email"],
+.enquire-form-field input[type="tel"],
+.enquire-form-field select {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px 0 44px;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 12px;
+  outline: none;
+  background: var(--ef-field);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: var(--ef-ease);
+}
+
+.enquire-form-field input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.enquire-form-field input:focus,
+.enquire-form-field select:focus {
+  border-color: var(--ef-primary);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(224, 159, 88, 0.16);
+}
+
+.enquire-form-field input[aria-invalid="true"],
+.enquire-form-field select[aria-invalid="true"] {
+  border-color: var(--ef-error);
+}
+
+.enquire-form-input-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--ef-primary-soft);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Mobile prefix */
+
+.enquire-form-prefix {
+  position: absolute;
+  top: 50%;
+  left: 43px;
+  z-index: 2;
+  padding-right: 10px;
+  transform: translateY(-50%);
+  border-right: 1px solid var(--ef-border);
+  color: var(--ef-accent);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.enquire-form-field input.enquire-form-input-prefixed {
+  padding-left: 86px;
+}
+
+/* Select */
+
+.enquire-form-field select {
+  padding-right: 42px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.enquire-form-field select:invalid {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.enquire-form-field select option {
+  background: #151921;
+  color: #fff;
+}
+
+.enquire-form-chevron {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: var(--ef-muted);
+  pointer-events: none;
+}
+
+.enquire-form-field select:first-of-type {
+  padding-left: 14px;
+}
+
+/* ---------- Captcha ---------- */
+
+.enquire-form-captcha-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 48px;
+  gap: 8px;
+}
+
+.enquire-form-captcha-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+
+  border: 1px dashed rgba(224, 159, 88, 0.55);
+  border-radius: 12px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(224, 159, 88, 0.09),
+    rgba(224, 159, 88, 0.09) 6px,
+    rgba(255, 255, 255, 0.03) 6px,
+    rgba(255, 255, 255, 0.03) 12px
+  );
+  color: var(--ef-primary-soft);
+  font-family: "Courier New", monospace;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+.enquire-form-field input.enquire-form-captcha-input {
+  padding-left: 14px;
+  letter-spacing: 1px;
+}
+
+.enquire-form-captcha-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0;
+
+  border: 1px solid var(--ef-border);
+  border-radius: 12px;
+  background: var(--ef-field);
+  color: #fff;
+  cursor: pointer;
+  transition: var(--ef-ease);
+}
+
+.enquire-form-captcha-refresh:hover {
+  border-color: var(--ef-primary);
+  background: rgba(224, 159, 88, 0.18);
+  color: var(--ef-primary-soft);
+}
+
+.enquire-form-captcha-refresh:focus-visible {
+  outline: 2px solid var(--ef-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Terms ---------- */
+
+.enquire-form-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--ef-body);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.enquire-form-terms input {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--ef-primary);
+  cursor: pointer;
+}
+
+.enquire-form-terms label {
+  cursor: pointer;
+}
+
+.enquire-form-terms a {
+  color: var(--ef-primary-soft);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.enquire-form-terms a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Errors ---------- */
+
+.enquire-form-error {
+  margin: 6px 0 0 2px;
+  color: var(--ef-error);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ---------- Submit ---------- */
+
+.enquire-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 2px;
+  padding: 0 22px;
+
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c7823b 0%, #8b4e18 100%);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(139, 78, 24, 0.45);
+  transition: var(--ef-ease);
+}
+
+.enquire-form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px var(--ef-glow);
+}
+
+.enquire-form-submit:active {
+  transform: translateY(0);
+}
+
+.enquire-form-submit:focus-visible {
+  outline: 2px solid var(--ef-accent);
+  outline-offset: 3px;
+}
+
+.enquire-form-secure-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--ef-muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.enquire-form-secure-text svg {
+  flex-shrink: 0;
+  color: var(--ef-primary-soft);
+}
+
+.enquire-form-mobile-call {
+  display: none;
+}
+
+/* =========================================================
+   SUCCESS / SUBMITTED STATE (NO WHATSAPP REDIRECT)
+   ========================================================= */
+
+.enquire-form-success {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+  padding: 16px 0;
+  text-align: center;
+}
+
+.enquire-form-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 16px;
+
+  border: 1px solid rgba(224, 159, 88, 0.5);
+  border-radius: 50%;
+  background: rgba(224, 159, 88, 0.15);
+  color: var(--ef-primary-soft);
+  box-shadow: 0 0 0 10px rgba(224, 159, 88, 0.08);
+  animation: enquireFormPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.enquire-form-success-title {
+  margin: 0 0 8px;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.enquire-form-success-text {
+  max-width: 360px;
+  margin: 0 0 16px;
+  color: var(--ef-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.enquire-form-success-box {
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.enquire-form-success-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 12.5px;
+}
+
+.enquire-form-success-row:last-child {
+  border-bottom: none;
+}
+
+.enquire-form-success-row span {
+  color: var(--ef-muted);
+}
+
+.enquire-form-success-row strong {
+  color: #fff;
+}
+
+.enquire-form-status-badge {
+  color: #2ed573 !important;
+  font-size: 11.5px;
+}
+
+.enquire-form-success-subtext {
+  max-width: 340px;
+  margin: 0 0 20px;
+  color: var(--ef-muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.enquire-form-success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.enquire-form-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 0 20px;
+
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c7823b, #8b4e18);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(139, 78, 24, 0.4);
+  transition: var(--ef-ease);
+}
+
+.enquire-form-primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px var(--ef-glow);
+}
+
+.enquire-form-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+
+  border: 1px solid rgba(224, 159, 88, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ef-primary-soft);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ef-ease);
+}
+
+.enquire-form-ghost-btn:hover {
+  background: rgba(224, 159, 88, 0.15);
+  border-color: var(--ef-primary);
+  color: #fff;
+}
+
+.enquire-form-close-sheet-btn {
+  background: none;
+  border: none;
+  color: var(--ef-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px;
+  transition: var(--ef-ease);
+}
+
+.enquire-form-close-sheet-btn:hover {
+  color: #fff;
+}
+
+/* =========================================================
+   KEYFRAMES
+   ========================================================= */
+
+@keyframes enquireFormFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes enquireFormPop {
+  from { opacity: 0; transform: scale(0.94) translateY(14px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes enquireFormSheet {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes enquireFormPulse {
+  0% { box-shadow: 0 0 0 0 rgba(224, 159, 88, 0.6); }
+  70% { box-shadow: 0 0 0 9px rgba(224, 159, 88, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(224, 159, 88, 0); }
+}
+
+/* =========================================================
+   LAPTOPS (short screens)
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .enquire-form-card {
+    width: min(100%, 860px);
+  }
+
+  .enquire-form-promo-content {
+    padding: 30px 24px 26px;
+  }
+
+  .enquire-form-promo-title {
+    font-size: 25px;
+  }
+
+  .enquire-form-pane {
+    padding: 32px 28px 26px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .enquire-form-backdrop {
+    padding: 12px;
+  }
+
+  .enquire-form-card {
+    max-height: calc(100dvh - 24px);
+  }
+
+  .enquire-form-pane {
+    padding-top: 26px;
+    padding-bottom: 22px;
+  }
+
+  .enquire-form-header {
+    margin-bottom: 16px;
+  }
+
+  .enquire-form-form {
+    gap: 11px;
+  }
+
+  .enquire-form-feature small {
+    display: none;
+  }
+}
+
+/* Phones in landscape (wide but very short) */
+@media (max-height: 520px) and (min-width: 761px) {
+  .enquire-form-promo-desc,
+  .enquire-form-feature-grid {
+    display: none;
+  }
+
+  .enquire-form-subtitle {
+    display: none;
+  }
+}
+
+/* =========================================================
+   TABLET + MOBILE: BOTTOM SHEET
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .enquire-form-backdrop {
+    align-items: flex-end;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .enquire-form-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 94dvh;
+
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 24px 24px 0 0;
+    animation: enquireFormSheet 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Grab handle */
+  .enquire-form-card::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    z-index: 25;
+    width: 42px;
+    height: 4px;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .enquire-form-close {
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Compact promo header */
+  .enquire-form-promo {
+    flex-shrink: 0;
+  }
+
+  .enquire-form-promo-content {
+    gap: 0;
+    height: auto;
+    padding: 28px 62px 18px 20px;
+  }
+
+  .enquire-form-badge {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .enquire-form-promo-title {
+    margin: 0;
+    font-size: 21px;
+  }
+
+  .enquire-form-promo-desc,
+  .enquire-form-feature-grid,
+  .enquire-form-call-btn {
+    display: none;
+  }
+
+  /* Form pane scrolls inside the sheet */
+  .enquire-form-pane {
+    flex: 1;
+    padding: 22px 20px calc(26px + env(safe-area-inset-bottom, 0px));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .enquire-form-header {
+    margin-bottom: 18px;
+    padding-right: 0;
+  }
+
+  .enquire-form-title {
+    font-size: 23px;
+  }
+
+  .enquire-form-subtitle {
+    font-size: 13px;
+  }
+
+  /* 16px inputs avoid iOS zooming */
+  .enquire-form-field input[type="text"],
+  .enquire-form-field input[type="email"],
+  .enquire-form-field input[type="tel"],
+  .enquire-form-field select {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .enquire-form-captcha-box,
+  .enquire-form-captcha-refresh {
+    height: 50px;
+  }
+
+  .enquire-form-submit {
+    min-height: 52px;
+  }
+
+  .enquire-form-mobile-call {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    margin-top: 2px;
+
+    border: 1px solid rgba(224, 159, 88, 0.4);
+    border-radius: 999px;
+    color: var(--ef-primary-soft);
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* Side trigger */
+  .enquire-form-trigger {
+    width: 44px;
+    min-height: 136px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 8px;
+    border-radius: 13px 0 0 13px;
+  }
+
+  .enquire-form-trigger:hover {
+    width: 44px;
+  }
+
+  .enquire-form-trigger-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .enquire-form-trigger-text {
+    font-size: 10.5px;
+    letter-spacing: 1.4px;
+  }
+
+  .enquire-form-success {
+    min-height: 340px;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 400px) {
+  .enquire-form-promo-content {
+    padding: 26px 56px 16px 16px;
+  }
+
+  .enquire-form-promo-title {
+    font-size: 19px;
+  }
+
+  .enquire-form-pane {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .enquire-form-title {
+    font-size: 21px;
+  }
+
+  .enquire-form-form {
+    gap: 12px;
+  }
+
+  .enquire-form-captcha-row {
+    grid-template-columns: 84px minmax(0, 1fr) 46px;
+    gap: 6px;
+  }
+
+  .enquire-form-captcha-box {
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
+
+  .enquire-form-terms {
+    font-size: 12px;
+  }
+}
+
+/* Phones in landscape */
+@media (max-height: 480px) and (max-width: 900px) {
+  .enquire-form-backdrop {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .enquire-form-card {
+    max-height: 100dvh;
+    border-radius: 16px;
+  }
+
+  .enquire-form-card::before {
+    display: none;
+  }
+
+  .enquire-form-promo-content {
+    padding: 14px 56px 10px 18px;
+  }
+
+  .enquire-form-badge {
+    display: none;
+  }
+
+  .enquire-form-promo-title {
+    font-size: 16px;
+  }
+
+  .enquire-form-pane {
+    padding-top: 14px;
+  }
+
+  .enquire-form-header {
+    margin-bottom: 12px;
+  }
+
+  .enquire-form-subtitle {
+    display: none;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .enquire-form-backdrop,
+  .enquire-form-card,
+  .enquire-form-trigger,
+  .enquire-form-trigger-dot,
+  .enquire-form-success-icon {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

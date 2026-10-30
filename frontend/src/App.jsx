@@ -22,7 +22,9 @@ import Contact from "./Pages/Contact/Contact";
 import MainFaq from "./Pages/MainFaq/MainFaq";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
+ 
 import Servicemain from "./Pages/Servicemain/Servicemain";
+import EnquireForm from "./Components/EnquireForm/EnquireForm";
 
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
@@ -64,6 +66,7 @@ function App() {
       <Footer />
       <FloatingIcons/>
       <FloatingForm/>
+      <EnquireForm />
       
     </BrowserRouter>
      

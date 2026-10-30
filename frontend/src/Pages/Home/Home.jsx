@@ -4,12 +4,11 @@ import HomeGallerySection from '../../Components/HomeGallerySection/HomeGalleryS
 import HomeAboutSection from '../../Components/HomeAboutSection/HomeAboutSection'
 import HomeServiceSection from '../../Components/HomeServiceSection/HomeServiceSection'
 import HomeHeading from '../../Components/HomeHeading/HomeHeading'
-import HomeStories from '../../Components/HomeStories/HomeStories'
 import HomeWedingClicks from '../../Components/HomeWeddingClicks/HomeWeddingClicks'
-import HomePricing from '../../Components/HomePricing/HomePricing'
 import HomeScoring from '../../Components/HomeScoring/HomeScoring'
 import HomeNews from '../../Components/HomeNews/HomeNews'
 import HomeTimelessStory from '../../Components/HomeTimelessStory/HomeTimelessStory'
+import PricingMain from '../../Components/PricingMain/PricingMain'
 
 const Home = () => {
   return (
@@ -22,7 +21,7 @@ const Home = () => {
       <HomeHeading />
      
       <HomeWedingClicks />
-      <HomePricing />
+      <PricingMain/>
       <HomeScoring />
       <HomeNews />
     </div>

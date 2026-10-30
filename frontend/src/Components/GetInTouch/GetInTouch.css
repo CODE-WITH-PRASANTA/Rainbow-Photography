@@ -24,21 +24,21 @@
 /* ================= FLOWERS ================= */
 .git-flower {
   position: absolute;
-    width: 420px;
-    opacity: 1.18;
-    filter: saturate(100%);
-    pointer-events: none;
+  width: 420px;
+  opacity: 1;
+  filter: saturate(100%);
+  pointer-events: none;
 }
 
 .git-flower-left {
-  left: 0px;
-  bottom: 0px;
+  left: 0;
+  bottom: 0;
 }
 
 .git-flower-right {
- right: -20px;
- top: 0px;
- transform: rotate(180deg);
+  right: -20px;
+  top: 0;
+  transform: rotate(180deg);
 }
 
 /* ================= CONTAINER ================= */
@@ -47,7 +47,7 @@
   z-index: 2;
   display: flex;
   gap: 80px;
-  margin-bottom: 120px;
+  margin-bottom: 0;
 }
 
 /* ================= LEFT SIDE ================= */
@@ -133,6 +133,7 @@
   font-size: 15px;
   margin-bottom: 20px;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .git textarea {
@@ -145,6 +146,7 @@
 .git textarea:focus {
   border-color: #d27a4b;
   box-shadow: 0 0 0 3px rgba(210, 122, 75, 0.15);
+  outline: none;
 }
 
 /* ================= PROFESSIONAL BUTTON ================= */
@@ -181,68 +183,6 @@
   z-index: 2;
 }
 
-/* ================= AUTO SCROLL GALLERY ================= */
-.git-gallery-wrapper {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.git-gallery {
-  display: flex;
-  gap: 20px;
-  animation: scrollGallery 30s linear infinite;
-}
-
-.git-gallery-wrapper:hover .git-gallery {
-  animation-play-state: paused;
-}
-
-.git-gallery-item {
-  position: relative;
-  min-width: 250px;
-  height: 180px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.git-gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.4s;
-}
-
-.git-gallery-item:hover img {
-  transform: scale(1.1);
-}
-
-.git-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(210, 122, 75, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 28px;
-  opacity: 0;
-  transition: 0.4s;
-}
-
-.git-gallery-item:hover .git-overlay {
-  opacity: 1;
-}
-
-/* Scroll Animation */
-@keyframes scrollGallery {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
   .git-container {
@@ -271,10 +211,5 @@
 
   .git-flower {
     width: 200px;
-  }
-
-  .git-gallery-item {
-    min-width: 200px;
-    height: 150px;
   }
 }
