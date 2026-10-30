@@ -1,0 +1,677 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   MaternityShootTwo
+   ========================================================== */
+
+.MaternityShootTwo {
+  --mst-gold: #d9ac45;
+  --mst-gold-light: #f7e2a1;
+  --mst-gold-dark: #a97a1e;
+  --mst-gold-text: #2b1c04;
+  --mst-gold-gradient: linear-gradient(135deg, #f7e2a1 0%, #e0b44e 38%, #c18f2b 70%, #a97a1e 100%);
+  --mst-gold-glow: rgba(217, 172, 69, 0.4);
+  --mst-ink: #16120e;
+  --mst-muted: #6f675d;
+  --mst-bg: #fbf8f3;
+  --mst-ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+
+  position: relative;
+  width: 100%;
+  padding: clamp(48px, 7vw, 96px) clamp(14px, 3vw, 40px) clamp(56px, 7vw, 100px);
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(217, 172, 69, 0.12), transparent 70%),
+    var(--mst-bg);
+  color: var(--mst-ink);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.MaternityShootTwo *,
+.MaternityShootTwo *::before,
+.MaternityShootTwo *::after {
+  box-sizing: border-box;
+}
+
+.MaternityShootTwo ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.MaternityShootTwo button {
+  font-family: inherit;
+}
+
+.MaternityShootTwo__container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.MaternityShootTwo__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-align: center;
+}
+
+.MaternityShootTwo__eyebrow {
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--mst-gold-dark);
+  animation: MaternityShootTwo-rise 0.8s var(--mst-ease) both;
+}
+
+.MaternityShootTwo__title {
+  max-width: 18em;
+  margin: 0;
+  font-size: clamp(1.9rem, 4.4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: MaternityShootTwo-rise 0.8s var(--mst-ease) 0.08s both;
+}
+
+.MaternityShootTwo__divider {
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: 20px 0 18px;
+  border-radius: 3px;
+  background: var(--mst-gold-gradient);
+  animation: MaternityShootTwo-grow 0.9s var(--mst-ease) 0.2s both;
+}
+
+.MaternityShootTwo__subtitle {
+  max-width: 40em;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--mst-muted);
+  animation: MaternityShootTwo-rise 0.8s var(--mst-ease) 0.16s both;
+}
+
+/* ---------- Filter tabs ---------- */
+
+.MaternityShootTwo__filters {
+  display: flex;
+  margin-bottom: clamp(26px, 3.4vw, 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 6px 4px 14px;
+  animation: MaternityShootTwo-rise 0.8s var(--mst-ease) 0.24s both;
+}
+
+.MaternityShootTwo__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.MaternityShootTwo__tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;
+  padding: 6px;
+  border: 1px solid rgba(169, 122, 30, 0.2);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(60, 40, 10, 0.08);
+}
+
+.MaternityShootTwo__indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2c2620 0%, #14110e 100%);
+  box-shadow: 0 8px 18px rgba(20, 17, 14, 0.3),
+    inset 0 0 0 1px rgba(217, 172, 69, 0.55);
+  transition: transform 0.55s var(--mst-ease), width 0.55s var(--mst-ease);
+  pointer-events: none;
+}
+
+.MaternityShootTwo__tab {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: 11px clamp(16px, 2vw, 26px);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #4a433b;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+
+.MaternityShootTwo__tab:hover {
+  color: var(--mst-gold-dark);
+}
+
+.MaternityShootTwo__tab.is-active,
+.MaternityShootTwo__tab.is-active:hover {
+  color: #ffffff;
+}
+
+/* ---------- Masonry grid ---------- */
+
+.MaternityShootTwo__grid {
+  column-count: 3;
+  column-gap: clamp(14px, 1.8vw, 26px);
+}
+
+.MaternityShootTwo__item {
+  display: block;
+  margin: 0 0 clamp(14px, 1.8vw, 26px);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  animation: MaternityShootTwo-reveal 0.9s var(--mst-ease) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.MaternityShootTwo__card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: linear-gradient(110deg, #ece6dc 8%, #f6f1e8 18%, #ece6dc 33%);
+  background-size: 200% 100%;
+  box-shadow: 0 14px 34px rgba(60, 40, 10, 0.12);
+  isolation: isolate;
+  transition: transform 0.6s var(--mst-ease), box-shadow 0.6s var(--mst-ease);
+  animation: MaternityShootTwo-shimmer 1.4s linear infinite;
+}
+
+.MaternityShootTwo__card.is-loaded {
+  min-height: 0;
+  animation: none;
+  background: #ece6dc;
+}
+
+.MaternityShootTwo__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 54px rgba(60, 40, 10, 0.22),
+    0 0 0 1px rgba(217, 172, 69, 0.55);
+}
+
+.MaternityShootTwo__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s ease, transform 1.2s var(--mst-ease);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.MaternityShootTwo__card.is-loaded .MaternityShootTwo__image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.MaternityShootTwo__card.is-loaded:hover .MaternityShootTwo__image {
+  transform: scale(1.07);
+}
+
+/* hover overlay */
+.MaternityShootTwo__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  background: linear-gradient(0deg, rgba(14, 10, 6, 0.78) 0%, rgba(14, 10, 6, 0) 52%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.MaternityShootTwo__card:hover .MaternityShootTwo__overlay,
+.MaternityShootTwo__card:focus-visible .MaternityShootTwo__overlay {
+  opacity: 1;
+}
+
+.MaternityShootTwo__tag {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(247, 226, 161, 0.55);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateY(12px);
+  transition: transform 0.55s var(--mst-ease);
+}
+
+.MaternityShootTwo__zoom {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--mst-gold-gradient);
+  color: var(--mst-gold-text);
+  box-shadow: 0 8px 20px var(--mst-gold-glow);
+  transform: translateY(12px) scale(0.8);
+  transition: transform 0.55s var(--mst-ease) 0.05s;
+}
+
+.MaternityShootTwo__card:hover .MaternityShootTwo__tag,
+.MaternityShootTwo__card:focus-visible .MaternityShootTwo__tag {
+  transform: translateY(0);
+}
+
+.MaternityShootTwo__card:hover .MaternityShootTwo__zoom,
+.MaternityShootTwo__card:focus-visible .MaternityShootTwo__zoom {
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- Footer / Load more ---------- */
+
+.MaternityShootTwo__empty {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--mst-muted);
+}
+
+.MaternityShootTwo__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: clamp(12px, 2vw, 24px);
+}
+
+.MaternityShootTwo__count {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--mst-muted);
+}
+
+.MaternityShootTwo__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 46px;
+  border: 1px solid rgba(255, 238, 190, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--mst-gold-gradient);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: var(--mst-gold-text);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: 0 12px 28px var(--mst-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.MaternityShootTwo__button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.MaternityShootTwo__button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(217, 172, 69, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.MaternityShootTwo__button:hover::after {
+  left: 130%;
+  transition: left 0.8s ease;
+}
+
+.MaternityShootTwo__button:active {
+  transform: translateY(0);
+}
+
+/* ---------- Lightbox ---------- */
+
+.MaternityShootTwo__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: clamp(56px, 8vh, 80px) clamp(12px, 6vw, 96px);
+  background: rgba(10, 7, 4, 0.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: MaternityShootTwo-fade 0.35s ease both;
+}
+
+.MaternityShootTwo__lightbox-figure {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  animation: MaternityShootTwo-zoom 0.55s var(--mst-ease) both;
+}
+
+.MaternityShootTwo__lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 170px);
+  max-height: calc(100dvh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: 14px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(217, 172, 69, 0.4);
+}
+
+.MaternityShootTwo__lightbox-caption {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.MaternityShootTwo__lightbox-tag {
+  padding: 6px 16px;
+  border: 1px solid rgba(247, 226, 161, 0.6);
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mst-gold-light);
+}
+
+.MaternityShootTwo__lightbox-counter {
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.MaternityShootTwo__lightbox-close,
+.MaternityShootTwo__lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.MaternityShootTwo__lightbox-close {
+  top: clamp(12px, 3vh, 28px);
+  right: clamp(12px, 3vw, 32px);
+}
+
+.MaternityShootTwo__lightbox-nav {
+  top: 50%;
+  margin-top: -24px;
+}
+
+.MaternityShootTwo__lightbox-nav--prev {
+  left: clamp(8px, 2vw, 32px);
+}
+
+.MaternityShootTwo__lightbox-nav--next {
+  right: clamp(8px, 2vw, 32px);
+}
+
+.MaternityShootTwo__lightbox-close:hover,
+.MaternityShootTwo__lightbox-nav:hover {
+  background: var(--mst-gold-gradient);
+  border-color: rgba(255, 238, 190, 0.6);
+  color: var(--mst-gold-text);
+  transform: scale(1.08);
+}
+
+/* ---------- Focus ---------- */
+
+.MaternityShootTwo__tab:focus-visible,
+.MaternityShootTwo__card:focus-visible,
+.MaternityShootTwo__button:focus-visible,
+.MaternityShootTwo__lightbox-close:focus-visible,
+.MaternityShootTwo__lightbox-nav:focus-visible {
+  outline: 3px solid var(--mst-gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes MaternityShootTwo-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes MaternityShootTwo-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes MaternityShootTwo-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes MaternityShootTwo-shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@keyframes MaternityShootTwo-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes MaternityShootTwo-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+/* Large desktops / TVs */
+@media (min-width: 1800px) {
+  .MaternityShootTwo__container {
+    max-width: 1700px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .MaternityShootTwo__grid {
+    column-count: 2;
+  }
+}
+
+/* Phones */
+@media (max-width: 767px) {
+  .MaternityShootTwo__tab {
+    padding: 10px 16px;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+  }
+
+  .MaternityShootTwo__card {
+    min-height: 160px;
+    border-radius: 14px;
+  }
+
+  .MaternityShootTwo__overlay {
+    padding: 12px;
+  }
+
+  .MaternityShootTwo__zoom {
+    width: 36px;
+    height: 36px;
+  }
+
+  .MaternityShootTwo__lightbox-nav {
+    top: auto;
+    bottom: 18px;
+    margin-top: 0;
+  }
+
+  .MaternityShootTwo__lightbox-nav--prev {
+    left: 18px;
+  }
+
+  .MaternityShootTwo__lightbox-nav--next {
+    right: 18px;
+  }
+
+  .MaternityShootTwo__lightbox {
+    padding-bottom: 84px;
+  }
+
+  .MaternityShootTwo__lightbox-image {
+    max-height: calc(100vh - 220px);
+    max-height: calc(100dvh - 220px);
+  }
+}
+
+/* Small phones: single column */
+@media (max-width: 479px) {
+  .MaternityShootTwo__grid {
+    column-count: 1;
+  }
+
+  .MaternityShootTwo__card {
+    min-height: 220px;
+  }
+
+  .MaternityShootTwo__button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* Touch devices: no hover, so always show a light tag */
+@media (hover: none) {
+  .MaternityShootTwo__overlay {
+    opacity: 1;
+    background: linear-gradient(0deg, rgba(14, 10, 6, 0.62) 0%, rgba(14, 10, 6, 0) 38%);
+  }
+
+  .MaternityShootTwo__tag,
+  .MaternityShootTwo__zoom {
+    transform: none;
+  }
+
+  .MaternityShootTwo__zoom {
+    display: none;
+  }
+
+  .MaternityShootTwo__card:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .MaternityShootTwo__eyebrow,
+  .MaternityShootTwo__title,
+  .MaternityShootTwo__subtitle,
+  .MaternityShootTwo__divider,
+  .MaternityShootTwo__filters,
+  .MaternityShootTwo__item,
+  .MaternityShootTwo__lightbox,
+  .MaternityShootTwo__lightbox-figure {
+    animation: none;
+  }
+
+  .MaternityShootTwo__indicator,
+  .MaternityShootTwo__image,
+  .MaternityShootTwo__card,
+  .MaternityShootTwo__tag,
+  .MaternityShootTwo__zoom {
+    transition-duration: 0.01ms;
+  }
+}

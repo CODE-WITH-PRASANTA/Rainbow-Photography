@@ -1,0 +1,670 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   BirthdaySpecialTwo
+   ========================================================== */
+
+.BirthdaySpecialTwo {
+  --bst-gold: #d9ac45;
+  --bst-gold-light: #f7e2a1;
+  --bst-gold-dark: #a97a1e;
+  --bst-gold-text: #2b1c04;
+  --bst-gold-gradient: linear-gradient(135deg, #f7e2a1 0%, #e0b44e 38%, #c18f2b 70%, #a97a1e 100%);
+  --bst-gold-glow: rgba(217, 172, 69, 0.4);
+  --bst-ink: #16120e;
+  --bst-muted: #6f675d;
+  --bst-bg: #fbf8f3;
+  --bst-ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+
+  position: relative;
+  width: 100%;
+  padding: clamp(48px, 7vw, 96px) clamp(14px, 3vw, 40px) clamp(56px, 7vw, 100px);
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(217, 172, 69, 0.12), transparent 70%),
+    var(--bst-bg);
+  color: var(--bst-ink);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.BirthdaySpecialTwo *,
+.BirthdaySpecialTwo *::before,
+.BirthdaySpecialTwo *::after {
+  box-sizing: border-box;
+}
+
+.BirthdaySpecialTwo ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.BirthdaySpecialTwo button {
+  font-family: inherit;
+}
+
+.BirthdaySpecialTwo__container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.BirthdaySpecialTwo__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-align: center;
+}
+
+.BirthdaySpecialTwo__eyebrow {
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--bst-gold-dark);
+  animation: BirthdaySpecialTwo-rise 0.8s var(--bst-ease) both;
+}
+
+.BirthdaySpecialTwo__title {
+  max-width: 18em;
+  margin: 0;
+  font-size: clamp(1.9rem, 4.4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: BirthdaySpecialTwo-rise 0.8s var(--bst-ease) 0.08s both;
+}
+
+.BirthdaySpecialTwo__divider {
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: 20px 0 18px;
+  border-radius: 3px;
+  background: var(--bst-gold-gradient);
+  animation: BirthdaySpecialTwo-grow 0.9s var(--bst-ease) 0.2s both;
+}
+
+.BirthdaySpecialTwo__subtitle {
+  max-width: 40em;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--bst-muted);
+  animation: BirthdaySpecialTwo-rise 0.8s var(--bst-ease) 0.16s both;
+}
+
+/* ---------- Filter tabs ---------- */
+
+.BirthdaySpecialTwo__filters {
+  display: flex;
+  margin-bottom: clamp(26px, 3.4vw, 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 6px 4px 14px;
+  animation: BirthdaySpecialTwo-rise 0.8s var(--bst-ease) 0.24s both;
+}
+
+.BirthdaySpecialTwo__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.BirthdaySpecialTwo__tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;
+  padding: 6px;
+  border: 1px solid rgba(169, 122, 30, 0.2);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(60, 40, 10, 0.08);
+}
+
+.BirthdaySpecialTwo__indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2c2620 0%, #14110e 100%);
+  box-shadow: 0 8px 18px rgba(20, 17, 14, 0.3),
+    inset 0 0 0 1px rgba(217, 172, 69, 0.55);
+  transition: transform 0.55s var(--bst-ease), width 0.55s var(--bst-ease);
+  pointer-events: none;
+}
+
+.BirthdaySpecialTwo__tab {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: 11px clamp(16px, 2vw, 26px);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #4a433b;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+
+.BirthdaySpecialTwo__tab:hover {
+  color: var(--bst-gold-dark);
+}
+
+.BirthdaySpecialTwo__tab.is-active,
+.BirthdaySpecialTwo__tab.is-active:hover {
+  color: #ffffff;
+}
+
+/* ---------- Masonry grid ---------- */
+
+.BirthdaySpecialTwo__grid {
+  column-count: 3;
+  column-gap: clamp(14px, 1.8vw, 26px);
+}
+
+.BirthdaySpecialTwo__item {
+  display: block;
+  margin: 0 0 clamp(14px, 1.8vw, 26px);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  animation: BirthdaySpecialTwo-reveal 0.9s var(--bst-ease) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.BirthdaySpecialTwo__card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: linear-gradient(110deg, #ece6dc 8%, #f6f1e8 18%, #ece6dc 33%);
+  background-size: 200% 100%;
+  box-shadow: 0 14px 34px rgba(60, 40, 10, 0.12);
+  isolation: isolate;
+  transition: transform 0.6s var(--bst-ease), box-shadow 0.6s var(--bst-ease);
+  animation: BirthdaySpecialTwo-shimmer 1.4s linear infinite;
+}
+
+.BirthdaySpecialTwo__card.is-loaded {
+  min-height: 0;
+  animation: none;
+  background: #ece6dc;
+}
+
+.BirthdaySpecialTwo__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 54px rgba(60, 40, 10, 0.22),
+    0 0 0 1px rgba(217, 172, 69, 0.55);
+}
+
+.BirthdaySpecialTwo__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s ease, transform 1.2s var(--bst-ease);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.BirthdaySpecialTwo__card.is-loaded .BirthdaySpecialTwo__image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.BirthdaySpecialTwo__card.is-loaded:hover .BirthdaySpecialTwo__image {
+  transform: scale(1.07);
+}
+
+/* hover overlay */
+.BirthdaySpecialTwo__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  background: linear-gradient(0deg, rgba(14, 10, 6, 0.78) 0%, rgba(14, 10, 6, 0) 52%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.BirthdaySpecialTwo__card:hover .BirthdaySpecialTwo__overlay,
+.BirthdaySpecialTwo__card:focus-visible .BirthdaySpecialTwo__overlay {
+  opacity: 1;
+}
+
+.BirthdaySpecialTwo__tag {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(247, 226, 161, 0.55);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateY(12px);
+  transition: transform 0.55s var(--bst-ease);
+}
+
+.BirthdaySpecialTwo__zoom {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bst-gold-gradient);
+  color: var(--bst-gold-text);
+  box-shadow: 0 8px 20px var(--bst-gold-glow);
+  transform: translateY(12px) scale(0.8);
+  transition: transform 0.55s var(--bst-ease) 0.05s;
+}
+
+.BirthdaySpecialTwo__card:hover .BirthdaySpecialTwo__tag,
+.BirthdaySpecialTwo__card:focus-visible .BirthdaySpecialTwo__tag {
+  transform: translateY(0);
+}
+
+.BirthdaySpecialTwo__card:hover .BirthdaySpecialTwo__zoom,
+.BirthdaySpecialTwo__card:focus-visible .BirthdaySpecialTwo__zoom {
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- Footer / Load more ---------- */
+
+.BirthdaySpecialTwo__empty {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--bst-muted);
+}
+
+.BirthdaySpecialTwo__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: clamp(12px, 2vw, 24px);
+}
+
+.BirthdaySpecialTwo__count {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--bst-muted);
+}
+
+.BirthdaySpecialTwo__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 46px;
+  border: 1px solid rgba(255, 238, 190, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bst-gold-gradient);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: var(--bst-gold-text);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: 0 12px 28px var(--bst-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.BirthdaySpecialTwo__button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.BirthdaySpecialTwo__button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(217, 172, 69, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.BirthdaySpecialTwo__button:hover::after {
+  left: 130%;
+  transition: left 0.8s ease;
+}
+
+.BirthdaySpecialTwo__button:active {
+  transform: translateY(0);
+}
+
+/* ---------- Lightbox ---------- */
+
+.BirthdaySpecialTwo__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: clamp(56px, 8vh, 80px) clamp(12px, 6vw, 96px);
+  background: rgba(10, 7, 4, 0.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: BirthdaySpecialTwo-fade 0.35s ease both;
+}
+
+.BirthdaySpecialTwo__lightbox-figure {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  animation: BirthdaySpecialTwo-zoom 0.55s var(--bst-ease) both;
+}
+
+.BirthdaySpecialTwo__lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 170px);
+  max-height: calc(100dvh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: 14px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(217, 172, 69, 0.4);
+}
+
+.BirthdaySpecialTwo__lightbox-caption {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.BirthdaySpecialTwo__lightbox-tag {
+  padding: 6px 16px;
+  border: 1px solid rgba(247, 226, 161, 0.6);
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bst-gold-light);
+}
+
+.BirthdaySpecialTwo__lightbox-counter {
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.BirthdaySpecialTwo__lightbox-close,
+.BirthdaySpecialTwo__lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.BirthdaySpecialTwo__lightbox-close {
+  top: clamp(12px, 3vh, 28px);
+  right: clamp(12px, 3vw, 32px);
+}
+
+.BirthdaySpecialTwo__lightbox-nav {
+  top: 50%;
+  margin-top: -24px;
+}
+
+.BirthdaySpecialTwo__lightbox-nav--prev {
+  left: clamp(8px, 2vw, 32px);
+}
+
+.BirthdaySpecialTwo__lightbox-nav--next {
+  right: clamp(8px, 2vw, 32px);
+}
+
+.BirthdaySpecialTwo__lightbox-close:hover,
+.BirthdaySpecialTwo__lightbox-nav:hover {
+  background: var(--bst-gold-gradient);
+  border-color: rgba(255, 238, 190, 0.6);
+  color: var(--bst-gold-text);
+  transform: scale(1.08);
+}
+
+/* ---------- Focus ---------- */
+
+.BirthdaySpecialTwo__tab:focus-visible,
+.BirthdaySpecialTwo__card:focus-visible,
+.BirthdaySpecialTwo__button:focus-visible,
+.BirthdaySpecialTwo__lightbox-close:focus-visible,
+.BirthdaySpecialTwo__lightbox-nav:focus-visible {
+  outline: 3px solid var(--bst-gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes BirthdaySpecialTwo-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes BirthdaySpecialTwo-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes BirthdaySpecialTwo-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes BirthdaySpecialTwo-shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@keyframes BirthdaySpecialTwo-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes BirthdaySpecialTwo-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (min-width: 1800px) {
+  .BirthdaySpecialTwo__container {
+    max-width: 1700px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .BirthdaySpecialTwo__grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .BirthdaySpecialTwo__tab {
+    padding: 10px 16px;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+  }
+
+  .BirthdaySpecialTwo__card {
+    min-height: 160px;
+    border-radius: 14px;
+  }
+
+  .BirthdaySpecialTwo__overlay {
+    padding: 12px;
+  }
+
+  .BirthdaySpecialTwo__zoom {
+    width: 36px;
+    height: 36px;
+  }
+
+  .BirthdaySpecialTwo__lightbox-nav {
+    top: auto;
+    bottom: 18px;
+    margin-top: 0;
+  }
+
+  .BirthdaySpecialTwo__lightbox-nav--prev {
+    left: 18px;
+  }
+
+  .BirthdaySpecialTwo__lightbox-nav--next {
+    right: 18px;
+  }
+
+  .BirthdaySpecialTwo__lightbox {
+    padding-bottom: 84px;
+  }
+
+  .BirthdaySpecialTwo__lightbox-image {
+    max-height: calc(100vh - 220px);
+    max-height: calc(100dvh - 220px);
+  }
+}
+
+@media (max-width: 479px) {
+  .BirthdaySpecialTwo__grid {
+    column-count: 1;
+  }
+
+  .BirthdaySpecialTwo__card {
+    min-height: 220px;
+  }
+
+  .BirthdaySpecialTwo__button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (hover: none) {
+  .BirthdaySpecialTwo__overlay {
+    opacity: 1;
+    background: linear-gradient(0deg, rgba(14, 10, 6, 0.62) 0%, rgba(14, 10, 6, 0) 38%);
+  }
+
+  .BirthdaySpecialTwo__tag,
+  .BirthdaySpecialTwo__zoom {
+    transform: none;
+  }
+
+  .BirthdaySpecialTwo__zoom {
+    display: none;
+  }
+
+  .BirthdaySpecialTwo__card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .BirthdaySpecialTwo__eyebrow,
+  .BirthdaySpecialTwo__title,
+  .BirthdaySpecialTwo__subtitle,
+  .BirthdaySpecialTwo__divider,
+  .BirthdaySpecialTwo__filters,
+  .BirthdaySpecialTwo__item,
+  .BirthdaySpecialTwo__lightbox,
+  .BirthdaySpecialTwo__lightbox-figure {
+    animation: none;
+  }
+
+  .BirthdaySpecialTwo__indicator,
+  .BirthdaySpecialTwo__image,
+  .BirthdaySpecialTwo__card,
+  .BirthdaySpecialTwo__tag,
+  .BirthdaySpecialTwo__zoom {
+    transition-duration: 0.01ms;
+  }
+}

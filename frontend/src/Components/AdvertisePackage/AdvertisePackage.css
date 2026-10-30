@@ -1,0 +1,692 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   AdvertisePackage
+   ========================================================== */
+
+.AdvertisePackage {
+  --adp-gold: #d9ac45;
+  --adp-gold-light: #f7e2a1;
+  --adp-gold-text: #2b1c04;
+  --adp-gold-gradient: linear-gradient(135deg, #f7e2a1 0%, #e0b44e 38%, #c18f2b 70%, #a97a1e 100%);
+  --adp-gold-glow: rgba(217, 172, 69, 0.38);
+  --adp-text: #ffffff;
+  --adp-muted: rgba(255, 255, 255, 0.72);
+  --adp-card: rgba(20, 15, 10, 0.72);
+  --adp-line: rgba(217, 172, 69, 0.22);
+  --adp-ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+
+  position: relative;
+  width: 100%;
+  padding: clamp(56px, 7vw, 100px) clamp(16px, 3vw, 40px) clamp(60px, 7vw, 110px);
+  overflow: hidden;
+  color: var(--adp-text);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #0b0907;
+  isolation: isolate;
+}
+
+.AdvertisePackage *,
+.AdvertisePackage *::before,
+.AdvertisePackage *::after {
+  box-sizing: border-box;
+}
+
+/* Reset uses :where() so it has ZERO specificity.
+   This lets the spacing set on the AdvertisePackage__* classes below
+   (margin-top / margin-bottom) win, instead of being wiped out by the reset. */
+.AdvertisePackage :where(ul, ol, h2, h3, h4, p) {
+  margin: 0;
+  padding: 0;
+}
+
+.AdvertisePackage :where(ul, ol) {
+  list-style: none;
+}
+
+/* ---------- Background ---------- */
+
+.AdvertisePackage__background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: #0b0907;
+  background-image: var(--package-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.AdvertisePackage__background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 500px at 50% 0%, rgba(217, 172, 69, 0.16), transparent 70%),
+    linear-gradient(180deg, rgba(8, 6, 4, 0.9) 0%, rgba(8, 6, 4, 0.8) 40%, rgba(8, 6, 4, 0.93) 100%);
+}
+
+@media (min-width: 1025px) and (hover: hover) {
+  .AdvertisePackage__background {
+    background-attachment: fixed;
+  }
+}
+
+.AdvertisePackage__container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.AdvertisePackage__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(36px, 5vw, 56px);
+  text-align: center;
+}
+
+.AdvertisePackage__eyebrow {
+  margin-bottom: 16px;
+  padding: 8px 20px;
+  border: 1px solid var(--adp-line);
+  border-radius: 999px;
+  background: rgba(217, 172, 69, 0.08);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--adp-gold-light);
+  animation: AdvertisePackage-rise 0.8s var(--adp-ease) both;
+}
+
+.AdvertisePackage__title {
+  max-width: 16em;
+  font-size: clamp(1.9rem, 4.4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: AdvertisePackage-rise 0.8s var(--adp-ease) 0.08s both;
+}
+
+.AdvertisePackage__title-accent {
+  background: var(--adp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.AdvertisePackage__divider {
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 24px 0 20px;
+  border-radius: 3px;
+  background: var(--adp-gold-gradient);
+  animation: AdvertisePackage-grow 0.9s var(--adp-ease) 0.2s both;
+}
+
+.AdvertisePackage__subtitle {
+  max-width: 42em;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--adp-muted);
+  animation: AdvertisePackage-rise 0.8s var(--adp-ease) 0.16s both;
+}
+
+/* ---------- Scroll reveal ---------- */
+
+.AdvertisePackage__reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition: opacity 0.9s var(--adp-ease), transform 0.9s var(--adp-ease);
+  transition-delay: var(--delay, 0ms);
+}
+
+.AdvertisePackage__reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ---------- Section heading ---------- */
+
+.AdvertisePackage__section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(26px, 4vw, 42px);
+  text-align: center;
+}
+
+.AdvertisePackage__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--adp-gold);
+}
+
+.AdvertisePackage__kicker::before,
+.AdvertisePackage__kicker::after {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--adp-gold));
+}
+
+.AdvertisePackage__kicker::after {
+  transform: scaleX(-1);
+}
+
+.AdvertisePackage__section-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.AdvertisePackage__section-text {
+  max-width: 38em;
+  margin-top: 12px;
+  font-size: clamp(0.92rem, 1.2vw, 1.03rem);
+  line-height: 1.7;
+  color: var(--adp-muted);
+}
+
+/* ---------- Package card ---------- */
+
+.AdvertisePackage__wrap {
+  margin-bottom: clamp(60px, 8vw, 96px);
+}
+
+.AdvertisePackage__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(30px, 4vw, 52px);
+  border: 1px solid rgba(247, 226, 161, 0.7);
+  border-radius: 28px;
+  background:
+    radial-gradient(520px 280px at 0% 0%, rgba(217, 172, 69, 0.24), transparent 72%),
+    rgba(26, 19, 10, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 60px rgba(217, 172, 69, 0.2);
+  transition: transform 0.6s var(--adp-ease), box-shadow 0.6s var(--adp-ease);
+}
+
+.AdvertisePackage__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 70px rgba(217, 172, 69, 0.28);
+}
+
+.AdvertisePackage__badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 20px;
+  border-radius: 999px;
+  background: var(--adp-gold-gradient);
+  color: var(--adp-gold-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px var(--adp-gold-glow);
+}
+
+.AdvertisePackage__card-left,
+.AdvertisePackage__card-right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.AdvertisePackage__card-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.AdvertisePackage__card-tagline {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--adp-muted);
+}
+
+.AdvertisePackage__price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 24px 0 26px;
+  padding: 18px 0;
+  border-top: 1px solid var(--adp-line);
+  border-bottom: 1px solid var(--adp-line);
+}
+
+.AdvertisePackage__price-amount {
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--adp-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.AdvertisePackage__price-note {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--adp-muted);
+}
+
+.AdvertisePackage__block {
+  margin-bottom: 24px;
+}
+
+.AdvertisePackage__block--grow {
+  flex: 1 1 auto;
+}
+
+.AdvertisePackage__block-title {
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--adp-gold);
+}
+
+.AdvertisePackage__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.AdvertisePackage__chip {
+  padding: 6px 14px;
+  border: 1px solid rgba(217, 172, 69, 0.4);
+  border-radius: 999px;
+  background: rgba(217, 172, 69, 0.08);
+  font-size: 0.8rem;
+  color: var(--adp-gold-light);
+}
+
+/* ---------- Check list ---------- */
+
+.AdvertisePackage__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.AdvertisePackage__list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.AdvertisePackage__check {
+  display: grid;
+  place-items: center;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--adp-gold-gradient);
+  color: var(--adp-gold-text);
+}
+
+.AdvertisePackage__list-text {
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- Buttons ---------- */
+
+.AdvertisePackage__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 14px 48px;
+  border: 1px solid var(--adp-gold);
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+  color: var(--adp-gold-light);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.35s ease, color 0.35s ease, transform 0.3s ease,
+    box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.AdvertisePackage__button--outline:hover {
+  background: var(--adp-gold-gradient);
+  border-color: rgba(255, 238, 190, 0.7);
+  color: var(--adp-gold-text);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px var(--adp-gold-glow);
+}
+
+.AdvertisePackage__button--solid {
+  border-color: rgba(255, 238, 190, 0.6);
+  background: var(--adp-gold-gradient);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: var(--adp-gold-text);
+  box-shadow: 0 12px 28px var(--adp-gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.AdvertisePackage__button--solid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.AdvertisePackage__button--solid:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(217, 172, 69, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.AdvertisePackage__button--solid:hover::after {
+  left: 130%;
+  transition: left 0.8s ease;
+}
+
+.AdvertisePackage__button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ---------- Care promise ---------- */
+
+.AdvertisePackage__care {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.8vw, 22px);
+  margin-bottom: clamp(60px, 8vw, 96px);
+}
+
+.AdvertisePackage__care-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(22px, 2.4vw, 30px) 18px;
+  border: 1px solid var(--adp-line);
+  border-radius: 20px;
+  background: var(--adp-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  transition: border-color 0.4s ease, background-color 0.4s ease;
+}
+
+.AdvertisePackage__care-item:hover {
+  border-color: rgba(217, 172, 69, 0.6);
+  background: rgba(34, 25, 14, 0.82);
+}
+
+.AdvertisePackage__care-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(217, 172, 69, 0.45);
+  border-radius: 50%;
+  background: rgba(217, 172, 69, 0.1);
+  color: var(--adp-gold-light);
+}
+
+.AdvertisePackage__care-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.AdvertisePackage__care-text {
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--adp-muted);
+}
+
+/* ---------- Steps ---------- */
+
+.AdvertisePackage__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+  margin-bottom: clamp(60px, 8vw, 96px);
+}
+
+.AdvertisePackage__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(22px, 2.6vw, 32px) 20px;
+  border: 1px solid var(--adp-line);
+  border-radius: 20px;
+  background: var(--adp-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.AdvertisePackage__step-number {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: var(--adp-gold-gradient);
+  color: var(--adp-gold-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow: 0 10px 24px var(--adp-gold-glow);
+}
+
+.AdvertisePackage__step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.AdvertisePackage__step-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--adp-muted);
+}
+
+/* ---------- Customize ---------- */
+
+.AdvertisePackage__custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 48px) clamp(20px, 4vw, 48px);
+  border: 1px solid rgba(217, 172, 69, 0.5);
+  border-radius: 28px;
+  background:
+    radial-gradient(520px 240px at 50% 0%, rgba(217, 172, 69, 0.2), transparent 72%),
+    rgba(20, 15, 10, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px rgba(217, 172, 69, 0.12);
+  text-align: center;
+}
+
+.AdvertisePackage__custom-title {
+  font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.AdvertisePackage__custom-text {
+  max-width: 36em;
+  margin: 14px 0 24px;
+  font-size: clamp(0.92rem, 1.2vw, 1.02rem);
+  line-height: 1.75;
+  color: var(--adp-muted);
+}
+
+.AdvertisePackage__custom .AdvertisePackage__button {
+  align-self: center;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes AdvertisePackage-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes AdvertisePackage-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+/* Small laptops / large tablets */
+@media (max-width: 1000px) {
+  .AdvertisePackage__care {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Tablets */
+@media (max-width: 860px) {
+  .AdvertisePackage__card {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: clamp(36px, 5vw, 48px);
+  }
+
+  .AdvertisePackage__card-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .AdvertisePackage__price {
+    width: 100%;
+    align-items: center;
+  }
+
+  .AdvertisePackage__chips {
+    justify-content: center;
+  }
+
+  .AdvertisePackage__button--solid {
+    align-self: center;
+  }
+
+  .AdvertisePackage__steps {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .AdvertisePackage__kicker::before,
+  .AdvertisePackage__kicker::after {
+    width: 20px;
+  }
+
+  .AdvertisePackage__card,
+  .AdvertisePackage__custom {
+    border-radius: 22px;
+  }
+
+  .AdvertisePackage__care {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .AdvertisePackage__button {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .AdvertisePackage__eyebrow,
+  .AdvertisePackage__title,
+  .AdvertisePackage__subtitle,
+  .AdvertisePackage__divider {
+    animation: none;
+  }
+
+  .AdvertisePackage__reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .AdvertisePackage__card,
+  .AdvertisePackage__button {
+    transition-duration: 0.01ms;
+  }
+}

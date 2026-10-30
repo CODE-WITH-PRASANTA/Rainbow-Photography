@@ -1,0 +1,670 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   PreAndPostTwo
+   ========================================================== */
+
+.PreAndPostTwo {
+  --ppt-gold: #d9ac45;
+  --ppt-gold-light: #f7e2a1;
+  --ppt-gold-dark: #a97a1e;
+  --ppt-gold-text: #2b1c04;
+  --ppt-gold-gradient: linear-gradient(135deg, #f7e2a1 0%, #e0b44e 38%, #c18f2b 70%, #a97a1e 100%);
+  --ppt-gold-glow: rgba(217, 172, 69, 0.4);
+  --ppt-ink: #16120e;
+  --ppt-muted: #6f675d;
+  --ppt-bg: #fbf8f3;
+  --ppt-ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+
+  position: relative;
+  width: 100%;
+  padding: clamp(48px, 7vw, 96px) clamp(14px, 3vw, 40px) clamp(56px, 7vw, 100px);
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(217, 172, 69, 0.12), transparent 70%),
+    var(--ppt-bg);
+  color: var(--ppt-ink);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.PreAndPostTwo *,
+.PreAndPostTwo *::before,
+.PreAndPostTwo *::after {
+  box-sizing: border-box;
+}
+
+.PreAndPostTwo ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.PreAndPostTwo button {
+  font-family: inherit;
+}
+
+.PreAndPostTwo__container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.PreAndPostTwo__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-align: center;
+}
+
+.PreAndPostTwo__eyebrow {
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ppt-gold-dark);
+  animation: PreAndPostTwo-rise 0.8s var(--ppt-ease) both;
+}
+
+.PreAndPostTwo__title {
+  max-width: 18em;
+  margin: 0;
+  font-size: clamp(1.9rem, 4.4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: PreAndPostTwo-rise 0.8s var(--ppt-ease) 0.08s both;
+}
+
+.PreAndPostTwo__divider {
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: 20px 0 18px;
+  border-radius: 3px;
+  background: var(--ppt-gold-gradient);
+  animation: PreAndPostTwo-grow 0.9s var(--ppt-ease) 0.2s both;
+}
+
+.PreAndPostTwo__subtitle {
+  max-width: 40em;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--ppt-muted);
+  animation: PreAndPostTwo-rise 0.8s var(--ppt-ease) 0.16s both;
+}
+
+/* ---------- Filter tabs ---------- */
+
+.PreAndPostTwo__filters {
+  display: flex;
+  margin-bottom: clamp(26px, 3.4vw, 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 6px 4px 14px;
+  animation: PreAndPostTwo-rise 0.8s var(--ppt-ease) 0.24s both;
+}
+
+.PreAndPostTwo__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.PreAndPostTwo__tabs {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;
+  padding: 6px;
+  border: 1px solid rgba(169, 122, 30, 0.2);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(60, 40, 10, 0.08);
+}
+
+.PreAndPostTwo__indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2c2620 0%, #14110e 100%);
+  box-shadow: 0 8px 18px rgba(20, 17, 14, 0.3),
+    inset 0 0 0 1px rgba(217, 172, 69, 0.55);
+  transition: transform 0.55s var(--ppt-ease), width 0.55s var(--ppt-ease);
+  pointer-events: none;
+}
+
+.PreAndPostTwo__tab {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: 11px clamp(16px, 2vw, 26px);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #4a433b;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+
+.PreAndPostTwo__tab:hover {
+  color: var(--ppt-gold-dark);
+}
+
+.PreAndPostTwo__tab.is-active,
+.PreAndPostTwo__tab.is-active:hover {
+  color: #ffffff;
+}
+
+/* ---------- Masonry grid ---------- */
+
+.PreAndPostTwo__grid {
+  column-count: 3;
+  column-gap: clamp(14px, 1.8vw, 26px);
+}
+
+.PreAndPostTwo__item {
+  display: block;
+  margin: 0 0 clamp(14px, 1.8vw, 26px);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  animation: PreAndPostTwo-reveal 0.9s var(--ppt-ease) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.PreAndPostTwo__card {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: linear-gradient(110deg, #ece6dc 8%, #f6f1e8 18%, #ece6dc 33%);
+  background-size: 200% 100%;
+  box-shadow: 0 14px 34px rgba(60, 40, 10, 0.12);
+  isolation: isolate;
+  transition: transform 0.6s var(--ppt-ease), box-shadow 0.6s var(--ppt-ease);
+  animation: PreAndPostTwo-shimmer 1.4s linear infinite;
+}
+
+.PreAndPostTwo__card.is-loaded {
+  min-height: 0;
+  animation: none;
+  background: #ece6dc;
+}
+
+.PreAndPostTwo__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 54px rgba(60, 40, 10, 0.22),
+    0 0 0 1px rgba(217, 172, 69, 0.55);
+}
+
+.PreAndPostTwo__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s ease, transform 1.2s var(--ppt-ease);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.PreAndPostTwo__card.is-loaded .PreAndPostTwo__image {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.PreAndPostTwo__card.is-loaded:hover .PreAndPostTwo__image {
+  transform: scale(1.07);
+}
+
+/* Hover overlay */
+.PreAndPostTwo__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  background: linear-gradient(0deg, rgba(14, 10, 6, 0.78) 0%, rgba(14, 10, 6, 0) 52%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.PreAndPostTwo__card:hover .PreAndPostTwo__overlay,
+.PreAndPostTwo__card:focus-visible .PreAndPostTwo__overlay {
+  opacity: 1;
+}
+
+.PreAndPostTwo__tag {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(247, 226, 161, 0.55);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateY(12px);
+  transition: transform 0.55s var(--ppt-ease);
+}
+
+.PreAndPostTwo__zoom {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--ppt-gold-gradient);
+  color: var(--ppt-gold-text);
+  box-shadow: 0 8px 20px var(--ppt-gold-glow);
+  transform: translateY(12px) scale(0.8);
+  transition: transform 0.55s var(--ppt-ease) 0.05s;
+}
+
+.PreAndPostTwo__card:hover .PreAndPostTwo__tag,
+.PreAndPostTwo__card:focus-visible .PreAndPostTwo__tag {
+  transform: translateY(0);
+}
+
+.PreAndPostTwo__card:hover .PreAndPostTwo__zoom,
+.PreAndPostTwo__card:focus-visible .PreAndPostTwo__zoom {
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- Footer / Load more ---------- */
+
+.PreAndPostTwo__empty {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--ppt-muted);
+}
+
+.PreAndPostTwo__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: clamp(12px, 2vw, 24px);
+}
+
+.PreAndPostTwo__count {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--ppt-muted);
+}
+
+.PreAndPostTwo__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 46px;
+  border: 1px solid rgba(255, 238, 190, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--ppt-gold-gradient);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  color: var(--ppt-gold-text);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: 0 12px 28px var(--ppt-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-position 0.5s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.PreAndPostTwo__button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.PreAndPostTwo__button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(217, 172, 69, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.PreAndPostTwo__button:hover::after {
+  left: 130%;
+  transition: left 0.8s ease;
+}
+
+.PreAndPostTwo__button:active {
+  transform: translateY(0);
+}
+
+/* ---------- Lightbox ---------- */
+
+.PreAndPostTwo__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: clamp(56px, 8vh, 80px) clamp(12px, 6vw, 96px);
+  background: rgba(10, 7, 4, 0.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: PreAndPostTwo-fade 0.35s ease both;
+}
+
+.PreAndPostTwo__lightbox-figure {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  animation: PreAndPostTwo-zoom 0.55s var(--ppt-ease) both;
+}
+
+.PreAndPostTwo__lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 170px);
+  max-height: calc(100dvh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: 14px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(217, 172, 69, 0.4);
+}
+
+.PreAndPostTwo__lightbox-caption {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.PreAndPostTwo__lightbox-tag {
+  padding: 6px 16px;
+  border: 1px solid rgba(247, 226, 161, 0.6);
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ppt-gold-light);
+}
+
+.PreAndPostTwo__lightbox-counter {
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.PreAndPostTwo__lightbox-close,
+.PreAndPostTwo__lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.PreAndPostTwo__lightbox-close {
+  top: clamp(12px, 3vh, 28px);
+  right: clamp(12px, 3vw, 32px);
+}
+
+.PreAndPostTwo__lightbox-nav {
+  top: 50%;
+  margin-top: -24px;
+}
+
+.PreAndPostTwo__lightbox-nav--prev {
+  left: clamp(8px, 2vw, 32px);
+}
+
+.PreAndPostTwo__lightbox-nav--next {
+  right: clamp(8px, 2vw, 32px);
+}
+
+.PreAndPostTwo__lightbox-close:hover,
+.PreAndPostTwo__lightbox-nav:hover {
+  background: var(--ppt-gold-gradient);
+  border-color: rgba(255, 238, 190, 0.6);
+  color: var(--ppt-gold-text);
+  transform: scale(1.08);
+}
+
+/* ---------- Focus ---------- */
+
+.PreAndPostTwo__tab:focus-visible,
+.PreAndPostTwo__card:focus-visible,
+.PreAndPostTwo__button:focus-visible,
+.PreAndPostTwo__lightbox-close:focus-visible,
+.PreAndPostTwo__lightbox-nav:focus-visible {
+  outline: 3px solid var(--ppt-gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes PreAndPostTwo-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes PreAndPostTwo-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes PreAndPostTwo-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes PreAndPostTwo-shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@keyframes PreAndPostTwo-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes PreAndPostTwo-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+
+@media (min-width: 1800px) {
+  .PreAndPostTwo__container {
+    max-width: 1700px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .PreAndPostTwo__grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .PreAndPostTwo__tab {
+    padding: 10px 16px;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+  }
+
+  .PreAndPostTwo__card {
+    min-height: 160px;
+    border-radius: 14px;
+  }
+
+  .PreAndPostTwo__overlay {
+    padding: 12px;
+  }
+
+  .PreAndPostTwo__zoom {
+    width: 36px;
+    height: 36px;
+  }
+
+  .PreAndPostTwo__lightbox-nav {
+    top: auto;
+    bottom: 18px;
+    margin-top: 0;
+  }
+
+  .PreAndPostTwo__lightbox-nav--prev {
+    left: 18px;
+  }
+
+  .PreAndPostTwo__lightbox-nav--next {
+    right: 18px;
+  }
+
+  .PreAndPostTwo__lightbox {
+    padding-bottom: 84px;
+  }
+
+  .PreAndPostTwo__lightbox-image {
+    max-height: calc(100vh - 220px);
+    max-height: calc(100dvh - 220px);
+  }
+}
+
+@media (max-width: 479px) {
+  .PreAndPostTwo__grid {
+    column-count: 1;
+  }
+
+  .PreAndPostTwo__card {
+    min-height: 220px;
+  }
+
+  .PreAndPostTwo__button {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (hover: none) {
+  .PreAndPostTwo__overlay {
+    opacity: 1;
+    background: linear-gradient(0deg, rgba(14, 10, 6, 0.62) 0%, rgba(14, 10, 6, 0) 38%);
+  }
+
+  .PreAndPostTwo__tag,
+  .PreAndPostTwo__zoom {
+    transform: none;
+  }
+
+  .PreAndPostTwo__zoom {
+    display: none;
+  }
+
+  .PreAndPostTwo__card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .PreAndPostTwo__eyebrow,
+  .PreAndPostTwo__title,
+  .PreAndPostTwo__subtitle,
+  .PreAndPostTwo__divider,
+  .PreAndPostTwo__filters,
+  .PreAndPostTwo__item,
+  .PreAndPostTwo__lightbox,
+  .PreAndPostTwo__lightbox-figure {
+    animation: none;
+  }
+
+  .PreAndPostTwo__indicator,
+  .PreAndPostTwo__image,
+  .PreAndPostTwo__card,
+  .PreAndPostTwo__tag,
+  .PreAndPostTwo__zoom {
+    transition-duration: 0.01ms;
+  }
+}

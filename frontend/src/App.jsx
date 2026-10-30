@@ -25,6 +25,11 @@ import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
  
 import Servicemain from "./Pages/Servicemain/Servicemain";
 import EnquireForm from "./Components/EnquireForm/EnquireForm";
+import MaternityShoot from "./Pages/MaternityShoot/MaternityShoot";
+import BirthdaySpecial from "./Pages/BirthdaySpecial/BirthdaySpecial";
+import BabyShoot from "./Pages/BabyShoot/BabyShoot";
+import AdvertiseShoot from "./Pages/AdvertiseShoot/AdvertiseShoot";
+import PreAndPostWeeding from "./Pages/PreAndPostWeeding/PreAndPostWeeding";
 
 // ---------- Scroll To Top ----------
 const ScrollToTop = () => {
@@ -59,6 +64,11 @@ function App() {
         <Route path="/faq" element={<MainFaq />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/servicemain" element={<Servicemain />}/>
+        <Route path="/service/maternity" element={<MaternityShoot/>}/>
+        <Route path="/service/birthday" element={<BirthdaySpecial/>}/>
+        <Route path="/service/baby-shoot" element={<BabyShoot/>}/>
+        <Route path="/service/advertise" element={<AdvertiseShoot/>}/>
+        <Route path="/service/wedding" element={<PreAndPostWeeding/>}/>
       </Routes>
 
       {/* Common Footer Sections */}
