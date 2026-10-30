@@ -2,16 +2,16 @@ import React from "react";
 import "./HomeServiceSection.css";
 
 import {
-  FiClipboard,
-  FiSmile,
-  FiShoppingBag,
-  FiCoffee
+  FiCamera,
+  FiHeart,
+  FiUserCheck,
+  FiVideo
 } from "react-icons/fi";
 
 /* decorative */
-import leafLeft from "../../assets/Leave-1.webp";      // left floating leaf
-import leafRight from "../../assets/Leave-2.webp";     // right bottom floating leaf
-import leafTopRight from "../../assets/iconLeaf-1.webp";  // ⭐ top right header leaf
+import leafLeft from "../../assets/Leave-1.webp";       // left floating leaf
+import leafRight from "../../assets/Leave-2.webp";      // right bottom floating leaf
+import leafTopRight from "../../assets/iconLeaf-1.webp"; // top right header leaf
 import cardLeaf from "../../assets/cardLeaf-1.webp";
 import decoFlower from "../../assets/TwinFlower-1.webp";
 
@@ -21,35 +21,36 @@ import sideImgBottom from "../../assets/Event-4.webp";
 
 const services = [
   {
-    icon: <FiClipboard />,
-    title: "Wedding Planners",
-    text: "From the vibrant flowers and trees to the gently flowing streams, this park provides the perfect."
+    icon: <FiCamera />,
+    title: "Candid Wedding Photography",
+    text: "Unobtrusively capturing genuine emotions, unscripted laughter, and tearful joys as they naturally unfold."
   },
   {
-    icon: <FiSmile />,
-    title: "Kids Party",
-    text: "From the vibrant flowers and trees to the gently flowing streams, this park provides the perfect."
+    icon: <FiHeart />,
+    title: "Pre-Wedding & Engagements",
+    text: "Romantic, styled couple sessions at breathtaking scenic locations to tell the authentic beginning of your story."
   },
   {
-    icon: <FiShoppingBag />,
-    title: "Bridal Shower",
-    text: "From the vibrant flowers and trees to the gently flowing streams, this park provides the perfect."
+    icon: <FiUserCheck />,
+    title: "Bridal & Fine-Art Portraits",
+    text: "High-fashion editorial portraits capturing detailed adornments, royal attire, and delicate solo moments."
   },
   {
-    icon: <FiCoffee />,
-    title: "Rehearsal Dinner",
-    text: "From the vibrant flowers and trees to the gently flowing streams, this park provides the perfect."
+    icon: <FiVideo />,
+    title: "Cinematic Wedding Films",
+    text: "High-definition teaser trailers and full-length documentary feature films with emotional custom soundscapes."
   }
 ];
 
 const HomeServiceSection = () => {
   return (
-    <section className="wServices">
+    <section className="wServices" aria-labelledby="services-title">
 
       {/* LEFT FLOATING LEAF */}
       <img
         src={leafLeft}
         alt=""
+        aria-hidden="true"
         className="wServices__leaf wServices__leaf--left"
       />
 
@@ -57,24 +58,31 @@ const HomeServiceSection = () => {
       <img
         src={leafRight}
         alt=""
+        aria-hidden="true"
         className="wServices__leaf wServices__leaf--right"
       />
 
       {/* ===== HEADER ===== */}
       <div className="wServices__header">
-        <p className="wServices__label">WEDDING SERVICES FOR YOU</p>
+        <p className="wServices__label">SERVICES BY RAINBOW PHOTOGRAPHY</p>
 
-        <h2 className="wServices__title">
-          We Design Your Special Day <br /> & Event Plans
+        <h2 id="services-title" className="wServices__title">
+          Framing Every Emotion <br /> Into Timeless Masterpieces
         </h2>
 
-        <img src={decoFlower} alt="" className="wServices__flower" />
+        <img 
+          src={decoFlower} 
+          alt="" 
+          aria-hidden="true" 
+          className="wServices__flower" 
+        />
       </div>
 
-      {/* ⭐ TOP RIGHT HEADER FLOATING LEAF (IMPORTANT POSITION) */}
+      {/* TOP RIGHT HEADER FLOATING LEAF */}
       <img
         src={leafTopRight}
         alt=""
+        aria-hidden="true"
         className="wServices__leaf wServices__leaf--topRight"
       />
 
@@ -83,27 +91,39 @@ const HomeServiceSection = () => {
 
         {/* LEFT TOP IMAGE */}
         <div className="wServices__img wServices__img--top">
-          <img src={sideImgTop} alt="" />
+          <img 
+            src={sideImgTop} 
+            alt="Bride getting ready - Rainbow Photography" 
+            loading="lazy" 
+          />
         </div>
 
         {/* CARDS */}
-        {services.map((s, i) => (
-          <div key={i} className="wServices__card">
-
-            <img src={cardLeaf} alt="" className="wServices__cardLeaf" />
+        {services.map((service, index) => (
+          <article key={index} className="wServices__card">
+            <img 
+              src={cardLeaf} 
+              alt="" 
+              aria-hidden="true" 
+              className="wServices__cardLeaf" 
+            />
 
             <div className="wServices__iconWrap">
-              {s.icon}
+              {service.icon}
             </div>
 
-            <h3 className="wServices__cardTitle">{s.title}</h3>
-            <p className="wServices__cardText">{s.text}</p>
-          </div>
+            <h3 className="wServices__cardTitle">{service.title}</h3>
+            <p className="wServices__cardText">{service.text}</p>
+          </article>
         ))}
 
         {/* RIGHT BOTTOM IMAGE */}
         <div className="wServices__img wServices__img--bottom">
-          <img src={sideImgBottom} alt="" />
+          <img 
+            src={sideImgBottom} 
+            alt="Wedding couple celebration moment" 
+            loading="lazy" 
+          />
         </div>
 
       </div>

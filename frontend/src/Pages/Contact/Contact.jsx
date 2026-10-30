@@ -7,9 +7,9 @@ const Contact = () => {
   return (
     <div>
         Contact
-<ContactHome/>
-<GetInMail/>
-<GoogleMap/>
+          <ContactHome/>
+          <GetInMail/>
+          <GoogleMap/>
 
 
         </div>

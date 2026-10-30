@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
 /* =========================================
-   PRICING FAQ — PREMIUM WEDDING THEME
+   PRICING FAQ — RAINBOW PHOTOGRAPHY
 ========================================= */
 
 .PricingFaq {
@@ -7,16 +9,17 @@
   --PricingFaq-gold-dark: #9c641f;
   --PricingFaq-gold-light: #f0d3a4;
   --PricingFaq-ink: #242321;
-  --PricingFaq-muted: #77736d;
+  --PricingFaq-muted: #6b6762;
   --PricingFaq-cream: #fbf5e9;
 
   position: relative;
   isolation: isolate;
   width: 100%;
-  padding: clamp(60px, 7vw, 100px) clamp(22px, 5vw, 85px) 55px;
+  padding: clamp(65px, 8vw, 105px) clamp(22px, 5vw, 85px) 55px;
   overflow: hidden;
   color: var(--PricingFaq-ink);
   background: var(--PricingFaq-cream);
+  font-family: 'Inter', sans-serif;
   box-sizing: border-box;
 }
 
@@ -27,7 +30,6 @@
 }
 
 /* Background layers */
-
 .PricingFaq__background {
   position: absolute;
   z-index: -5;
@@ -35,9 +37,9 @@
   background:
     radial-gradient(
       ellipse at 45% 45%,
-      rgba(255, 255, 255, .98) 0%,
-      rgba(255, 252, 245, .96) 43%,
-      rgba(250, 239, 220, .84) 100%
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 252, 245, 0.96) 43%,
+      rgba(250, 239, 220, 0.84) 100%
     ),
     linear-gradient(
       115deg,
@@ -51,11 +53,11 @@
 .PricingFaq__glow {
   position: absolute;
   z-index: -4;
-  width: 300px;
-  height: 350px;
+  width: 340px;
+  height: 380px;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: .18;
+  filter: blur(95px);
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -71,55 +73,61 @@
   background: #d6b27d;
 }
 
-/* Main two-column layout */
-
+/* Main container */
 .PricingFaq__container {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(290px, .82fr) minmax(0, 1.65fr);
-  align-items: center;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(0, 1.65fr);
+  align-items: start;
   gap: clamp(35px, 5vw, 95px);
   width: 100%;
-  max-width: 1500px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
-/* Left side */
-
+/* Left side content */
 .PricingFaq__intro {
-  position: relative;
+  position: sticky;
+  top: 40px;
   z-index: 2;
   width: 100%;
-  max-width: 470px;
-  justify-self: center;
+  max-width: 480px;
   opacity: 0;
-  animation: PricingFaq-intro-enter .9s .12s ease-out forwards;
+  animation: PricingFaq-intro-enter 0.9s 0.12s ease-out forwards;
 }
 
 .PricingFaq__eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   color: var(--PricingFaq-gold);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: .24em;
-  line-height: 1.7;
-  text-align: center;
+  letter-spacing: 0.26em;
+  line-height: 1.5;
+  text-transform: uppercase;
 }
 
 .PricingFaq__ornament {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
-  margin: 0 auto 17px;
+  margin: 0 0 16px;
   color: var(--PricingFaq-gold);
 }
 
 .PricingFaq__ornament span {
-  width: 48px;
+  width: 45px;
   height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--PricingFaq-gold),
+    transparent
+  );
+}
+
+.PricingFaq__ornament span:first-child {
   background: linear-gradient(
     90deg,
     transparent,
@@ -127,47 +135,41 @@
   );
 }
 
-.PricingFaq__ornament span:last-child {
-  transform: rotate(180deg);
-}
-
 .PricingFaq__ornament svg {
   display: block;
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
 }
 
 .PricingFaq__title {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin: 0;
-  color: #202020;
-  font-family: "Bodoni MT", Didot, "Times New Roman", serif;
-  font-size: clamp(43px, 4.1vw, 70px);
-  font-weight: 400;
-  letter-spacing: -.055em;
-  line-height: .98;
-  text-align: center;
+  color: #1a1a1a;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-align: left;
 }
 
 .PricingFaq__title span {
-  margin-top: 5px;
+  margin-top: 6px;
   color: var(--PricingFaq-gold-dark);
-  font-family: "Brush Script MT", "Segoe Script", cursive;
-  font-size: 1.15em;
   font-style: italic;
   font-weight: 400;
-  letter-spacing: -.035em;
-  line-height: 1.05;
+  font-family: "Playfair Display", Georgia, serif;
+  letter-spacing: -0.01em;
 }
 
 .PricingFaq__description {
-  margin: 24px 0 0;
-  color: #77736d;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(14px, 1.1vw, 17px);
-  line-height: 1.85;
+  margin: 22px 0 0;
+  color: var(--PricingFaq-muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
   text-align: left;
 }
 
@@ -175,14 +177,15 @@
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 22px;
-  color: #77736d;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 1.7;
+  gap: 6px;
+  margin-top: 26px;
+  color: #55524e;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
   text-decoration: none;
-  transition: color .3s ease;
+  transition: color 0.3s ease;
 }
 
 .PricingFaq__contact-link span {
@@ -193,9 +196,9 @@
 .PricingFaq__contact-link svg {
   width: 17px;
   height: 17px;
-  margin-left: 5px;
+  margin-left: 4px;
   color: var(--PricingFaq-gold-dark);
-  transition: transform .3s ease;
+  transition: transform 0.3s ease;
 }
 
 .PricingFaq__contact-link:hover {
@@ -206,54 +209,50 @@
   transform: translateX(5px);
 }
 
-/* Right side FAQ list */
-
+/* Right side list */
 .PricingFaq__list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
   width: 100%;
   min-width: 0;
 }
 
-/* Individual accordion card */
-
+/* Accordion item */
 .PricingFaq__item {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border: 1px solid rgba(207, 154, 83, .58);
-  border-radius: 11px;
-  background: rgba(255, 255, 255, .45);
-  box-shadow: 0 3px 12px rgba(129, 91, 39, .025);
-
+  border: 1px solid rgba(197, 138, 58, 0.35);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 4px 14px rgba(129, 91, 39, 0.03);
+  backdrop-filter: blur(6px);
   opacity: 0;
-  animation: PricingFaq-item-enter .7s ease-out forwards;
-  animation-delay: calc(.18s + var(--PricingFaq-item-index) * .12s);
-
+  animation: PricingFaq-item-enter 0.7s ease-out forwards;
+  animation-delay: calc(0.18s + var(--PricingFaq-item-index) * 0.1s);
   transition:
-    border-color .3s ease,
-    background-color .3s ease,
-    box-shadow .3s ease;
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .PricingFaq__item--open {
   border-color: var(--PricingFaq-gold);
-  background: rgba(255, 253, 248, .96);
-  box-shadow: 0 9px 28px rgba(129, 91, 39, .09);
+  background: rgba(255, 253, 248, 0.98);
+  box-shadow: 0 10px 30px rgba(129, 91, 39, 0.09);
 }
 
-/* Question row */
-
+/* Question button */
 .PricingFaq__question {
   position: relative;
   display: grid;
-  grid-template-columns: 45px 35px minmax(0, 1fr) 25px;
+  grid-template-columns: 44px 38px minmax(0, 1fr) 24px;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  min-height: 91px;
-  padding: 16px 22px;
+  min-height: 82px;
+  padding: 18px 24px;
   border: none;
   color: var(--PricingFaq-ink);
   background: transparent;
@@ -264,20 +263,19 @@
 
 .PricingFaq__question:focus-visible {
   outline: 2px solid var(--PricingFaq-gold);
-  outline-offset: -4px;
-  border-radius: 10px;
+  outline-offset: -3px;
+  border-radius: 12px;
 }
 
-/* Plus icon */
-
+/* Plus toggle icon */
 .PricingFaq__plus {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 43px;
-  height: 43px;
-  border: 1px solid rgba(255, 255, 255, .35);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 50%;
   background: linear-gradient(
     145deg,
@@ -286,21 +284,21 @@
     #b6792d
   );
   box-shadow:
-    0 5px 13px rgba(165, 107, 34, .18),
-    inset 0 1px 1px rgba(255, 255, 255, .45);
+    0 4px 12px rgba(165, 107, 34, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
   transition:
-    background .3s ease,
-    box-shadow .3s ease,
-    transform .3s ease;
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .PricingFaq__plus span {
   position: absolute;
-  width: 17px;
+  width: 16px;
   height: 2px;
   border-radius: 3px;
-  background: #fff;
-  transition: transform .3s ease;
+  background: #ffffff;
+  transition: transform 0.3s ease;
 }
 
 .PricingFaq__plus span:last-child {
@@ -313,38 +311,37 @@
     #bd853b,
     #9b621f
   );
-  box-shadow: 0 5px 14px rgba(165, 107, 34, .24);
+  box-shadow: 0 5px 14px rgba(165, 107, 34, 0.24);
 }
 
 .PricingFaq__item--open .PricingFaq__plus span:last-child {
   transform: rotate(0deg);
 }
 
-/* Question number */
-
+/* Number */
 .PricingFaq__number {
   display: flex;
   align-items: center;
   align-self: stretch;
-  justify-content: center;
-  border-right: 1px solid rgba(197, 138, 58, .65);
+  justify-content: flex-start;
+  border-right: 1px solid rgba(197, 138, 58, 0.4);
   color: var(--PricingFaq-gold-dark);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 1;
 }
 
-/* Question text */
-
+/* Question title */
 .PricingFaq__question-text {
   position: relative;
   z-index: 1;
-  color: #292725;
-  font-family: "Bodoni MT", Didot, "Times New Roman", serif;
-  font-size: clamp(16px, 1.45vw, 23px);
-  font-weight: 500;
-  line-height: 1.5;
-  transition: color .3s ease;
+  color: #242220;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color 0.3s ease;
 }
 
 .PricingFaq__item--open .PricingFaq__question-text {
@@ -352,34 +349,33 @@
 }
 
 /* Chevron */
-
 .PricingFaq__chevron {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--PricingFaq-gold-dark);
-  transition: transform .35s ease;
+  color: var(--PricingFaq-gold);
+  transition: transform 0.35s ease;
 }
 
 .PricingFaq__chevron svg {
   display: block;
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
 }
 
 .PricingFaq__item--open .PricingFaq__chevron {
   transform: rotate(180deg);
+  color: var(--PricingFaq-gold-dark);
 }
 
-/* Expandable answer */
-
+/* Expandable content */
 .PricingFaq__answer-wrapper {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
   transition:
-    grid-template-rows .4s ease,
-    opacity .3s ease;
+    grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.3s ease;
 }
 
 .PricingFaq__item--open .PricingFaq__answer-wrapper {
@@ -393,26 +389,25 @@
 }
 
 .PricingFaq__answer {
-  margin: 0 25px 0 116px;
-  padding: 0 0 23px;
-  color: #77736d;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  line-height: 1.85;
+  margin: 0 28px 0 120px;
+  padding: 0 0 24px;
+  color: var(--PricingFaq-muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.8;
 }
 
 .PricingFaq__item--open .PricingFaq__answer {
-  animation: PricingFaq-answer-enter .35s ease-out both;
+  animation: PricingFaq-answer-enter 0.35s ease-out both;
 }
 
-/* Decorative floating leaves */
-
+/* Decorative leaves */
 .PricingFaq__botanical {
   position: absolute;
   z-index: -1;
   width: clamp(95px, 12vw, 180px);
   pointer-events: none;
-  opacity: .68;
+  opacity: 0.65;
   transform-origin: center;
   animation: PricingFaq-leaf-float 8s ease-in-out infinite;
 }
@@ -422,13 +417,13 @@
   width: 100%;
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 4px 7px rgba(121, 82, 32, .06));
+  filter: drop-shadow(0 4px 7px rgba(121, 82, 32, 0.06));
 }
 
 .PricingFaq__botanical--left {
   top: 2%;
   left: -28px;
-  animation-delay: -.7s;
+  animation-delay: -0.7s;
 }
 
 .PricingFaq__botanical--left .PricingFaq__leaf-svg {
@@ -447,15 +442,14 @@
 }
 
 /* Bottom ornament */
-
 .PricingFaq__bottom-ornament {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin: 43px auto 0;
+  gap: 12px;
+  margin: 45px auto 0;
   color: var(--PricingFaq-gold);
-  opacity: .65;
+  opacity: 0.65;
 }
 
 .PricingFaq__bottom-ornament span {
@@ -474,8 +468,7 @@
   height: 17px;
 }
 
-/* Animations */
-
+/* Keyframes */
 @keyframes PricingFaq-intro-enter {
   from {
     opacity: 0;
@@ -511,34 +504,28 @@
 
 @keyframes PricingFaq-leaf-float {
   0%, 100% {
-    translate: 0 0;
-    rotate: -2deg;
+    transform: translateY(0) rotate(-2deg);
   }
   25% {
-    translate: 3px -8px;
-    rotate: 1deg;
+    transform: translateY(-8px) rotate(1deg);
   }
   50% {
-    translate: 0 -14px;
-    rotate: 3deg;
+    transform: translateY(-14px) rotate(3deg);
   }
   75% {
-    translate: -3px -6px;
-    rotate: 0deg;
+    transform: translateY(-6px) rotate(0deg);
   }
 }
 
-/* Hover devices: subtle premium interaction */
-
+/* Hover effects */
 @media (hover: hover) and (pointer: fine) {
   .PricingFaq__item:hover {
     border-color: var(--PricingFaq-gold);
-    background: rgba(255, 253, 248, .95);
-    box-shadow: 0 7px 20px rgba(129, 91, 39, .075);
+    background: rgba(255, 253, 248, 0.95);
+    box-shadow: 0 7px 22px rgba(129, 91, 39, 0.07);
   }
 
-  .PricingFaq__item:not(.PricingFaq__item--open):hover
-    .PricingFaq__plus {
+  .PricingFaq__item:not(.PricingFaq__item--open):hover .PricingFaq__plus {
     transform: scale(1.06);
   }
 
@@ -548,104 +535,98 @@
 }
 
 /* Tablet */
-
 @media (max-width: 1024px) {
   .PricingFaq {
-    padding: 65px 32px 45px;
+    padding: 65px 30px 45px;
   }
 
   .PricingFaq__container {
-    grid-template-columns: minmax(240px, .8fr) minmax(0, 1.35fr);
-    gap: 32px;
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.4fr);
+    gap: 36px;
+  }
+
+  .PricingFaq__intro {
+    position: static;
   }
 
   .PricingFaq__title {
-    font-size: clamp(40px, 5vw, 56px);
-  }
-
-  .PricingFaq__description {
-    font-size: 14px;
-    line-height: 1.8;
+    font-size: clamp(34px, 4.5vw, 48px);
   }
 
   .PricingFaq__question {
-    grid-template-columns: 38px 30px minmax(0, 1fr) 21px;
-    gap: 9px;
-    min-height: 80px;
-    padding: 14px;
+    grid-template-columns: 40px 32px minmax(0, 1fr) 22px;
+    gap: 10px;
+    min-height: 76px;
+    padding: 16px 18px;
   }
 
   .PricingFaq__plus {
-    width: 37px;
-    height: 37px;
+    width: 38px;
+    height: 38px;
   }
 
   .PricingFaq__number {
-    font-size: 17px;
-  }
-
-  .PricingFaq__question-text {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .PricingFaq__answer {
-    margin-left: 94px;
+    margin-left: 98px;
     font-size: 14px;
   }
 }
 
 /* Mobile */
-
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .PricingFaq {
-    padding: 54px 20px 35px;
+    padding: 55px 18px 36px;
   }
 
   .PricingFaq__container {
     grid-template-columns: minmax(0, 1fr);
-    gap: 39px;
-    max-width: 560px;
+    gap: 40px;
+    max-width: 580px;
   }
 
   .PricingFaq__intro {
-    max-width: 470px;
+    max-width: 100%;
+    text-align: center;
   }
 
   .PricingFaq__eyebrow {
     font-size: 11px;
   }
 
+  .PricingFaq__ornament {
+    justify-content: center;
+  }
+
   .PricingFaq__title {
-    font-size: clamp(42px, 10vw, 58px);
+    align-items: center;
+    font-size: clamp(36px, 9vw, 50px);
   }
 
   .PricingFaq__description {
-    max-width: 480px;
-    margin: 20px auto 0;
-    font-size: 14px;
     text-align: center;
+    font-size: 14.5px;
+    max-width: 500px;
+    margin: 18px auto 0;
   }
 
   .PricingFaq__contact-link {
-    display: flex;
     justify-content: center;
-    margin-top: 16px;
-  }
-
-  .PricingFaq__list {
-    gap: 12px;
+    margin-top: 20px;
   }
 
   .PricingFaq__question {
-    grid-template-columns: 37px 27px minmax(0, 1fr) 20px;
-    gap: 8px;
-    min-height: 75px;
-    padding: 13px;
+    grid-template-columns: 36px 28px minmax(0, 1fr) 20px;
+    gap: 10px;
+    min-height: 72px;
+    padding: 14px 16px;
   }
 
   .PricingFaq__plus {
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
   }
 
   .PricingFaq__plus span {
@@ -653,60 +634,43 @@
   }
 
   .PricingFaq__number {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .PricingFaq__question-text {
-    font-size: clamp(15px, 3.8vw, 18px);
-    line-height: 1.45;
-  }
-
-  .PricingFaq__chevron svg {
-    width: 19px;
-    height: 19px;
+    font-size: 16px;
   }
 
   .PricingFaq__answer {
-    margin: 0 18px 0 85px;
+    margin: 0 16px 0 84px;
     padding-bottom: 18px;
-    font-size: 13px;
-    line-height: 1.8;
+    font-size: 13.5px;
   }
 
   .PricingFaq__botanical--left {
     top: 0;
-    left: -40px;
-    width: 95px;
+    left: -35px;
+    width: 90px;
   }
 
   .PricingFaq__botanical--right {
-    right: -35px;
+    right: -30px;
     bottom: 2%;
-    width: 100px;
-  }
-
-  .PricingFaq__bottom-ornament {
-    margin-top: 30px;
+    width: 95px;
   }
 }
 
 /* Small mobile */
-
-@media (max-width: 380px) {
-  .PricingFaq {
-    padding-right: 14px;
-    padding-left: 14px;
-  }
-
+@media (max-width: 420px) {
   .PricingFaq__question {
-    grid-template-columns: 31px 24px minmax(0, 1fr) 17px;
-    gap: 6px;
-    padding: 11px 9px;
+    grid-template-columns: 32px 24px minmax(0, 1fr) 18px;
+    gap: 8px;
+    padding: 12px 10px;
   }
 
   .PricingFaq__plus {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
   }
 
   .PricingFaq__number {
@@ -714,18 +678,17 @@
   }
 
   .PricingFaq__question-text {
-    font-size: 14px;
+    font-size: 14.5px;
   }
 
   .PricingFaq__answer {
-    margin-left: 70px;
+    margin-left: 72px;
     margin-right: 12px;
-    font-size: 12px;
+    font-size: 12.5px;
   }
 }
 
-/* Accessibility: respect reduced-motion preferences */
-
+/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .PricingFaq__intro,
   .PricingFaq__item,
@@ -738,10 +701,7 @@
   .PricingFaq__item,
   .PricingFaq__plus,
   .PricingFaq__chevron,
-  .PricingFaq__contact-link svg {
-    transition: none;
-  }
-
+  .PricingFaq__contact-link svg,
   .PricingFaq__answer-wrapper {
     transition: none;
   }
