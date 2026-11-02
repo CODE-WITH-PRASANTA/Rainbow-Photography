@@ -12,6 +12,7 @@ import Gallary from "./Components/Gallary/Gallary";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Testimonial from "./Components/Testimonial/Testimonial";
 import TeamMember from "./Components/TeamMember/TeamMember";
+import ColdLead from "./Components/ColdLead/ColdLead";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="dashboard" element={<Dashboard/>} />
           <Route path="testimonial" element={<Testimonial/>} />
           <Route path="team-member" element={<TeamMember/>} />
+          <Route path="cold-lead" element={<ColdLead/>} />
 
 
         </Route>
