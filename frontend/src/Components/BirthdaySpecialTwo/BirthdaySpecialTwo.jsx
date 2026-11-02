@@ -10,12 +10,10 @@ import './BirthdaySpecialTwo.css';
 
 import maternity1 from '../../assets/MaternityTwo-1.webp';
 import maternity2 from '../../assets/MaternityTwo-2.webp';
-import maternity3 from '../../assets/MaternityTwo-3.webp';
 import maternity4 from '../../assets/MaternityTwo-4.webp';
 import maternity5 from '../../assets/MaternityTwo-5.webp';
 import maternity6 from '../../assets/MaternityTwo-6.webp';
 import maternity7 from '../../assets/MaternityTwo-7.webp';
-import maternity8 from '../../assets/MaternityTwo-8.webp';
 import maternity9 from '../../assets/MaternityTwo-9.webp';
 import maternity10 from '../../assets/MaternityTwo-10.webp';
 import maternity11 from '../../assets/MaternityTwo-11.webp';
@@ -27,7 +25,6 @@ const CATEGORIES = [
   { id: 'all', label: 'All Celebrations' },
   { id: 'cake-smash', label: 'Cake Smash' },
   { id: 'kids-party', label: 'Kids Party' },
-  { id: 'milestone', label: 'Milestones' },
   { id: 'themed-decor', label: 'Themed Decor' },
   { id: 'family-moments', label: 'Family Moments' },
 ];
@@ -40,12 +37,10 @@ const CATEGORY_LABELS = CATEGORIES.reduce((acc, item) => {
 const PHOTOS = [
   { id: 1, image: maternity1, category: 'cake-smash', alt: 'Fun cake smash photography session' },
   { id: 2, image: maternity2, category: 'kids-party', alt: 'Kids birthday party candid celebration' },
-  { id: 3, image: maternity3, category: 'milestone', alt: 'First year milestone birthday portrait' },
   { id: 4, image: maternity4, category: 'themed-decor', alt: 'Magical balloon and theme setup' },
   { id: 5, image: maternity5, category: 'family-moments', alt: 'Family cheering around birthday cake' },
   { id: 6, image: maternity6, category: 'cake-smash', alt: 'Joyful toddler cake smash celebration' },
   { id: 7, image: maternity7, category: 'kids-party', alt: 'Birthday party candid laughs and games' },
-  { id: 8, image: maternity8, category: 'milestone', alt: 'Grand milestone birthday portrait session' },
   { id: 9, image: maternity9, category: 'themed-decor', alt: 'Fairytale themed birthday backdrop setup' },
   { id: 10, image: maternity10, category: 'family-moments', alt: 'Heartfelt parents and child birthday portrait' },
   { id: 11, image: maternity11, category: 'cake-smash', alt: 'Little hands enjoying cake smash moments' },
@@ -200,7 +195,7 @@ const BirthdaySpecialTwo = () => {
         <header className="BirthdaySpecialTwo__header">
           <span className="BirthdaySpecialTwo__eyebrow">Birthday Celebrations</span>
           <h2 className="BirthdaySpecialTwo__title" id="BirthdaySpecialTwo-title">
-            Birthday &amp; Milestone Photography Portfolio
+            Birthday Photography Portfolio
           </h2>
           <span className="BirthdaySpecialTwo__divider" aria-hidden="true" />
           <p className="BirthdaySpecialTwo__subtitle">

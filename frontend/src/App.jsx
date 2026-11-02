@@ -20,7 +20,6 @@ import Galary from "./Pages/Galary/Galary";
 import Pricing from "./Pages/Pricing/Pricing";
 import Contact from "./Pages/Contact/Contact";
 import MainFaq from "./Pages/MainFaq/MainFaq";
-import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
  
 import Servicemain from "./Pages/Servicemain/Servicemain";
@@ -75,7 +74,6 @@ function App() {
       <GetInTouch />
       <Footer />
       <FloatingIcons/>
-      <FloatingForm/>
       <EnquireForm />
       
     </BrowserRouter>

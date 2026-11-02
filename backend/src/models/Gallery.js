@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const gallerySchema = new mongoose.Schema(
@@ -12,23 +11,39 @@ const gallerySchema = new mongoose.Schema(
 
     category: {
       type: String,
+      required: true,
+      enum: [
+        "Maternity Shoot",
+        "Birthday Special",
+        "Baby Shoot",
+        "Advertise Shoot",
+        "Pre Wedding and Post Wedding Shoot",
+      ],
+    },
+
+    subCategory: {
+      type: String,
+      required: true,
       trim: true,
-      default: "Other",
     },
 
     image: {
       type: String,
-      required: [true, "Image URL is required"],
+      required: true,
     },
 
     imageFormat: {
       type: String,
       default: "webp",
+      enum: ["webp"],
+    },
+
+    imageSize: {
+      type: Number,
+      default: 0,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Gallery", gallerySchema);

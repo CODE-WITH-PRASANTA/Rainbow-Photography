@@ -1,181 +1,300 @@
-
-const Gallery = require("../models/Gallery");
-const fs = require("fs/promises");
+const fs = require("fs");
 const path = require("path");
+const Gallery = require("../models/Gallery");
 
-const uploadDirectory = path.resolve(__dirname, "../uploads/gallery");
+const CATEGORY_OPTIONS = {
+  "Maternity Shoot": [
+    "Engagement",
+    "Mehendi",
+    "Haldi",
+    "Marriage",
+    "Reception",
+  ],
 
-const deleteLocalImage = async (imageUrl) => {
-  if (!imageUrl || !imageUrl.startsWith("/uploads/gallery/")) {
-    return;
-  }
+  "Birthday Special": [
+    "Cake Smash",
+    "Kids Party",
+    "Themed Decor",
+    "Family Moments",
+  ],
 
-  const filename = path.basename(imageUrl);
-  const filePath = path.join(uploadDirectory, filename);
+  "Baby Shoot": [
+    "Newborn",
+    "Sitter (6-9M)",
+    "Themes & Props",
+    "Family Cuddles",
+  ],
 
-  try {
-    await fs.unlink(filePath);
-  } catch (error) {
-    if (error.code !== "ENOENT") {
-      console.error("Image file cleanup failed:", error.message);
-    }
+  "Advertise Shoot": [
+    "Product & Packshot",
+    "Fashion & Lookbook",
+    "Brand Commercial",
+    "Editorial & Print",
+    "Corporate & Lifestyle",
+  ],
+
+  "Pre Wedding and Post Wedding Shoot": [
+    "Pre-Wedding",
+    "Post-Wedding",
+    "Destinations",
+    "Sunset & Candids",
+    "Heritage & Royal",
+  ],
+};
+
+// Delete uploaded image from storage
+const deleteStoredImage = (imageUrl) => {
+  if (!imageUrl) return;
+
+  const relativePath = imageUrl.replace(/^\/+/, "");
+
+  const uploadRoot = path.resolve(__dirname, "../uploads");
+  const absolutePath = path.resolve(__dirname, "..", relativePath);
+
+  if (!absolutePath.startsWith(`${uploadRoot}${path.sep}`)) return;
+
+  if (fs.existsSync(absolutePath)) {
+    fs.unlinkSync(absolutePath);
   }
 };
 
-// GET /api/gallery
-exports.getGallery = async (req, res, next) => {
-  try {
-    const images = await Gallery.find().sort({ createdAt: -1 });
+// Validate request data
+const validateGalleryFields = (body) => {
+  const { title, category, subCategory } = body;
 
-    res.status(200).json({
+  if (!title || !String(title).trim()) {
+    return "Image title is required.";
+  }
+
+  if (String(title).trim().length > 100) {
+    return "Image title cannot exceed 100 characters.";
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(CATEGORY_OPTIONS, category)) {
+    return "Please select a valid category.";
+  }
+
+  if (!CATEGORY_OPTIONS[category].includes(subCategory)) {
+    return "Please select a valid sub category.";
+  }
+
+  return null;
+};
+
+// GET ALL GALLERY IMAGES
+const getGallery = async (req, res) => {
+  try {
+    const { search = "", category = "", subCategory = "" } = req.query;
+
+    const filter = {};
+
+    if (category) filter.category = category;
+    if (subCategory) filter.subCategory = subCategory;
+
+    if (search.trim()) {
+      const escapedSearch = search.trim().replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      );
+
+      const regex = new RegExp(escapedSearch, "i");
+
+      filter.$or = [
+        { title: regex },
+        { category: regex },
+        { subCategory: regex },
+      ];
+    }
+
+    const gallery = await Gallery.find(filter)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json({
       success: true,
-      count: images.length,
-      data: images,
+      count: gallery.length,
+      data: gallery,
     });
   } catch (error) {
-    next(error);
+    console.error("GET GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to fetch gallery images.",
+    });
   }
 };
 
-// GET /api/gallery/:id
-exports.getGalleryById = async (req, res, next) => {
+// CREATE GALLERY IMAGE
+const createGallery = async (req, res) => {
+  let savedImagePath = null;
+
   try {
-    const image = await Gallery.findById(req.params.id);
+    const validationError = validateGalleryFields(req.body);
 
-    if (!image) {
-      return res.status(404).json({
-        success: false,
-        message: "Gallery image not found",
-      });
-    }
-
-    res.status(200).json({ success: true, data: image });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// POST /api/gallery
-exports.createGallery = async (req, res, next) => {
-  try {
-    const title = req.body.title?.trim();
-    const category = req.body.category?.trim() || "Other";
-
-    if (!title) {
-      if (req.file?.url) await deleteLocalImage(req.file.url);
-
+    if (validationError) {
       return res.status(400).json({
         success: false,
-        message: "Image title is required",
+        message: validationError,
       });
     }
 
-    if (!req.file?.url) {
+    if (!req.file || !req.file.url) {
       return res.status(400).json({
         success: false,
-        message: "Please upload an image",
+        message: "Please upload an image.",
       });
     }
 
-    const image = await Gallery.create({
-      title,
-      category,
+    savedImagePath = req.file.url;
+
+    const gallery = await Gallery.create({
+      title: String(req.body.title).trim(),
+      category: req.body.category,
+      subCategory: req.body.subCategory,
       image: req.file.url,
       imageFormat: "webp",
+      imageSize: req.file.size || 0,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      message: "Image uploaded and saved successfully",
-      data: image,
+      message: "Gallery image created successfully.",
+      data: gallery,
     });
   } catch (error) {
-    if (req.file?.url) await deleteLocalImage(req.file.url);
-    next(error);
+    if (savedImagePath) {
+      try {
+        deleteStoredImage(savedImagePath);
+      } catch (cleanupError) {
+        console.error("UPLOAD CLEANUP ERROR:", cleanupError);
+      }
+    }
+
+    console.error("CREATE GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to save gallery image.",
+      error: error.message,
+    });
   }
 };
 
-// PUT /api/gallery/:id
-exports.updateGallery = async (req, res, next) => {
-  let newImageUrl = null;
+// UPDATE GALLERY IMAGE
+const updateGallery = async (req, res) => {
+  let newImagePath = null;
 
   try {
-    const image = await Gallery.findById(req.params.id);
+    const validationError = validateGalleryFields(req.body);
 
-    if (!image) {
-      if (req.file?.url) await deleteLocalImage(req.file.url);
-
-      return res.status(404).json({
-        success: false,
-        message: "Gallery image not found",
-      });
-    }
-
-    const title =
-      req.body.title !== undefined
-        ? req.body.title.trim()
-        : image.title;
-
-    if (!title) {
-      if (req.file?.url) await deleteLocalImage(req.file.url);
-
+    if (validationError) {
       return res.status(400).json({
         success: false,
-        message: "Image title is required",
+        message: validationError,
       });
     }
 
-    const oldImageUrl = image.image;
+    const gallery = await Gallery.findById(req.params.id);
 
-    image.title = title;
-
-    if (req.body.category !== undefined) {
-      image.category = req.body.category.trim() || "Other";
+    if (!gallery) {
+      return res.status(404).json({
+        success: false,
+        message: "Gallery image not found.",
+      });
     }
 
     if (req.file?.url) {
-      newImageUrl = req.file.url;
-      image.image = newImageUrl;
-      image.imageFormat = "webp";
+      newImagePath = req.file.url;
     }
 
-    await image.save();
+    const oldImagePath = gallery.image;
 
-    if (newImageUrl && oldImageUrl !== newImageUrl) {
-      await deleteLocalImage(oldImageUrl);
+    gallery.title = String(req.body.title).trim();
+    gallery.category = req.body.category;
+    gallery.subCategory = req.body.subCategory;
+
+    if (req.file?.url) {
+      gallery.image = req.file.url;
+      gallery.imageFormat = "webp";
+      gallery.imageSize = req.file.size || 0;
     }
 
-    res.status(200).json({
+    await gallery.save();
+
+    if (
+      newImagePath &&
+      oldImagePath &&
+      oldImagePath !== newImagePath
+    ) {
+      try {
+        deleteStoredImage(oldImagePath);
+      } catch (cleanupError) {
+        console.error("OLD IMAGE CLEANUP ERROR:", cleanupError);
+      }
+    }
+
+    return res.status(200).json({
       success: true,
-      message: "Gallery image updated successfully",
-      data: image,
+      message: "Gallery image updated successfully.",
+      data: gallery,
     });
   } catch (error) {
-    if (newImageUrl) await deleteLocalImage(newImageUrl);
-    next(error);
+    if (newImagePath) {
+      try {
+        deleteStoredImage(newImagePath);
+      } catch (cleanupError) {
+        console.error("NEW IMAGE CLEANUP ERROR:", cleanupError);
+      }
+    }
+
+    console.error("UPDATE GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to update gallery image.",
+      error: error.message,
+    });
   }
 };
 
-// DELETE /api/gallery/:id
-exports.deleteGallery = async (req, res, next) => {
+// DELETE GALLERY IMAGE
+const deleteGallery = async (req, res) => {
   try {
-    const image = await Gallery.findById(req.params.id);
+    const gallery = await Gallery.findById(req.params.id);
 
-    if (!image) {
+    if (!gallery) {
       return res.status(404).json({
         success: false,
-        message: "Gallery image not found",
+        message: "Gallery image not found.",
       });
     }
 
     await Gallery.findByIdAndDelete(req.params.id);
-    await deleteLocalImage(image.image);
 
-    res.status(200).json({
+    try {
+      deleteStoredImage(gallery.image);
+    } catch (cleanupError) {
+      console.error("GALLERY FILE DELETE ERROR:", cleanupError);
+    }
+
+    return res.status(200).json({
       success: true,
-      message: "Gallery image deleted successfully",
+      message: "Gallery image deleted successfully.",
     });
   } catch (error) {
-    next(error);
+    console.error("DELETE GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to delete gallery image.",
+    });
   }
+};
+
+module.exports = {
+  getGallery,
+  createGallery,
+  updateGallery,
+  deleteGallery,
 };

@@ -1,38 +1,33 @@
-
 const express = require("express");
 const router = express.Router();
 
+const upload = require("../middleware/multer");
+
 const {
   getGallery,
-  getGalleryById,
   createGallery,
   updateGallery,
   deleteGallery,
 } = require("../controllers/galleryController");
 
-const upload = require("../middleware/multer");
-
-// Get all images
+// GET ALL IMAGES
 router.get("/", getGallery);
 
-// Get one image
-router.get("/:id", getGalleryById);
-
-// Upload image, convert to WebP, and save to MongoDB
+// CREATE IMAGE
 router.post(
   "/",
   ...upload.single("image", "gallery"),
   createGallery
 );
 
-// Update title/category and optionally replace the image
+// UPDATE IMAGE
 router.put(
   "/:id",
   ...upload.single("image", "gallery"),
   updateGallery
 );
 
-// Delete image and its local file
+// DELETE IMAGE
 router.delete("/:id", deleteGallery);
 
 module.exports = router;

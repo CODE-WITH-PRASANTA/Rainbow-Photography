@@ -10,12 +10,10 @@ import './BabyShootTwo.css';
 
 import maternity1 from '../../assets/MaternityTwo-1.webp';
 import maternity2 from '../../assets/MaternityTwo-2.webp';
-import maternity3 from '../../assets/MaternityTwo-3.webp';
 import maternity4 from '../../assets/MaternityTwo-4.webp';
 import maternity5 from '../../assets/MaternityTwo-5.webp';
 import maternity6 from '../../assets/MaternityTwo-6.webp';
 import maternity7 from '../../assets/MaternityTwo-7.webp';
-import maternity8 from '../../assets/MaternityTwo-8.webp';
 import maternity9 from '../../assets/MaternityTwo-9.webp';
 import maternity10 from '../../assets/MaternityTwo-10.webp';
 import maternity11 from '../../assets/MaternityTwo-11.webp';
@@ -27,7 +25,6 @@ const CATEGORIES = [
   { id: 'all', label: 'All Photos' },
   { id: 'newborn', label: 'Newborn' },
   { id: 'sitter', label: 'Sitter (6-9M)' },
-  { id: 'milestone', label: 'Milestones' },
   { id: 'themes-props', label: 'Themes & Props' },
   { id: 'family-cuddles', label: 'Family Cuddles' },
 ];
@@ -40,12 +37,10 @@ const CATEGORY_LABELS = CATEGORIES.reduce((acc, item) => {
 const PHOTOS = [
   { id: 1, image: maternity1, category: 'newborn', alt: 'Peaceful sleeping newborn portrait' },
   { id: 2, image: maternity2, category: 'sitter', alt: 'Cute sitting baby smile and expression' },
-  { id: 3, image: maternity3, category: 'milestone', alt: 'Baby milestone monthly celebration portrait' },
   { id: 4, image: maternity4, category: 'themes-props', alt: 'Creative wooden basket and floral prop setup' },
   { id: 5, image: maternity5, category: 'family-cuddles', alt: 'Parents lovingly cuddling their baby' },
   { id: 6, image: maternity6, category: 'newborn', alt: 'Soft organic wrap newborn baby pose' },
   { id: 7, image: maternity7, category: 'sitter', alt: 'Curious baby sitting on studio setup' },
-  { id: 8, image: maternity8, category: 'milestone', alt: 'First year standing milestone photo' },
   { id: 9, image: maternity9, category: 'themes-props', alt: 'Themed baby studio backdrop portrait' },
   { id: 10, image: maternity10, category: 'family-cuddles', alt: 'Mother and baby tender tender moments' },
   { id: 11, image: maternity11, category: 'newborn', alt: 'Tiny hands and feet newborn detail' },
