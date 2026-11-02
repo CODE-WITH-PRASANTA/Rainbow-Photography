@@ -42,23 +42,51 @@ const CATEGORY_OPTIONS = {
   ],
 };
 
-// Delete uploaded image from storage
+// ========================================
+// DELETE IMAGE FROM UPLOADS
+// ========================================
+
 const deleteStoredImage = (imageUrl) => {
   if (!imageUrl) return;
 
-  const relativePath = imageUrl.replace(/^\/+/, "");
+  try {
+    const uploadRoot = path.resolve(__dirname, "../uploads");
 
-  const uploadRoot = path.resolve(__dirname, "../uploads");
-  const absolutePath = path.resolve(__dirname, "..", relativePath);
+    const filename = String(imageUrl)
+      .replace(/\\/g, "/")
+      .replace(/^\/+/, "");
 
-  if (!absolutePath.startsWith(`${uploadRoot}${path.sep}`)) return;
+    if (!filename.startsWith("uploads/")) {
+      console.warn("Invalid gallery image URL:", imageUrl);
+      return;
+    }
 
-  if (fs.existsSync(absolutePath)) {
-    fs.unlinkSync(absolutePath);
+    const absolutePath = path.resolve(
+      __dirname,
+      "..",
+      filename
+    );
+
+    if (
+      !absolutePath.startsWith(uploadRoot + path.sep)
+    ) {
+      console.warn("Unsafe image deletion path:", imageUrl);
+      return;
+    }
+
+    if (fs.existsSync(absolutePath)) {
+      fs.unlinkSync(absolutePath);
+      console.log("Gallery image deleted:", absolutePath);
+    }
+  } catch (error) {
+    console.error("IMAGE DELETE ERROR:", error);
   }
 };
 
-// Validate request data
+// ========================================
+// VALIDATE GALLERY DATA
+// ========================================
+
 const validateGalleryFields = (body) => {
   const { title, category, subCategory } = body;
 
@@ -70,7 +98,10 @@ const validateGalleryFields = (body) => {
     return "Image title cannot exceed 100 characters.";
   }
 
-  if (!Object.prototype.hasOwnProperty.call(CATEGORY_OPTIONS, category)) {
+  if (!Object.prototype.hasOwnProperty.call(
+    CATEGORY_OPTIONS,
+    category
+  )) {
     return "Please select a valid category.";
   }
 
@@ -81,21 +112,42 @@ const validateGalleryFields = (body) => {
   return null;
 };
 
+// ========================================
 // GET ALL GALLERY IMAGES
+// ========================================
+
 const getGallery = async (req, res) => {
   try {
-    const { search = "", category = "", subCategory = "" } = req.query;
+    const {
+      search = "",
+      category = "",
+      subCategory = "",
+    } = req.query;
 
     const filter = {};
 
-    if (category) filter.category = category;
-    if (subCategory) filter.subCategory = subCategory;
+    if (category) {
+      if (!Object.prototype.hasOwnProperty.call(
+        CATEGORY_OPTIONS,
+        category
+      )) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid category.",
+        });
+      }
 
-    if (search.trim()) {
-      const escapedSearch = search.trim().replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      );
+      filter.category = category;
+    }
+
+    if (subCategory) {
+      filter.subCategory = subCategory;
+    }
+
+    if (String(search).trim()) {
+      const escapedSearch = String(search)
+        .trim()
+        .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
       const regex = new RegExp(escapedSearch, "i");
 
@@ -125,7 +177,10 @@ const getGallery = async (req, res) => {
   }
 };
 
+// ========================================
 // CREATE GALLERY IMAGE
+// ========================================
+
 const createGallery = async (req, res) => {
   let savedImagePath = null;
 
@@ -164,11 +219,7 @@ const createGallery = async (req, res) => {
     });
   } catch (error) {
     if (savedImagePath) {
-      try {
-        deleteStoredImage(savedImagePath);
-      } catch (cleanupError) {
-        console.error("UPLOAD CLEANUP ERROR:", cleanupError);
-      }
+      deleteStoredImage(savedImagePath);
     }
 
     console.error("CREATE GALLERY ERROR:", error);
@@ -181,7 +232,10 @@ const createGallery = async (req, res) => {
   }
 };
 
+// ========================================
 // UPDATE GALLERY IMAGE
+// ========================================
+
 const updateGallery = async (req, res) => {
   let newImagePath = null;
 
@@ -222,16 +276,13 @@ const updateGallery = async (req, res) => {
 
     await gallery.save();
 
+    // Delete old image only after successful database update
     if (
       newImagePath &&
       oldImagePath &&
       oldImagePath !== newImagePath
     ) {
-      try {
-        deleteStoredImage(oldImagePath);
-      } catch (cleanupError) {
-        console.error("OLD IMAGE CLEANUP ERROR:", cleanupError);
-      }
+      deleteStoredImage(oldImagePath);
     }
 
     return res.status(200).json({
@@ -241,11 +292,7 @@ const updateGallery = async (req, res) => {
     });
   } catch (error) {
     if (newImagePath) {
-      try {
-        deleteStoredImage(newImagePath);
-      } catch (cleanupError) {
-        console.error("NEW IMAGE CLEANUP ERROR:", cleanupError);
-      }
+      deleteStoredImage(newImagePath);
     }
 
     console.error("UPDATE GALLERY ERROR:", error);
@@ -258,7 +305,10 @@ const updateGallery = async (req, res) => {
   }
 };
 
+// ========================================
 // DELETE GALLERY IMAGE
+// ========================================
+
 const deleteGallery = async (req, res) => {
   try {
     const gallery = await Gallery.findById(req.params.id);
@@ -272,11 +322,7 @@ const deleteGallery = async (req, res) => {
 
     await Gallery.findByIdAndDelete(req.params.id);
 
-    try {
-      deleteStoredImage(gallery.image);
-    } catch (cleanupError) {
-      console.error("GALLERY FILE DELETE ERROR:", cleanupError);
-    }
+    deleteStoredImage(gallery.image);
 
     return res.status(200).json({
       success: true,

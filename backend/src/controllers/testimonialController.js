@@ -1,152 +1,279 @@
-const path = require("path");
-const fs = require("fs");
+
+const mongoose = require("mongoose");
 const Testimonial = require("../models/Testimonial");
 
-// Helper to remove orphaned file on update/delete
-const removeFileIfExists = (fileRelativePath) => {
-  if (!fileRelativePath) return;
-  const fullPath = path.join(__dirname, "..", fileRelativePath);
-  if (fs.existsSync(fullPath)) {
-    try {
-      fs.unlinkSync(fullPath);
-    } catch (err) {
-      console.error("Failed to delete file:", err.message);
-    }
-  }
+// ======================================
+// ERROR HANDLER
+// ======================================
+
+const sendError = (res, error, message = "Server error") => {
+  console.error(message, error);
+
+  return res.status(500).json({
+    success: false,
+    message,
+  });
 };
 
-// 1. Get all testimonials
-exports.getAllTestimonials = async (req, res) => {
+// ======================================
+// VALIDATE INPUT
+// ======================================
+
+const validatePayload = ({ name, location, message, rating }) => {
+  if (!String(name || "").trim()) {
+    return "Name is required.";
+  }
+
+  if (!String(location || "").trim()) {
+    return "Location is required.";
+  }
+
+  if (String(message || "").trim().length < 10) {
+    return "Review must contain at least 10 characters.";
+  }
+
+  if (String(message || "").trim().length > 500) {
+    return "Review cannot exceed 500 characters.";
+  }
+
+  const numericRating = Number(rating);
+
+  if (
+    !Number.isInteger(numericRating) ||
+    numericRating < 1 ||
+    numericRating > 5
+  ) {
+    return "Rating must be between 1 and 5.";
+  }
+
+  return null;
+};
+
+// ======================================
+// PUBLIC: GET PUBLISHED TESTIMONIALS
+// ======================================
+
+const getPublishedTestimonials = async (req, res) => {
   try {
-    const testimonials = await Testimonial.find().sort({ createdAt: -1 });
+    const data = await Testimonial.find({
+      status: "Published",
+    })
+      .sort({ createdAt: -1 })
+      .select("name location message rating status createdAt");
+
     return res.status(200).json({
       success: true,
-      data: testimonials,
+      count: data.length,
+      data,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return sendError(res, error, "Unable to load published testimonials.");
   }
 };
 
-// 2. Create testimonial
-exports.createTestimonial = async (req, res) => {
-  try {
-    const { parent, designation, message, rating, status } = req.body;
+// ======================================
+// ADMIN: GET ALL TESTIMONIALS
+// ======================================
 
-    if (!parent || !message) {
+const getAllTestimonials = async (req, res) => {
+  try {
+    const data = await Testimonial.find().sort({
+      createdAt: -1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      count: data.length,
+      data,
+    });
+  } catch (error) {
+    return sendError(res, error, "Unable to load testimonials.");
+  }
+};
+
+// ======================================
+// PUBLIC: CREATE TESTIMONIAL
+// ======================================
+
+const createTestimonial = async (req, res) => {
+  try {
+    const errorMessage = validatePayload(req.body || {});
+
+    if (errorMessage) {
       return res.status(400).json({
         success: false,
-        message: "Parent name and message are required.",
+        message: errorMessage,
       });
     }
 
-    const photoUrl = req.file?.url || "";
+    const { name, location, message, rating } = req.body;
 
-    const newTestimonial = await Testimonial.create({
-      parent: parent.trim(),
-      designation: designation?.trim() || "Parent",
+    const data = await Testimonial.create({
+      name: name.trim(),
+      location: location.trim(),
       message: message.trim(),
-      rating: Number(rating) || 5,
-      status: status || "Unpublished",
-      photo: photoUrl,
-      date: new Date().toISOString().slice(0, 10),
+      rating: Number(rating),
+      status: "Unpublished",
     });
 
     return res.status(201).json({
       success: true,
-      message: "Testimonial created successfully",
-      data: newTestimonial,
+      message: "Review submitted successfully. Awaiting approval.",
+      data,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return sendError(res, error, "Unable to submit testimonial.");
   }
 };
 
-// 3. Update testimonial (with optional photo replacement)
-exports.updateTestimonial = async (req, res) => {
+// ======================================
+// ADMIN: UPDATE TESTIMONIAL
+// ======================================
+
+const updateTestimonial = async (req, res) => {
   try {
     const { id } = req.params;
-    const { parent, designation, message, rating, status, removeExistingPhoto } = req.body;
 
-    const existing = await Testimonial.findById(id);
-    if (!existing) {
-      return res.status(404).json({ success: false, message: "Testimonial not found" });
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid testimonial ID.",
+      });
     }
 
-    let photoUrl = existing.photo;
+    const errorMessage = validatePayload(req.body || {});
 
-    // If new file uploaded, delete old one and update path
-    if (req.file?.url) {
-      removeFileIfExists(existing.photo);
-      photoUrl = req.file.url;
-    } else if (removeExistingPhoto === "true" || removeExistingPhoto === true) {
-      removeFileIfExists(existing.photo);
-      photoUrl = "";
+    if (errorMessage) {
+      return res.status(400).json({
+        success: false,
+        message: errorMessage,
+      });
     }
 
-    existing.parent = parent ? parent.trim() : existing.parent;
-    existing.designation = designation ? designation.trim() : existing.designation;
-    existing.message = message ? message.trim() : existing.message;
-    existing.rating = rating !== undefined ? Number(rating) : existing.rating;
-    if (status) existing.status = status;
-    existing.photo = photoUrl;
+    const { name, location, message, rating } = req.body;
 
-    const updated = await existing.save();
+    const data = await Testimonial.findByIdAndUpdate(
+      id,
+      {
+        name: name.trim(),
+        location: location.trim(),
+        message: message.trim(),
+        rating: Number(rating),
+      },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      }
+    );
+
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: "Testimonial not found.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: "Testimonial updated successfully",
-      data: updated,
+      message: "Testimonial updated successfully.",
+      data,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return sendError(res, error, "Unable to update testimonial.");
   }
 };
 
-// 4. Toggle Published / Unpublished
-exports.toggleStatus = async (req, res) => {
+// ======================================
+// ADMIN: PUBLISH / UNPUBLISH
+// ======================================
+
+const updateTestimonialStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const testimonial = await Testimonial.findById(id);
+    const { status } = req.body || {};
 
-    if (!testimonial) {
-      return res.status(404).json({ success: false, message: "Testimonial not found" });
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid testimonial ID.",
+      });
     }
 
-    testimonial.status =
-      testimonial.status === "Published" ? "Unpublished" : "Published";
+    if (!["Published", "Unpublished"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid testimonial status.",
+      });
+    }
 
-    await testimonial.save();
+    const data = await Testimonial.findByIdAndUpdate(
+      id,
+      { status },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      }
+    );
+
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: "Testimonial not found.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: `Testimonial ${testimonial.status.toLowerCase()}.`,
-      data: testimonial,
+      message: `Testimonial ${status.toLowerCase()} successfully.`,
+      data,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return sendError(res, error, "Unable to update testimonial status.");
   }
 };
 
-// 5. Delete testimonial
-exports.deleteTestimonial = async (req, res) => {
+// ======================================
+// ADMIN: DELETE TESTIMONIAL
+// ======================================
+
+const deleteTestimonial = async (req, res) => {
   try {
     const { id } = req.params;
-    const testimonial = await Testimonial.findById(id);
 
-    if (!testimonial) {
-      return res.status(404).json({ success: false, message: "Testimonial not found" });
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid testimonial ID.",
+      });
     }
 
-    removeFileIfExists(testimonial.photo);
-    await Testimonial.findByIdAndDelete(id);
+    const data = await Testimonial.findByIdAndDelete(id);
+
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        message: "Testimonial not found.",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: "Testimonial deleted successfully",
-      data: { id },
+      message: "Testimonial deleted successfully.",
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
+    return sendError(res, error, "Unable to delete testimonial.");
   }
+};
+
+// ======================================
+// EXPORT CONTROLLERS
+// ======================================
+
+module.exports = {
+  getPublishedTestimonials,
+  getAllTestimonials,
+  createTestimonial,
+  updateTestimonial,
+  updateTestimonialStatus,
+  deleteTestimonial,
 };

@@ -13,6 +13,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import Testimonial from "./Components/Testimonial/Testimonial";
 import TeamMember from "./Components/TeamMember/TeamMember";
 import ColdLead from "./Components/ColdLead/ColdLead";
+import Enquiry from "./Components/Enquiry/Enquiry";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="testimonial" element={<Testimonial/>} />
           <Route path="team-member" element={<TeamMember/>} />
           <Route path="cold-lead" element={<ColdLead/>} />
+          <Route path="enquiries" element={<Enquiry />} />
 
 
         </Route>
