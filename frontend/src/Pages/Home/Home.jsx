@@ -19,7 +19,6 @@ const Home = () => {
       <HomeAboutSection />
       <HomeServiceSection />
       <HomeHeading />
-     
       <HomeWedingClicks />
       <PricingMain/>
       <HomeScoring />

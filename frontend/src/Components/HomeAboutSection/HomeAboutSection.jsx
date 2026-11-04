@@ -2,8 +2,8 @@ import React from "react";
 import "./HomeAboutSection.css";
 
 /* images */
-import mainImg from "../../assets/Event-2.webp";   // primary wedding couple / stage image
-import peopleImg from "../../assets/Event-1.webp"; // candid portrait / emotion image
+import mainImg from "../../assets/event-2.webp";   // primary wedding couple / stage image
+import peopleImg from "../../assets/event-1.webp"; // candid portrait / emotion image
 import leaf1 from "../../assets/Leave-1.webp";
 import leaf2 from "../../assets/Leave-2.webp";
 

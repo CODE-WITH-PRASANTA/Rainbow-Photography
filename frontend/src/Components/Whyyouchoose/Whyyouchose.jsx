@@ -1,5 +1,5 @@
 import React from "react";
-import "./WhyyouChose.css";
+import "./Whyyouchose.css";
 
 const features = [
   {
