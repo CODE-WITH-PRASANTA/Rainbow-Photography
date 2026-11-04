@@ -8,6 +8,8 @@ const connectDB = require("./src/config/db");
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const teamMemberRoutes = require("./src/routes/teamMemberRoutes");
+const coldLeadRoutes = require("./src/routes/coldLeadRoutes");
+const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
 const app = express();
 
@@ -66,6 +68,8 @@ app.use(
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/team-members", teamMemberRoutes);
+app.use("/api/cold-leads", coldLeadRoutes);
+app.use("/api/enquiries", enquiryRoutes);
 
 // Health check / root
 app.get("/", (req, res) => {

@@ -10,24 +10,24 @@ const {
   deleteGallery,
 } = require("../controllers/galleryController");
 
-// GET ALL IMAGES
+// GET ALL GALLERY IMAGES
 router.get("/", getGallery);
 
-// CREATE IMAGE
+// CREATE GALLERY IMAGE
 router.post(
   "/",
   ...upload.single("image", "gallery"),
   createGallery
 );
 
-// UPDATE IMAGE
+// UPDATE GALLERY IMAGE
 router.put(
   "/:id",
   ...upload.single("image", "gallery"),
   updateGallery
 );
 
-// DELETE IMAGE
+// DELETE GALLERY IMAGE
 router.delete("/:id", deleteGallery);
 
 module.exports = router;

@@ -1,3 +1,4 @@
+
 import React, {
   useCallback,
   useEffect,
@@ -5,104 +6,206 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import './BabyShootTwo.css';
+} from "react";
 
-import maternity1 from '../../assets/MaternityTwo-1.webp';
-import maternity2 from '../../assets/MaternityTwo-2.webp';
-import maternity4 from '../../assets/MaternityTwo-4.webp';
-import maternity5 from '../../assets/MaternityTwo-5.webp';
-import maternity6 from '../../assets/MaternityTwo-6.webp';
-import maternity7 from '../../assets/MaternityTwo-7.webp';
-import maternity9 from '../../assets/MaternityTwo-9.webp';
-import maternity10 from '../../assets/MaternityTwo-10.webp';
-import maternity11 from '../../assets/MaternityTwo-11.webp';
-import maternity12 from '../../assets/MaternityTwo-12.jpeg';
+import API, { IMG_URL } from "../../api/axios";
+import "./BabyShootTwo.css";
 
 const PAGE_SIZE = 6;
+const MAIN_CATEGORY = "Baby Shoot";
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Photos' },
-  { id: 'newborn', label: 'Newborn' },
-  { id: 'sitter', label: 'Sitter (6-9M)' },
-  { id: 'themes-props', label: 'Themes & Props' },
-  { id: 'family-cuddles', label: 'Family Cuddles' },
+  { id: "all", label: "All Photos" },
+  { id: "newborn", label: "Newborn" },
+  { id: "sitter", label: "Sitter (6-9M)" },
+  { id: "themes-props", label: "Themes & Props" },
+  { id: "family-cuddles", label: "Family Cuddles" },
 ];
 
-const CATEGORY_LABELS = CATEGORIES.reduce((acc, item) => {
-  acc[item.id] = item.label;
-  return acc;
-}, {});
+// Match the exact subcategory names saved by your admin gallery.
+const SUBCATEGORY_MAP = {
+  newborn: "Newborn",
+  sitter: "Sitter (6-9M)",
+  "themes-props": "Themes & Props",
+  "family-cuddles": "Family Cuddles",
+};
 
-const PHOTOS = [
-  { id: 1, image: maternity1, category: 'newborn', alt: 'Peaceful sleeping newborn portrait' },
-  { id: 2, image: maternity2, category: 'sitter', alt: 'Cute sitting baby smile and expression' },
-  { id: 4, image: maternity4, category: 'themes-props', alt: 'Creative wooden basket and floral prop setup' },
-  { id: 5, image: maternity5, category: 'family-cuddles', alt: 'Parents lovingly cuddling their baby' },
-  { id: 6, image: maternity6, category: 'newborn', alt: 'Soft organic wrap newborn baby pose' },
-  { id: 7, image: maternity7, category: 'sitter', alt: 'Curious baby sitting on studio setup' },
-  { id: 9, image: maternity9, category: 'themes-props', alt: 'Themed baby studio backdrop portrait' },
-  { id: 10, image: maternity10, category: 'family-cuddles', alt: 'Mother and baby tender tender moments' },
-  { id: 11, image: maternity11, category: 'newborn', alt: 'Tiny hands and feet newborn detail' },
-  { id: 12, image: maternity12, category: 'sitter', alt: 'Joyful baby giggles during photoshoot' },
-];
+const normalizeText = (value) =>
+  String(value || "").trim().toLowerCase();
 
-/* ---------- Icons ---------- */
+const getImageUrl = (image) => {
+  if (!image) return "";
+
+  // Already a complete URL or a base64 image.
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://") ||
+    image.startsWith("data:")
+  ) {
+    return image;
+  }
+
+  const baseUrl = String(IMG_URL || "http://localhost:5000").replace(
+    /\/+$/,
+    ""
+  );
+
+  const imagePath = image.startsWith("/") ? image : `/${image}`;
+
+  return `${baseUrl}${imagePath}`;
+};
+
+const getGalleryArray = (responseData) => {
+  if (Array.isArray(responseData)) return responseData;
+  if (Array.isArray(responseData?.data)) return responseData.data;
+  if (Array.isArray(responseData?.gallery)) return responseData.gallery;
+  if (Array.isArray(responseData?.photos)) return responseData.photos;
+
+  return [];
+};
+
+// Convert the backend response into a consistent frontend format.
+const formatGalleryPhoto = (item) => {
+  const image =
+    item.image ||
+    item.imageUrl ||
+    item.imagePath ||
+    item.url ||
+    "";
+
+  return {
+    id: item._id || item.id,
+    title: item.title || item.name || "Baby Photography",
+    image: getImageUrl(image),
+    category: item.category || "",
+    subCategory: item.subCategory || item.subcategory || "",
+    alt:
+      item.title ||
+      item.name ||
+      "Baby photography portrait",
+  };
+};
+
+/* ---------------- Icons ---------------- */
 
 const ZoomIcon = () => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
-    <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="2" />
-    <path d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  <svg
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    fill="none"
+    aria-hidden="true"
+  >
+    <circle
+      cx="11"
+      cy="11"
+      r="6.5"
+      stroke="currentColor"
+      strokeWidth="2"
+    />
+    <path
+      d="M16 16l4.5 4.5M11 8.5v5M8.5 11h5"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const CloseIcon = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+  <svg
+    viewBox="0 0 24 24"
+    width="22"
+    height="22"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M6 6l12 12M18 6L6 18"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const PrevIcon = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-    <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    viewBox="0 0 24 24"
+    width="22"
+    height="22"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M15 5l-7 7 7 7"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 const NextIcon = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-    <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    viewBox="0 0 24 24"
+    width="22"
+    height="22"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M9 5l7 7-7 7"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
-/* ---------- Single Gallery Card ---------- */
+/* ---------------- Gallery Card ---------------- */
 
 const BabyShootTwoCard = ({ photo, index, onOpen }) => {
   const [loaded, setLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <li
       className="BabyShootTwo__item"
-      style={{ '--delay': `${(index % PAGE_SIZE) * 70}ms` }}
+      style={{ "--delay": `${(index % PAGE_SIZE) * 70}ms` }}
     >
       <button
         type="button"
-        className={`BabyShootTwo__card ${loaded ? 'is-loaded' : ''}`}
+        className={`BabyShootTwo__card ${
+          loaded ? "is-loaded" : ""
+        }`}
         onClick={() => onOpen(index)}
         aria-label={`Open photo: ${photo.alt}`}
       >
-        <img
-          className="BabyShootTwo__image"
-          src={photo.image}
-          alt={photo.alt}
-          loading="lazy"
-          decoding="async"
-          draggable="false"
-          onLoad={() => setLoaded(true)}
-        />
+        {imageError ? (
+          <div className="BabyShootTwo__image-error">
+            Image unavailable
+          </div>
+        ) : (
+          <img
+            className="BabyShootTwo__image"
+            src={photo.image}
+            alt={photo.alt}
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            onLoad={() => setLoaded(true)}
+            onError={() => setImageError(true)}
+          />
+        )}
+
         <span className="BabyShootTwo__overlay">
           <span className="BabyShootTwo__tag">
-            {CATEGORY_LABELS[photo.category]}
+            {photo.subCategory}
           </span>
+
           <span className="BabyShootTwo__zoom">
             <ZoomIcon />
           </span>
@@ -112,99 +215,237 @@ const BabyShootTwoCard = ({ photo, index, onOpen }) => {
   );
 };
 
-/* ---------- Main Component ---------- */
+/* ---------------- Main Component ---------------- */
 
 const BabyShootTwo = () => {
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [lightbox, setLightbox] = useState(null);
-  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
-  const tabRefs = useRef({});
+  const [indicator, setIndicator] = useState({
+    left: 0,
+    width: 0,
+  });
 
-  const filtered = useMemo(
-    () =>
-      filter === 'all' ? PHOTOS : PHOTOS.filter((p) => p.category === filter),
-    [filter]
-  );
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const tabRefs = useRef({});
+  const requestRef = useRef(null);
+
+  /* ---------------- Fetch Baby Shoot Photos ---------------- */
+
+  const fetchBabyShootPhotos = useCallback(async () => {
+    if (requestRef.current) {
+      requestRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    requestRef.current = controller;
+
+    try {
+      setLoading(true);
+      setError("");
+
+      // Fetch only the Baby Shoot category from your backend.
+      const response = await API.get("/gallery", {
+        params: {
+          category: MAIN_CATEGORY,
+        },
+        signal: controller.signal,
+      });
+
+      const galleryItems = getGalleryArray(response.data);
+
+      const formattedPhotos = galleryItems
+        // Extra category protection on the frontend.
+        .filter(
+          (item) =>
+            normalizeText(item.category) ===
+            normalizeText(MAIN_CATEGORY)
+        )
+        .map(formatGalleryPhoto)
+        .filter((photo) => photo.id && photo.image);
+
+      setPhotos(formattedPhotos);
+    } catch (err) {
+      if (err.name === "CanceledError" || err.code === "ERR_CANCELED") {
+        return;
+      }
+
+      console.error(
+        "Baby Shoot gallery fetch error:",
+        err.response?.data || err.message
+      );
+
+      setError(
+        err.response?.data?.message ||
+          "Unable to load baby photos. Please try again."
+      );
+
+      setPhotos([]);
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchBabyShootPhotos();
+
+    return () => {
+      if (requestRef.current) {
+        requestRef.current.abort();
+      }
+    };
+  }, [fetchBabyShootPhotos]);
+
+  /* ---------------- Category Filtering ---------------- */
+
+  const filtered = useMemo(() => {
+    if (filter === "all") {
+      return photos;
+    }
+
+    const selectedSubcategory = SUBCATEGORY_MAP[filter];
+
+    return photos.filter(
+      (photo) =>
+        normalizeText(photo.subCategory) ===
+        normalizeText(selectedSubcategory)
+    );
+  }, [photos, filter]);
+
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
 
-  /* Sliding pill indicator under the active tab */
+  /* ---------------- Tab Indicator ---------------- */
+
   const updateIndicator = useCallback(() => {
-    const el = tabRefs.current[filter];
-    if (el) setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+    const element = tabRefs.current[filter];
+
+    if (element) {
+      setIndicator({
+        left: element.offsetLeft,
+        width: element.offsetWidth,
+      });
+    }
   }, [filter]);
 
   useLayoutEffect(() => {
     updateIndicator();
-    window.addEventListener('resize', updateIndicator);
-    if (document.fonts && document.fonts.ready) {
+
+    window.addEventListener("resize", updateIndicator);
+
+    if (document.fonts?.ready) {
       document.fonts.ready.then(updateIndicator);
     }
-    return () => window.removeEventListener('resize', updateIndicator);
+
+    return () => {
+      window.removeEventListener("resize", updateIndicator);
+    };
   }, [updateIndicator]);
+
+  /* ---------------- Change Category ---------------- */
 
   const handleFilter = (id, event) => {
     if (id === filter) return;
+
     setFilter(id);
     setVisibleCount(PAGE_SIZE);
     setLightbox(null);
+
     event.currentTarget.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center',
-      block: 'nearest',
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
     });
   };
 
-  /* Lightbox handlers */
-  const closeLightbox = useCallback(() => setLightbox(null), []);
-  const showPrev = useCallback(
-    () => setLightbox((i) => (i === null ? i : (i - 1 + filtered.length) % filtered.length)),
-    [filtered.length]
-  );
-  const showNext = useCallback(
-    () => setLightbox((i) => (i === null ? i : (i + 1) % filtered.length)),
-    [filtered.length]
-  );
+  /* ---------------- Lightbox ---------------- */
+
+  const closeLightbox = useCallback(() => {
+    setLightbox(null);
+  }, []);
+
+  const showPrev = useCallback(() => {
+    setLightbox((current) =>
+      current === null || filtered.length === 0
+        ? current
+        : (current - 1 + filtered.length) % filtered.length
+    );
+  }, [filtered.length]);
+
+  const showNext = useCallback(() => {
+    setLightbox((current) =>
+      current === null || filtered.length === 0
+        ? current
+        : (current + 1) % filtered.length
+    );
+  }, [filtered.length]);
 
   useEffect(() => {
     if (lightbox === null) return undefined;
 
-    const onKey = (e) => {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') showPrev();
-      if (e.key === 'ArrowRight') showNext();
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showPrev();
+      if (event.key === "ArrowRight") showNext();
     };
 
     const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = "hidden";
+
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', onKey);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [lightbox, closeLightbox, showPrev, showNext]);
 
-  const activePhoto = lightbox !== null ? filtered[lightbox] : null;
+  const activePhoto =
+    lightbox !== null ? filtered[lightbox] : null;
+
+  /* ---------------- Render ---------------- */
 
   return (
-    <section className="BabyShootTwo" aria-labelledby="BabyShootTwo-title">
+    <section
+      className="BabyShootTwo"
+      aria-labelledby="BabyShootTwo-title"
+    >
       <div className="BabyShootTwo__container">
         {/* Header */}
         <header className="BabyShootTwo__header">
-          <span className="BabyShootTwo__eyebrow">Little Wonders Gallery</span>
-          <h2 className="BabyShootTwo__title" id="BabyShootTwo-title">
+          <span className="BabyShootTwo__eyebrow">
+            Little Wonders Gallery
+          </span>
+
+          <h2
+            className="BabyShootTwo__title"
+            id="BabyShootTwo-title"
+          >
             Newborn &amp; Baby Photography Portfolio
           </h2>
-          <span className="BabyShootTwo__divider" aria-hidden="true" />
+
+          <span
+            className="BabyShootTwo__divider"
+            aria-hidden="true"
+          />
+
           <p className="BabyShootTwo__subtitle">
-            Every tiny yawn, gentle touch, and innocent smile safely preserved in heartwarming, timeless portraits.
+            Every tiny yawn, gentle touch, and innocent smile
+            safely preserved in heartwarming, timeless portraits.
           </p>
         </header>
 
-        {/* Filter tabs */}
-        <div className="BabyShootTwo__filters" role="tablist" aria-label="Filter photos">
+        {/* Category Tabs */}
+        <div
+          className="BabyShootTwo__filters"
+          role="tablist"
+          aria-label="Filter baby photos"
+        >
           <div className="BabyShootTwo__tabs">
             <span
               className="BabyShootTwo__indicator"
@@ -214,19 +455,22 @@ const BabyShootTwo = () => {
                 transform: `translateX(${indicator.left}px)`,
               }}
             />
+
             {CATEGORIES.map((category) => (
               <button
                 key={category.id}
                 type="button"
                 role="tab"
                 aria-selected={filter === category.id}
-                ref={(el) => {
-                  tabRefs.current[category.id] = el;
+                ref={(element) => {
+                  tabRefs.current[category.id] = element;
                 }}
                 className={`BabyShootTwo__tab ${
-                  filter === category.id ? 'is-active' : ''
+                  filter === category.id ? "is-active" : ""
                 }`}
-                onClick={(e) => handleFilter(category.id, e)}
+                onClick={(event) =>
+                  handleFilter(category.id, event)
+                }
               >
                 {category.label}
               </button>
@@ -234,40 +478,75 @@ const BabyShootTwo = () => {
           </div>
         </div>
 
-        {/* Masonry gallery */}
-        <ul className="BabyShootTwo__grid" key={filter}>
-          {visible.map((photo, index) => (
-            <BabyShootTwoCard
-              key={photo.id}
-              photo={photo}
-              index={index}
-              onOpen={setLightbox}
-            />
-          ))}
-        </ul>
-
-        {filtered.length === 0 && (
-          <p className="BabyShootTwo__empty">
-            No baby portraits available in this category yet.
-          </p>
+        {/* Loading */}
+        {loading && (
+          <div className="BabyShootTwo__status">
+            <p>Loading baby photos...</p>
+          </div>
         )}
 
-        {/* Load more */}
-        {filtered.length > 0 && (
-          <div className="BabyShootTwo__footer">
-            <p className="BabyShootTwo__count">
-              Showing {visible.length} of {filtered.length} photos
-            </p>
-            {hasMore && (
-              <button
-                type="button"
-                className="BabyShootTwo__button"
-                onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              >
-                Load More
-              </button>
-            )}
+        {/* Error */}
+        {!loading && error && (
+          <div className="BabyShootTwo__status BabyShootTwo__error">
+            <p>{error}</p>
+
+            <button
+              type="button"
+              className="BabyShootTwo__button"
+              onClick={fetchBabyShootPhotos}
+            >
+              Try Again
+            </button>
           </div>
+        )}
+
+        {/* Gallery */}
+        {!loading && !error && (
+          <>
+            <ul
+              className="BabyShootTwo__grid"
+              key={filter}
+            >
+              {visible.map((photo, index) => (
+                <BabyShootTwoCard
+                  key={photo.id}
+                  photo={photo}
+                  index={index}
+                  onOpen={setLightbox}
+                />
+              ))}
+            </ul>
+
+            {/* Empty State */}
+            {filtered.length === 0 && (
+              <p className="BabyShootTwo__empty">
+                No baby portraits available in this category yet.
+              </p>
+            )}
+
+            {/* Load More */}
+            {filtered.length > 0 && (
+              <div className="BabyShootTwo__footer">
+                <p className="BabyShootTwo__count">
+                  Showing {visible.length} of {filtered.length} photos
+                </p>
+
+                {hasMore && (
+                  <button
+                    type="button"
+                    className="BabyShootTwo__button"
+                    onClick={() =>
+                      setVisibleCount(
+                        (count) => count + PAGE_SIZE
+                      )
+                    }
+                  >
+                    Load More
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -294,19 +573,20 @@ const BabyShootTwo = () => {
               <button
                 type="button"
                 className="BabyShootTwo__lightbox-nav BabyShootTwo__lightbox-nav--prev"
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={(event) => {
+                  event.stopPropagation();
                   showPrev();
                 }}
                 aria-label="Previous photo"
               >
                 <PrevIcon />
               </button>
+
               <button
                 type="button"
                 className="BabyShootTwo__lightbox-nav BabyShootTwo__lightbox-nav--next"
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={(event) => {
+                  event.stopPropagation();
                   showNext();
                 }}
                 aria-label="Next photo"
@@ -319,17 +599,19 @@ const BabyShootTwo = () => {
           <figure
             className="BabyShootTwo__lightbox-figure"
             key={activePhoto.id}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <img
               className="BabyShootTwo__lightbox-image"
               src={activePhoto.image}
               alt={activePhoto.alt}
             />
+
             <figcaption className="BabyShootTwo__lightbox-caption">
               <span className="BabyShootTwo__lightbox-tag">
-                {CATEGORY_LABELS[activePhoto.category]}
+                {activePhoto.subCategory}
               </span>
+
               <span className="BabyShootTwo__lightbox-counter">
                 {lightbox + 1} / {filtered.length}
               </span>

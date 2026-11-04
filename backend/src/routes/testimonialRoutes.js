@@ -1,18 +1,24 @@
 const express = require("express");
+
+const {
+  createTestimonial,
+  deleteTestimonial,
+  getAllTestimonials,
+  getPublishedTestimonials,
+  updateTestimonial,
+  updateTestimonialStatus,
+} = require("../controllers/testimonialController");
+
 const router = express.Router();
-const upload = require("../middleware/multer"); // ✅ Correct path and filename
-const testimonialController = require("../controllers/testimonialController");
 
-router
-  .route("/")
-  .get(testimonialController.getAllTestimonials)
-  .post(upload.single("photo", "testimonials"), testimonialController.createTestimonial);
+// PUBLIC WEBSITE
+router.get("/public", getPublishedTestimonials);
+router.post("/", createTestimonial);
 
-router
-  .route("/:id")
-  .put(upload.single("photo", "testimonials"), testimonialController.updateTestimonial)
-  .delete(testimonialController.deleteTestimonial);
-
-router.patch("/:id/status", testimonialController.toggleStatus);
+// ADMIN PANEL
+router.get("/", getAllTestimonials);
+router.put("/:id", updateTestimonial);
+router.patch("/:id/status", updateTestimonialStatus);
+router.delete("/:id", deleteTestimonial);
 
 module.exports = router;

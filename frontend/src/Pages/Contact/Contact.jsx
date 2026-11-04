@@ -6,7 +6,7 @@ import GoogleMap from '../../Components/GoogleMap/GoogleMap'
 const Contact = () => {
   return (
     <div>
-        Contact
+      
           <ContactHome/>
           <GetInMail/>
           <GoogleMap/>

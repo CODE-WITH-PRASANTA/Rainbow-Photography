@@ -1,22 +1,24 @@
-
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import "./GalaryImage.css";
 
 import leaf from "../../assets/Leaf-1.webp";
-
 import API, { IMG_URL } from "../../api/axios";
 
 import {
   FiArrowLeft,
   FiArrowRight,
-  FiX,
   FiChevronLeft,
   FiChevronRight,
   FiRefreshCw,
 } from "react-icons/fi";
 
 const IMAGES_PER_PAGE = 6;
-
 const DEFAULT_IMAGE_BASE = IMG_URL || "";
 
 const normalizeImageUrl = (image) => {
@@ -61,11 +63,10 @@ const GalaryImage = () => {
   const [images, setImages] = useState([]);
   const [previewIndex, setPreviewIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch images uploaded through the admin panel
+  // Fetch gallery images from the backend
   const fetchGallery = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -127,36 +128,41 @@ const GalaryImage = () => {
     setPreviewIndex(startIndex + index);
   };
 
-  const closePreview = () => {
+  const closePreview = useCallback(() => {
     setPreviewIndex(null);
-  };
+  }, []);
 
-  const showPrevious = (event) => {
-    event?.stopPropagation();
+  const showPrevious = useCallback(
+    (event) => {
+      event?.stopPropagation();
 
-    setPreviewIndex((current) =>
-      current === null
-        ? null
-        : (current - 1 + images.length) % images.length
-    );
-  };
+      setPreviewIndex((current) =>
+        current === null
+          ? null
+          : (current - 1 + images.length) % images.length
+      );
+    },
+    [images.length]
+  );
 
-  const showNext = (event) => {
-    event?.stopPropagation();
+  const showNext = useCallback(
+    (event) => {
+      event?.stopPropagation();
 
-    setPreviewIndex((current) =>
-      current === null
-        ? null
-        : (current + 1) % images.length
-    );
-  };
+      setPreviewIndex((current) =>
+        current === null
+          ? null
+          : (current + 1) % images.length
+      );
+    },
+    [images.length]
+  );
 
-  // Keyboard navigation and background scroll lock
+  // Escape key, arrow key navigation and background scroll lock
   useEffect(() => {
     if (previewIndex === null) return undefined;
 
     const previousOverflow = document.body.style.overflow;
-
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event) => {
@@ -179,7 +185,82 @@ const GalaryImage = () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [previewIndex, images.length]);
+  }, [previewIndex, closePreview, showPrevious, showNext]);
+
+  const previewImage =
+    previewIndex !== null ? images[previewIndex] : null;
+
+  // Render popup outside the gallery section to avoid stacking issues
+  const popup =
+    previewImage && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            className="galaryimage--popup"
+            onClick={closePreview}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photograph preview"
+          >
+            {/* Close button - always above the image */}
+            <button
+              type="button"
+              className="galaryimage--popupClose"
+              onClick={(event) => {
+                event.stopPropagation();
+                closePreview();
+              }}
+              aria-label="Close photograph"
+              title="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+
+            {/* Previous image */}
+            {images.length > 1 && (
+              <button
+                type="button"
+                className="galaryimage--popupArrow galaryimage--popupPrev"
+                onClick={showPrevious}
+                aria-label="Previous photograph"
+                title="Previous"
+              >
+                <FiChevronLeft />
+              </button>
+            )}
+
+            {/* Preview image */}
+            <div
+              className="galaryimage--popupImageWrap"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img
+                key={previewImage.id}
+                src={previewImage.image}
+                alt={previewImage.title}
+                className="galaryimage--popupImage"
+              />
+
+              <span className="galaryimage--popupCounter">
+                {previewIndex + 1} / {images.length}
+              </span>
+            </div>
+
+            {/* Next image */}
+            {images.length > 1 && (
+              <button
+                type="button"
+                className="galaryimage--popupArrow galaryimage--popupNext"
+                onClick={showNext}
+                aria-label="Next photograph"
+                title="Next"
+              >
+                <FiChevronRight />
+              </button>
+            )}
+          </div>,
+          document.body
+        )
+      : null;
 
   return (
     <section className="galaryimage--section">
@@ -270,7 +351,6 @@ const GalaryImage = () => {
 
                 <span className="galaryimage--imageOverlay">
                   <span className="galaryimage--viewIcon">↗</span>
-
                   <span className="galaryimage--viewText">
                     View Photograph
                   </span>
@@ -283,7 +363,7 @@ const GalaryImage = () => {
             ))}
           </div>
 
-          {/* Pagination: six images per page */}
+          {/* Pagination */}
           {totalPages > 1 && (
             <nav
               className="galaryimage--pagination"
@@ -343,7 +423,9 @@ const GalaryImage = () => {
       {!loading && !error && images.length === 0 && (
         <div className="galaryimage--status">
           <p>No photographs are available yet.</p>
-          <p>New images uploaded through our studio gallery will appear here.</p>
+          <p>
+            New images uploaded through our studio gallery will appear here.
+          </p>
 
           <button
             type="button"
@@ -356,51 +438,8 @@ const GalaryImage = () => {
         </div>
       )}
 
-      {/* Image popup */}
-      {previewIndex !== null && images[previewIndex] && (
-        <div
-          className="galaryimage--popup"
-          onClick={closePreview}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Photograph preview"
-        >
-          <button
-            type="button"
-            className="galaryimage--popupClose"
-            onClick={closePreview}
-            aria-label="Close photograph"
-          >
-            <FiX />
-          </button>
-
-          <button
-            type="button"
-            className="galaryimage--popupArrow galaryimage--popupPrev"
-            onClick={showPrevious}
-            aria-label="Previous photograph"
-          >
-            <FiChevronLeft />
-          </button>
-
-          <img
-            key={images[previewIndex].id}
-            src={images[previewIndex].image}
-            alt={images[previewIndex].title}
-            className="galaryimage--popupImage"
-            onClick={(event) => event.stopPropagation()}
-          />
-
-          <button
-            type="button"
-            className="galaryimage--popupArrow galaryimage--popupNext"
-            onClick={showNext}
-            aria-label="Next photograph"
-          >
-            <FiChevronRight />
-          </button>
-        </div>
-      )}
+      {/* Popup is rendered in document.body */}
+      {popup}
     </section>
   );
 };
