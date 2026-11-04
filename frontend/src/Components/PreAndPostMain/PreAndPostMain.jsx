@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./PreAndPostMain.css";
 
-import maternity1 from "../../assets/maternity-1.webp";
-import maternity2 from "../../assets/maternity-2.webp";
-import maternity3 from "../../assets/maternity-3.webp";
-import maternity4 from "../../assets/maternity-4.webp";
-import maternity5 from "../../assets/maternity-5.webp";
+import maternity1 from "../../assets/birthday.jpeg";
+import maternity2 from "../../assets/birthday-1.jpeg";
+import maternity3 from "../../assets/prewedding-2.jpeg";
+import maternity4 from "../../assets/prewedding.jpeg";
+import maternity5 from "../../assets/prewedding-3.jpeg";
 
 const SLIDE_INTERVAL = 4000;
 const SUCCESS_DURATION = 7000;

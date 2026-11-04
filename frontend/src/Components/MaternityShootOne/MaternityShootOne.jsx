@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./MaternityShootOne.css";
 
-import maternity1 from "../../assets/maternity-1.webp";
-import maternity2 from "../../assets/maternity-2.webp";
-import maternity3 from "../../assets/maternity-3.webp";
-import maternity4 from "../../assets/maternity-4.webp";
-import maternity5 from "../../assets/maternity-5.webp";
+import maternity1 from "../../assets/maternity-1.jpg";
+import maternity2 from "../../assets/maternity-2.jpg";
+import maternity3 from "../../assets/maternity-3.jpg";
+import maternity4 from "../../assets/maternity-4.jpg";
+import maternity5 from "../../assets/maternity-5.jpg";
 
 const SLIDE_INTERVAL = 4000; // background image changes every 4 seconds
 const SUCCESS_DURATION = 7000; // thank-you panel stays 7 seconds, then the form returns
