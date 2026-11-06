@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import API from "../../api/axios";
 import "./ColdLead.css";
@@ -37,41 +36,59 @@ const STATUS_CLASS = {
 };
 
 const ICON_PATHS = {
-  search: <>
-    <circle cx="11" cy="11" r="7" />
-    <path d="m16 16 4 4" />
-  </>,
-  calendar: <>
-    <rect x="3" y="5" width="18" height="16" rx="2" />
-    <path d="M16 3v4M8 3v4M3 10h18" />
-    <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
-  </>,
-  eye: <>
-    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
-    <circle cx="12" cy="12" r="3" />
-  </>,
-  phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.35 1.9.69 2.8a2 2 0 0 1-.45 2.11L8.08 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.57 2.8.69a2 2 0 0 1 1.74 2.04Z" />,
-  edit: <>
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4Z" />
-  </>,
-  trash: <>
-    <path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6" />
-    <path d="M10 11v5M14 11v5" />
-  </>,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m16 16 4 4" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M16 3v4M8 3v4M3 10h18" />
+      <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </>
+  ),
+  phone: (
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.35 1.9.69 2.8a2 2 0 0 1-.45 2.11L8.08 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.57 2.8.69a2 2 0 0 1 1.74 2.04Z" />
+  ),
+  edit: (
+    <>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4Z" />
+    </>
+  ),
+  trash: (
+    <>
+      <path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6" />
+      <path d="M10 11v5M14 11v5" />
+    </>
+  ),
   close: <path d="m18 6-12 12M6 6l12 12" />,
-  reset: <>
-    <path d="M3 12a9 9 0 0 1 15.4-6.4L21 8" />
-    <path d="M21 3v5h-5M21 12a9 9 0 0 1-15.4 6.4L3 16" />
-    <path d="M3 21v-5h5" />
-  </>,
+  reset: (
+    <>
+      <path d="M3 12a9 9 0 0 1 15.4-6.4L21 8" />
+      <path d="M21 3v5h-5M21 12a9 9 0 0 1-15.4 6.4L3 16" />
+      <path d="M3 21v-5h5" />
+    </>
+  ),
   chevronLeft: <path d="m15 18-6-6 6-6" />,
   chevronRight: <path d="m9 18 6-6-6-6" />,
-  globe: <>
-    <circle cx="12" cy="12" r="10" />
-    <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
-  </>,
-  message: <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8Z" />,
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
+    </>
+  ),
+  message: (
+    <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8Z" />
+  ),
 };
 
 function ColdLeadIcon({ name, size = 16, strokeWidth = 1.9 }) {
@@ -102,9 +119,7 @@ const normalizeLead = (lead) => ({
   email: lead.email || "",
   phone: lead.phone || lead.mobile || "",
   service: lead.service || "",
-  eventDate: lead.eventDate
-    ? String(lead.eventDate).slice(0, 10)
-    : "",
+  eventDate: lead.eventDate ? String(lead.eventDate).slice(0, 10) : "",
   source: lead.source || "Website Form",
   status: lead.status || "New",
   createdAt: lead.createdAt || lead.submittedAt || "",
@@ -211,9 +226,7 @@ const ColdLead = () => {
       const response = await API.get("/cold-leads");
 
       if (!response.data?.success) {
-        throw new Error(
-          response.data?.message || "Unable to fetch leads."
-        );
+        throw new Error(response.data?.message || "Unable to fetch leads.");
       }
 
       const records = Array.isArray(response.data.data)
@@ -226,9 +239,7 @@ const ColdLead = () => {
 
       // Remove selected IDs that no longer exist.
       setSelectedIds((previous) =>
-        previous.filter((id) =>
-          normalized.some((lead) => lead.id === id)
-        )
+        previous.filter((id) => normalized.some((lead) => lead.id === id))
       );
     } catch (error) {
       console.error("FETCH COLD LEADS:", error);
@@ -269,31 +280,21 @@ const ColdLead = () => {
     return leads.filter((lead) => {
       const matchesSearch =
         !query ||
-        [
-          lead.name,
-          lead.email,
-          lead.phone,
-          lead.service,
-          lead.source,
-        ].some((value) =>
-          String(value || "").toLowerCase().includes(query)
+        [lead.name, lead.email, lead.phone, lead.service, lead.source].some(
+          (value) => String(value || "").toLowerCase().includes(query)
         );
 
       const matchesStatus =
-        statusFilter === "All Status" ||
-        lead.status === statusFilter;
+        statusFilter === "All Status" || lead.status === statusFilter;
 
       const matchesService =
-        serviceFilter === "All Services" ||
-        lead.service === serviceFilter;
+        serviceFilter === "All Services" || lead.service === serviceFilter;
 
       let matchesDate = true;
 
       if (dateFilter !== "All Time") {
         const createdDate = new Date(lead.createdAt);
-        const difference =
-          now.getTime() - createdDate.getTime();
-
+        const difference = now.getTime() - createdDate.getTime();
         const days = difference / (1000 * 60 * 60 * 24);
 
         if (dateFilter === "Last 7 Days") {
@@ -303,30 +304,15 @@ const ColdLead = () => {
         } else if (dateFilter === "Last 90 Days") {
           matchesDate = days >= 0 && days <= 90;
         } else if (dateFilter === "This Year") {
-          matchesDate =
-            createdDate.getFullYear() === now.getFullYear();
+          matchesDate = createdDate.getFullYear() === now.getFullYear();
         }
       }
 
-      return (
-        matchesSearch &&
-        matchesStatus &&
-        matchesService &&
-        matchesDate
-      );
+      return matchesSearch && matchesStatus && matchesService && matchesDate;
     });
-  }, [
-    leads,
-    searchTerm,
-    statusFilter,
-    serviceFilter,
-    dateFilter,
-  ]);
+  }, [leads, searchTerm, statusFilter, serviceFilter, dateFilter]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredLeads.length / pageSize)
-  );
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / pageSize));
 
   const currentPageLeads = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
@@ -344,14 +330,9 @@ const ColdLead = () => {
   );
 
   const startIndex =
-    filteredLeads.length === 0
-      ? 0
-      : (currentPage - 1) * pageSize + 1;
+    filteredLeads.length === 0 ? 0 : (currentPage - 1) * pageSize + 1;
 
-  const endIndex = Math.min(
-    currentPage * pageSize,
-    filteredLeads.length
-  );
+  const endIndex = Math.min(currentPage * pageSize, filteredLeads.length);
 
   useEffect(() => {
     setCurrentPage((page) => Math.min(page, totalPages));
@@ -371,9 +352,7 @@ const ColdLead = () => {
   const toggleSelectAll = () => {
     setSelectedIds((previous) => {
       if (allCurrentPageSelected) {
-        return previous.filter(
-          (id) => !currentPageIds.includes(id)
-        );
+        return previous.filter((id) => !currentPageIds.includes(id));
       }
 
       return [...new Set([...previous, ...currentPageIds])];
@@ -445,10 +424,7 @@ const ColdLead = () => {
       return;
     }
 
-    if (
-      email &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setFormError("Please enter a valid email address.");
       return;
     }
@@ -473,15 +449,10 @@ const ColdLead = () => {
         status: editForm.status || "New",
       };
 
-      const response = await API.put(
-        `/cold-leads/${editForm.id}`,
-        payload
-      );
+      const response = await API.put(`/cold-leads/${editForm.id}`, payload);
 
       if (!response.data?.success) {
-        throw new Error(
-          response.data?.message || "Unable to update lead."
-        );
+        throw new Error(response.data?.message || "Unable to update lead.");
       }
 
       const updatedLead = normalizeLead(
@@ -492,9 +463,7 @@ const ColdLead = () => {
       );
 
       setLeads((previous) =>
-        previous.map((lead) =>
-          lead.id === editForm.id ? updatedLead : lead
-        )
+        previous.map((lead) => (lead.id === editForm.id ? updatedLead : lead))
       );
 
       setActiveLead(updatedLead);
@@ -517,14 +486,10 @@ const ColdLead = () => {
       setActionLoading(true);
       setFormError("");
 
-      await API.delete(
-        `/cold-leads/${deleteTarget.id}`
-      );
+      await API.delete(`/cold-leads/${deleteTarget.id}`);
 
       setLeads((previous) =>
-        previous.filter(
-          (lead) => lead.id !== deleteTarget.id
-        )
+        previous.filter((lead) => lead.id !== deleteTarget.id)
       );
 
       setSelectedIds((previous) =>
@@ -574,9 +539,7 @@ const ColdLead = () => {
 
   // UPDATE STATUS THROUGH AXIOS
   const updateStatus = async (leadId, newStatus) => {
-    const previousLead = leads.find(
-      (lead) => lead.id === leadId
-    );
+    const previousLead = leads.find((lead) => lead.id === leadId);
 
     if (!previousLead || previousLead.status === newStatus) {
       return;
@@ -585,36 +548,27 @@ const ColdLead = () => {
     // Optimistic UI update
     setLeads((previous) =>
       previous.map((lead) =>
-        lead.id === leadId
-          ? { ...lead, status: newStatus }
-          : lead
+        lead.id === leadId ? { ...lead, status: newStatus } : lead
       )
     );
 
     setActiveLead((previous) =>
-      previous?.id === leadId
-        ? { ...previous, status: newStatus }
-        : previous
+      previous?.id === leadId ? { ...previous, status: newStatus } : previous
     );
 
     try {
-      const response = await API.patch(
-        `/cold-leads/${leadId}/status`,
-        { status: newStatus }
-      );
+      const response = await API.patch(`/cold-leads/${leadId}/status`, {
+        status: newStatus,
+      });
 
       if (!response.data?.success) {
-        throw new Error(
-          response.data?.message || "Unable to update status."
-        );
+        throw new Error(response.data?.message || "Unable to update status.");
       }
 
       const updatedLead = normalizeLead(response.data.data);
 
       setLeads((previous) =>
-        previous.map((lead) =>
-          lead.id === leadId ? updatedLead : lead
-        )
+        previous.map((lead) => (lead.id === leadId ? updatedLead : lead))
       );
 
       setActiveLead((previous) =>
@@ -626,9 +580,7 @@ const ColdLead = () => {
       // Roll back if API fails
       setLeads((previous) =>
         previous.map((lead) =>
-          lead.id === leadId
-            ? { ...lead, status: previousLead.status }
-            : lead
+          lead.id === leadId ? { ...lead, status: previousLead.status } : lead
         )
       );
 
@@ -649,10 +601,7 @@ const ColdLead = () => {
 
   const pageNumbers = () => {
     if (totalPages <= 5) {
-      return Array.from(
-        { length: totalPages },
-        (_, index) => index + 1
-      );
+      return Array.from({ length: totalPages }, (_, index) => index + 1);
     }
 
     if (currentPage <= 3) {
@@ -660,13 +609,7 @@ const ColdLead = () => {
     }
 
     if (currentPage >= totalPages - 2) {
-      return [
-        1,
-        "...",
-        totalPages - 2,
-        totalPages - 1,
-        totalPages,
-      ];
+      return [1, "...", totalPages - 2, totalPages - 1, totalPages];
     }
 
     return [
@@ -680,8 +623,7 @@ const ColdLead = () => {
     ];
   };
 
-  const phoneDigits = (phone) =>
-    String(phone || "").replace(/\D/g, "");
+  const phoneDigits = (phone) => String(phone || "").replace(/\D/g, "");
 
   return (
     <div className="ColdLead">
@@ -689,9 +631,7 @@ const ColdLead = () => {
         <span className="ColdLead-breadcrumb-home">⌂</span>
         <span>Workspace</span>
         <ColdLeadIcon name="chevronRight" size={12} />
-        <span className="ColdLead-breadcrumb-current">
-          Cold Leads
-        </span>
+        <span className="ColdLead-breadcrumb-current">Cold Leads</span>
       </div>
 
       <section className="ColdLead-panel">
@@ -781,15 +721,16 @@ const ColdLead = () => {
             <span>Reset</span>
           </button>
 
+          {/* Icon-only refresh button */}
           <button
             type="button"
-            className="ColdLead-reset-button"
+            className="ColdLead-reset-button ColdLead-refresh-button"
             onClick={() => fetchLeads(false)}
             disabled={refreshing}
             title="Refresh leads"
+            aria-label="Refresh leads"
           >
             <ColdLeadIcon name="reset" size={15} />
-            <span>{refreshing ? "Refreshing..." : "Refresh"}</span>
           </button>
         </div>
 
@@ -853,8 +794,7 @@ const ColdLead = () => {
                       ref={(element) => {
                         if (element) {
                           element.indeterminate =
-                            someCurrentPageSelected &&
-                            !allCurrentPageSelected;
+                            someCurrentPageSelected && !allCurrentPageSelected;
                         }
                       }}
                       onChange={toggleSelectAll}
@@ -863,30 +803,16 @@ const ColdLead = () => {
                   </th>
 
                   <th className="ColdLead-number-column">#</th>
-                  <th className="ColdLead-details-column">
-                    Lead Details
-                  </th>
-                  <th className="ColdLead-contact-column">
-                    Contact
-                  </th>
+                  <th className="ColdLead-details-column">Lead Details</th>
+                  <th className="ColdLead-contact-column">Contact</th>
                   <th className="ColdLead-service-column">
                     Photography Service
                   </th>
-                  <th className="ColdLead-event-column">
-                    Event Date
-                  </th>
-                  <th className="ColdLead-source-column">
-                    Lead Source
-                  </th>
-                  <th className="ColdLead-status-column">
-                    Status
-                  </th>
-                  <th className="ColdLead-created-column">
-                    Created At
-                  </th>
-                  <th className="ColdLead-action-column">
-                    Action
-                  </th>
+                  <th className="ColdLead-event-column">Event Date</th>
+                  <th className="ColdLead-source-column">Lead Source</th>
+                  <th className="ColdLead-status-column">Status</th>
+                  <th className="ColdLead-created-column">Created At</th>
+                  <th className="ColdLead-action-column">Action</th>
                 </tr>
               </thead>
 
@@ -961,9 +887,7 @@ const ColdLead = () => {
                               className="ColdLead-contact-line"
                               title={lead.email}
                             >
-                              <span className="ColdLead-contact-icon">
-                                ✉
-                              </span>
+                              <span className="ColdLead-contact-icon">✉</span>
                               <span>{lead.email || "—"}</span>
                             </div>
 
@@ -979,9 +903,7 @@ const ColdLead = () => {
 
                         <td className="ColdLead-service-column">
                           <span className="ColdLead-service-badge">
-                            <span className="ColdLead-service-symbol">
-                              ◎
-                            </span>
+                            <span className="ColdLead-service-symbol">◎</span>
                             {lead.service}
                           </span>
                         </td>
@@ -1091,7 +1013,6 @@ const ColdLead = () => {
                   {loading ? 0 : startIndex}–{loading ? 0 : endIndex}
                 </strong>{" "}
                 of <strong>{filteredLeads.length}</strong> leads
-
                 {selectedIds.length > 0 && (
                   <span className="ColdLead-selected-count">
                     ({selectedIds.length} selected)
@@ -1124,15 +1045,11 @@ const ColdLead = () => {
                         type="button"
                         key={page}
                         className={`ColdLead-page-number ${
-                          currentPage === page
-                            ? "ColdLead-page-active"
-                            : ""
+                          currentPage === page ? "ColdLead-page-active" : ""
                         }`}
                         onClick={() => goToPage(page)}
                         aria-label={`Go to page ${page}`}
-                        aria-current={
-                          currentPage === page ? "page" : undefined
-                        }
+                        aria-current={currentPage === page ? "page" : undefined}
                       >
                         {page}
                       </button>
@@ -1153,9 +1070,7 @@ const ColdLead = () => {
             </div>
 
             <div className="ColdLead-footer-options">
-              <label htmlFor="ColdLead-page-size">
-                Rows per page
-              </label>
+              <label htmlFor="ColdLead-page-size">Rows per page</label>
 
               <select
                 id="ColdLead-page-size"
@@ -1191,9 +1106,7 @@ const ColdLead = () => {
           >
             <div className="ColdLead-modal-header">
               <div>
-                <span className="ColdLead-modal-eyebrow">
-                  LEAD INFORMATION
-                </span>
+                <span className="ColdLead-modal-eyebrow">LEAD INFORMATION</span>
                 <h2 id="ColdLead-view-title">Lead Details</h2>
               </div>
 
@@ -1250,9 +1163,7 @@ const ColdLead = () => {
 
               <div className="ColdLead-detail-item">
                 <span>Created At</span>
-                <strong>
-                  {formatCreatedAt(activeLead.createdAt).date}
-                </strong>
+                <strong>{formatCreatedAt(activeLead.createdAt).date}</strong>
               </div>
 
               <div className="ColdLead-detail-item ColdLead-detail-message">
@@ -1300,9 +1211,7 @@ const ColdLead = () => {
           >
             <div className="ColdLead-modal-header">
               <div>
-                <span className="ColdLead-modal-eyebrow">
-                  LEAD MANAGEMENT
-                </span>
+                <span className="ColdLead-modal-eyebrow">LEAD MANAGEMENT</span>
                 <h2 id="ColdLead-edit-title">Edit Lead</h2>
               </div>
 
@@ -1326,10 +1235,7 @@ const ColdLead = () => {
                   maxLength={80}
                   value={editForm.name}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      name: event.target.value,
-                    })
+                    setEditForm({ ...editForm, name: event.target.value })
                   }
                   placeholder="Enter full name"
                 />
@@ -1341,10 +1247,7 @@ const ColdLead = () => {
                   type="email"
                   value={editForm.email}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      email: event.target.value,
-                    })
+                    setEditForm({ ...editForm, email: event.target.value })
                   }
                   placeholder="Enter email address"
                 />
@@ -1360,9 +1263,7 @@ const ColdLead = () => {
                   onChange={(event) =>
                     setEditForm({
                       ...editForm,
-                      phone: event.target.value
-                        .replace(/\D/g, "")
-                        .slice(0, 10),
+                      phone: event.target.value.replace(/\D/g, "").slice(0, 10),
                     })
                   }
                   placeholder="10 digit mobile number"
@@ -1375,19 +1276,16 @@ const ColdLead = () => {
                   required
                   value={editForm.service}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      service: event.target.value,
-                    })
+                    setEditForm({ ...editForm, service: event.target.value })
                   }
                 >
-                  {[...new Set([...SERVICES, editForm.service])].filter(Boolean).map(
-                    (service) => (
+                  {[...new Set([...SERVICES, editForm.service])]
+                    .filter(Boolean)
+                    .map((service) => (
                       <option key={service} value={service}>
                         {service}
                       </option>
-                    )
-                  )}
+                    ))}
                 </select>
               </label>
 
@@ -1397,10 +1295,7 @@ const ColdLead = () => {
                   type="date"
                   value={editForm.eventDate || ""}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      eventDate: event.target.value,
-                    })
+                    setEditForm({ ...editForm, eventDate: event.target.value })
                   }
                 />
               </label>
@@ -1410,10 +1305,7 @@ const ColdLead = () => {
                 <select
                   value={editForm.status}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      status: event.target.value,
-                    })
+                    setEditForm({ ...editForm, status: event.target.value })
                   }
                 >
                   {STATUSES.map((status) => (
@@ -1429,10 +1321,7 @@ const ColdLead = () => {
                 <select
                   value={editForm.source}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      source: event.target.value,
-                    })
+                    setEditForm({ ...editForm, source: event.target.value })
                   }
                 >
                   {SOURCES.map((source) => (
@@ -1449,10 +1338,7 @@ const ColdLead = () => {
                   rows="3"
                   value={editForm.message || ""}
                   onChange={(event) =>
-                    setEditForm({
-                      ...editForm,
-                      message: event.target.value,
-                    })
+                    setEditForm({ ...editForm, message: event.target.value })
                   }
                   placeholder="Enter lead message"
                 />
@@ -1503,9 +1389,7 @@ const ColdLead = () => {
           >
             <div className="ColdLead-modal-header">
               <div>
-                <span className="ColdLead-modal-eyebrow">
-                  CONTACT LEAD
-                </span>
+                <span className="ColdLead-modal-eyebrow">CONTACT LEAD</span>
                 <h2 id="ColdLead-call-title">Call Lead</h2>
               </div>
 
@@ -1571,8 +1455,8 @@ const ColdLead = () => {
 
             <p>
               Are you sure you want to delete{" "}
-              <strong>{deleteTarget.name}</strong>? This action
-              cannot be undone.
+              <strong>{deleteTarget.name}</strong>? This action cannot be
+              undone.
             </p>
 
             {formError && (
@@ -1623,14 +1507,11 @@ const ColdLead = () => {
               <ColdLeadIcon name="trash" size={24} />
             </div>
 
-            <h2 id="ColdLead-bulk-delete-title">
-              Delete Selected Leads?
-            </h2>
+            <h2 id="ColdLead-bulk-delete-title">Delete Selected Leads?</h2>
 
             <p>
-              You are about to delete{" "}
-              <strong>{selectedIds.length}</strong> selected lead
-              {selectedIds.length !== 1 ? "s" : ""}. This action
+              You are about to delete <strong>{selectedIds.length}</strong>{" "}
+              selected lead{selectedIds.length !== 1 ? "s" : ""}. This action
               cannot be undone.
             </p>
 

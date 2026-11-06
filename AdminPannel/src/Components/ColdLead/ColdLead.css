@@ -93,11 +93,12 @@
 
 /* =========================================
    SEARCH AND FILTER TOOLBAR
+   6 items in ONE row: search, status, service, date, reset, refresh
 ========================================= */
 
 .ColdLead-toolbar {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) 112px 126px 122px 70px;
+  grid-template-columns: minmax(200px, 1fr) 130px 170px 140px 92px 39px;
   gap: 9px;
   align-items: center;
   padding: 13px 13px 12px;
@@ -228,6 +229,24 @@
   border-color: #d8b58e;
 }
 
+/* Refresh = small icon-only button */
+
+.ColdLead-refresh-button {
+  width: 39px;
+  min-width: 39px;
+  padding: 0;
+}
+
+.ColdLead-refresh-button:disabled svg {
+  animation: ColdLead-spin 0.9s linear infinite;
+}
+
+@keyframes ColdLead-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* =========================================
    SELECTED LEADS TOOLBAR
 ========================================= */
@@ -289,6 +308,7 @@
 
 .ColdLead-table-scroll {
   width: 100%;
+  padding: 0 13px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
@@ -310,7 +330,7 @@
 
 .ColdLead-table thead th {
   height: 36px;
-  padding: 9px 5px;
+  padding: 9px 8px;
   color: #1c2434;
   background: #f7f5f4;
   font-size: 11px;
@@ -330,7 +350,7 @@
 
 .ColdLead-table tbody td {
   height: 59px;
-  padding: 7px 5px;
+  padding: 7px 8px;
   color: #273044;
   background: #fff;
   border-bottom: 1px solid #f1eeeb;
@@ -353,13 +373,13 @@
 /* Column widths */
 
 .ColdLead-table .ColdLead-checkbox-column {
-  width: 34px;
-  padding-left: 13px;
+  width: 40px;
+  padding-left: 10px;
   text-align: left;
 }
 
 .ColdLead-table .ColdLead-number-column {
-  width: 38px;
+  width: 40px;
   text-align: center;
 }
 
@@ -713,17 +733,39 @@ select.ColdLead-status-badge {
 
 .ColdLead-empty {
   height: 230px !important;
+  padding: 24px 12px;
+  color: #818897;
   text-align: center;
 }
 
-.ColdLead-empty > * {
+/* Error box (a div outside the table) */
+div.ColdLead-empty {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Empty / loading row inside the table (a td) */
+td.ColdLead-empty > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
+.ColdLead-table tbody tr:hover td.ColdLead-empty {
+  background: #fff;
+}
+
 .ColdLead-empty-icon {
-  margin-bottom: 9px;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
   color: #b27b43;
+  background: #f9ecdb;
+  border-radius: 50%;
 }
 
 .ColdLead-empty strong {
@@ -744,6 +786,12 @@ select.ColdLead-status-badge {
   background: #fbf3e9;
   border: 1px solid #ead6bf;
   border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.ColdLead-empty-reset:hover {
+  background: #f6e8d6;
+  border-color: #d7b58e;
 }
 
 /* =========================================
@@ -1231,12 +1279,12 @@ select.ColdLead-status-badge {
 }
 
 /* =========================================
-   RESPONSIVE: MEDIUM SCREENS
+   RESPONSIVE: LARGE SCREENS
 ========================================= */
 
 @media (min-width: 1500px) {
   .ColdLead-toolbar {
-    grid-template-columns: minmax(250px, 1fr) 150px 165px 145px 90px;
+    grid-template-columns: minmax(250px, 1fr) 150px 190px 160px 100px 43px;
     gap: 11px;
     padding: 15px;
   }
@@ -1246,6 +1294,11 @@ select.ColdLead-status-badge {
   .ColdLead-date-filter,
   .ColdLead-reset-button {
     height: 43px;
+  }
+
+  .ColdLead-refresh-button {
+    width: 43px;
+    min-width: 43px;
   }
 
   .ColdLead-table {
@@ -1267,9 +1320,13 @@ select.ColdLead-status-badge {
   }
 }
 
+/* =========================================
+   RESPONSIVE: TABLETS
+========================================= */
+
 @media (max-width: 1100px) {
   .ColdLead-toolbar {
-    grid-template-columns: minmax(200px, 1fr) minmax(110px, 0.5fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .ColdLead-search {
@@ -1287,7 +1344,11 @@ select.ColdLead-status-badge {
   }
 
   .ColdLead-reset-button {
-    grid-column: 2;
+    grid-column: auto;
+  }
+
+  .ColdLead-refresh-button {
+    width: 100%;
   }
 
   .ColdLead-table {
@@ -1311,7 +1372,7 @@ select.ColdLead-status-badge {
 }
 
 /* =========================================
-   RESPONSIVE: TABLETS AND MOBILE
+   RESPONSIVE: MOBILE
 ========================================= */
 
 @media (max-width: 640px) {
@@ -1359,6 +1420,10 @@ select.ColdLead-status-badge {
     gap: 8px;
     margin: 0 10px 10px;
     padding: 9px;
+  }
+
+  .ColdLead-table-scroll {
+    padding: 0 10px;
   }
 
   .ColdLead-table {
