@@ -13,12 +13,29 @@ const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
 const app = express();
 
+// Allowed Production Origins
+const allowedOrigins = [
+  "http://backend.rainbowphotogrraphy.co.in",
+  "https://backend.rainbowphotogrraphy.co.in",
+  "http://admin.rainbowphotogrraphy.co.in",
+  "https://admin.rainbowphotogrraphy.co.in",
+  "http://rainbowphotogrraphy.co.in",
+  "https://rainbowphotogrraphy.co.in",
+];
+
 // CORS Configuration
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, Postman, curl)
       if (!origin) return callback(null, true);
 
+      // Check if origin matches allowed production list
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Check for local development environments
       try {
         const parsed = new URL(origin);
         const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(parsed.hostname);
@@ -27,7 +44,7 @@ app.use(
           return callback(null, true);
         }
       } catch (err) {
-        // Invalid origin URL
+        // Invalid origin URL format
       }
 
       return callback(new Error("Not allowed by CORS policy"));
