@@ -13,30 +13,21 @@ const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
 const app = express();
 
-// =========================================
-// CORS CONFIGURATION
-// =========================================
+// CORS Configuration
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow server-to-server, curl, Postman, mobile requests
-      if (!origin) {
-        return callback(null, true);
-      }
+      if (!origin) return callback(null, true);
 
       try {
         const parsed = new URL(origin);
-        const isLocalHost = [
-          "localhost",
-          "127.0.0.1",
-          "::1"
-        ].includes(parsed.hostname);
+        const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(parsed.hostname);
 
         if (isLocalHost && ["http:", "https:"].includes(parsed.protocol)) {
           return callback(null, true);
         }
       } catch (err) {
-        // Failed parsing origin header
+        // Invalid origin URL
       }
 
       return callback(new Error("Not allowed by CORS policy"));
@@ -47,63 +38,37 @@ app.use(
   })
 );
 
-// =========================================
-// BODY PARSING MIDDLEWARES
-// =========================================
+// Body Parsing Middlewares
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// =========================================
-// STATIC ASSETS
-// =========================================
-// Maps http://localhost:5000/uploads/* -> ./src/uploads/*
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "src", "uploads"))
-);
+// Static Assets
+app.use("/uploads", express.static(path.join(__dirname, "src", "uploads")));
 
-// =========================================
-// APPLICATION ROUTES
-// =========================================
+// Application Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/team-members", teamMemberRoutes);
 app.use("/api/cold-leads", coldLeadRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 
-// Health check / root
+// Health Checks
 app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Backend API service is running",
-  });
+  res.status(200).json({ success: true, message: "Backend API service is running" });
 });
 
 app.get("/api/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "API is healthy",
-    uptime: process.uptime(),
-  });
+  res.status(200).json({ success: true, message: "API is healthy", uptime: process.uptime() });
 });
 
-// =========================================
-// 404 NOT FOUND HANDLER
-// =========================================
+// 404 Not Found Handler
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Cannot ${req.method} ${req.originalUrl}`,
-  });
+  res.status(404).json({ success: false, message: `Cannot ${req.method} ${req.originalUrl}` });
 });
 
-// =========================================
-// CENTRAL ERROR HANDLER
-// =========================================
+// Central Error Handler
 app.use((err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
+  if (res.headersSent) return next(err);
 
   console.error(`[Error] ${req.method} ${req.originalUrl} -`, err.message);
 
@@ -125,9 +90,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// =========================================
-// SERVER INITIALIZATION
-// =========================================
+// Server Initialization
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
@@ -136,7 +99,6 @@ const startServer = async () => {
 
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running at http://localhost:${PORT}`);
-      console.log("CORS enabled for local development");
     });
 
     const shutdown = (signal) => {

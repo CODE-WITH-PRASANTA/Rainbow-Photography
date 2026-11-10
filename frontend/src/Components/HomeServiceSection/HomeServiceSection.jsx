@@ -11,7 +11,7 @@ import {
 /* decorative */
 import leafLeft from "../../assets/Leave-1.webp";       // left floating leaf
 import leafRight from "../../assets/Leave-2.webp";      // right bottom floating leaf
-import leafTopRight from "../../assets/iconLeaf-1.webp"; // top right header leaf
+import leafTopRight from "../../assets/IconLeaf-1.webp"; // top right header leaf
 import cardLeaf from "../../assets/cardLeaf-1.webp";
 import decoFlower from "../../assets/TwinFlower-1.webp";
 
