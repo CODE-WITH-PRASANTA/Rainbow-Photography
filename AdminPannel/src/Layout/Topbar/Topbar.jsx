@@ -1,5 +1,7 @@
+
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   Menu,
   ChevronDown,
@@ -8,19 +10,20 @@ import {
   Search,
   User,
   LogOut,
-  Shield,
   Maximize,
   Minimize,
   X,
   Camera,
   Image,
 } from "lucide-react";
+
 import "./Topbar.css";
+
+const AUTH_KEY = "isAdminAuthenticated";
 
 const DEFAULT_AVATAR =
   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80";
 
-// Avatar helper — no hardcoded backend URL
 const getAvatarUrl = (path) => {
   if (!path) return DEFAULT_AVATAR;
 
@@ -37,13 +40,14 @@ const getAvatarUrl = (path) => {
 };
 
 const Topbar = ({ toggleSidebar }) => {
+  const navigate = useNavigate();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [mailOpen, setMailOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Local default profile — no backend request
   const [currentProfile, setCurrentProfile] = useState({
     name: "Admin User",
     email: "admin@rainbowphotography.com",
@@ -54,7 +58,7 @@ const Topbar = ({ toggleSidebar }) => {
   const dropdownRef = useRef(null);
   const mobileSearchInputRef = useRef(null);
 
-  // Listen for profile changes from other components
+  // Profile update listener
   useEffect(() => {
     const handleProfileUpdate = (event) => {
       if (event.detail) {
@@ -68,17 +72,21 @@ const Topbar = ({ toggleSidebar }) => {
     window.addEventListener("profileUpdated", handleProfileUpdate);
 
     return () => {
-      window.removeEventListener("profileUpdated", handleProfileUpdate);
+      window.removeEventListener(
+        "profileUpdated",
+        handleProfileUpdate
+      );
     };
   }, []);
 
-  // Close dropdowns when clicking outside
+  // Close all dropdown menus
   const closeAllMenus = () => {
     setDropdownOpen(false);
     setNotificationsOpen(false);
     setMailOpen(false);
   };
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -92,11 +100,14 @@ const Topbar = ({ toggleSidebar }) => {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
     };
   }, []);
 
-  // Close menus with Escape
+  // Close menus using Escape
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -112,20 +123,26 @@ const Topbar = ({ toggleSidebar }) => {
     };
   }, []);
 
-  // Fullscreen state
+  // Fullscreen state listener
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(Boolean(document.fullscreenElement));
     };
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "fullscreenchange",
+        handleFullscreenChange
+      );
     };
   }, []);
 
-  // Focus mobile search input
+  // Focus mobile search
   useEffect(() => {
     if (mobileSearchOpen && mobileSearchInputRef.current) {
       mobileSearchInputRef.current.focus();
@@ -151,7 +168,7 @@ const Topbar = ({ toggleSidebar }) => {
     setter(true);
   };
 
-  // Direct, reliable logout handler
+  // Logout - clear only authentication credentials
   const handleLogout = (e) => {
     if (e) {
       e.preventDefault();
@@ -160,20 +177,12 @@ const Topbar = ({ toggleSidebar }) => {
 
     closeAllMenus();
 
-    // 1. Wipe all local storage & session storage credentials
-    localStorage.clear();
-    sessionStorage.clear();
+    // Remove admin authentication
+    sessionStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(AUTH_KEY);
 
-    // 2. Clear any browser auth cookies if set
-    document.cookie.split(";").forEach((cookie) => {
-      document.cookie = cookie
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    });
-
-    // 3. Hard redirect to the login page (clears all React memory/state)
-    // If your login path is "/", change "/login" to "/"
-    window.location.href = "/login";
+    // Redirect to login without full page reload
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -211,7 +220,7 @@ const Topbar = ({ toggleSidebar }) => {
               </div>
             </div>
 
-            {/* Desktop Search */}
+            {/* DESKTOP SEARCH */}
             <div className="Topbar-search-box">
               <Search
                 size={17}
@@ -233,7 +242,7 @@ const Topbar = ({ toggleSidebar }) => {
 
           {/* RIGHT SECTION */}
           <div className="Topbar-right" ref={dropdownRef}>
-            {/* Mobile Search Button */}
+            {/* MOBILE SEARCH BUTTON */}
             <button
               type="button"
               className="Topbar-action-btn Topbar-mobile-search-btn"
@@ -443,6 +452,7 @@ const Topbar = ({ toggleSidebar }) => {
                 }`}
               />
 
+              {/* PROFILE DROPDOWN */}
               {dropdownOpen && (
                 <div
                   className="Topbar-dropdown Topbar-user-dropdown"
@@ -470,11 +480,9 @@ const Topbar = ({ toggleSidebar }) => {
                     My Profile
                   </Link>
 
-                 
-
                   <div className="Topbar-dropdown-divider" />
 
-                  {/* Fully styled button replacing the route-less link */}
+                  {/* LOGOUT */}
                   <button
                     type="button"
                     className="Topbar-dropdown-item logout"

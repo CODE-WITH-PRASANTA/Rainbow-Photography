@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   BrowserRouter,
@@ -7,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import MainLayout from "./Layout/MainLayout/MainLayout";
+
 import Gallary from "./Components/Gallary/Gallary";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Testimonial from "./Components/Testimonial/Testimonial";
@@ -15,26 +17,28 @@ import ColdLead from "./Components/ColdLead/ColdLead";
 import Enquiry from "./Components/Enquiry/Enquiry";
 import Login from "./Components/Login/Login";
 import Myprofile from "./Components/Myprofile/Myprofile";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Standalone Route (No Sidebar/Topbar) */}
+        {/* Public Route */}
         <Route path="/login" element={<Login />} />
 
-        {/* Protected Layout Routes (With Sidebar & Topbar) */}
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/gallary" replace />} />
-          <Route path="gallary" element={<Gallary />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="testimonial" element={<Testimonial />} />
-          <Route path="team-member" element={<TeamMember />} />
-          <Route path="cold-lead" element={<ColdLead />} />
-          <Route path="enquiries" element={<Enquiry />} />
-          
-          {/* Profile Route now renders inside MainLayout */}
-          <Route path="profile" element={<Myprofile />} />
+        {/* Protected Admin Routes */}
+        <Route element={<ProtectedRoute/>}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Navigate to="/gallary" replace />} />
+
+            <Route path="gallary" element={<Gallary />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="testimonial" element={<Testimonial />} />
+            <Route path="team-member" element={<TeamMember />} />
+            <Route path="cold-lead" element={<ColdLead />} />
+            <Route path="enquiries" element={<Enquiry />} />
+            <Route path="profile" element={<Myprofile />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
