@@ -34,12 +34,7 @@ const menuItems = [
     icon: FiUsers,
     description: "Member details",
   },
-  {
-    text: "Package",
-    path: "/package",
-    icon: FiPackage,
-    description: "Photography plans",
-  },
+  
   {
     text: "Cold Lead",
     path: "/cold-lead",
