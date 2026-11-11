@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -69,10 +68,7 @@ const Topbar = ({ toggleSidebar }) => {
     window.addEventListener("profileUpdated", handleProfileUpdate);
 
     return () => {
-      window.removeEventListener(
-        "profileUpdated",
-        handleProfileUpdate
-      );
+      window.removeEventListener("profileUpdated", handleProfileUpdate);
     };
   }, []);
 
@@ -96,10 +92,7 @@ const Topbar = ({ toggleSidebar }) => {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -125,16 +118,10 @@ const Topbar = ({ toggleSidebar }) => {
       setIsFullscreen(Boolean(document.fullscreenElement));
     };
 
-    document.addEventListener(
-      "fullscreenchange",
-      handleFullscreenChange
-    );
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
-      document.removeEventListener(
-        "fullscreenchange",
-        handleFullscreenChange
-      );
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
 
@@ -162,6 +149,31 @@ const Topbar = ({ toggleSidebar }) => {
   const openMenu = (setter) => {
     closeAllMenus();
     setter(true);
+  };
+
+  // Direct, reliable logout handler
+  const handleLogout = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    closeAllMenus();
+
+    // 1. Wipe all local storage & session storage credentials
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // 2. Clear any browser auth cookies if set
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+
+    // 3. Hard redirect to the login page (clears all React memory/state)
+    // If your login path is "/", change "/login" to "/"
+    window.location.href = "/login";
   };
 
   return (
@@ -458,25 +470,32 @@ const Topbar = ({ toggleSidebar }) => {
                     My Profile
                   </Link>
 
-                  <Link
-                    to="/settings"
-                    className="Topbar-dropdown-item"
-                    onClick={closeAllMenus}
-                  >
-                    <Shield size={16} />
-                    Settings &amp; Security
-                  </Link>
+                 
 
                   <div className="Topbar-dropdown-divider" />
 
-                  <Link
-                    to="/logout"
+                  {/* Fully styled button replacing the route-less link */}
+                  <button
+                    type="button"
                     className="Topbar-dropdown-item logout"
-                    onClick={closeAllMenus}
+                    onClick={handleLogout}
+                    style={{
+                      cursor: "pointer",
+                      width: "100%",
+                      textAlign: "left",
+                      background: "transparent",
+                      border: "none",
+                      font: "inherit",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "8px 16px",
+                      color: "inherit",
+                    }}
                   >
                     <LogOut size={16} />
-                    Log Out
-                  </Link>
+                    <span>Log Out</span>
+                  </button>
                 </div>
               )}
             </div>

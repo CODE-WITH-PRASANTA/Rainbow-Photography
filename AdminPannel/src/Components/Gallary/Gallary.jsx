@@ -31,9 +31,18 @@ import "./Gallary.css";
 const ITEMS_PER_PAGE = 5;
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
-const SERVER_URL = (
-  import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
-).replace(/\/$/, "");
+// Base origin extracted directly from your configured Axios instance or fallback to origin
+const BASE_ORIGIN = (() => {
+  const axiosBase = API.defaults?.baseURL || "";
+  try {
+    if (axiosBase.startsWith("http://") || axiosBase.startsWith("https://")) {
+      return new URL(axiosBase).origin;
+    }
+  } catch {
+    // If not a valid standalone URL, use current window origin
+  }
+  return typeof window !== "undefined" ? window.location.origin : "";
+})();
 
 const CATEGORY_OPTIONS = {
   "Maternity Shoot": [
@@ -43,21 +52,18 @@ const CATEGORY_OPTIONS = {
     "Marriage",
     "Reception",
   ],
-
   "Birthday Special": [
     "Cake Smash",
     "Kids Party",
     "Themed Decor",
     "Family Moments",
   ],
-
   "Baby Shoot": [
     "Newborn",
     "Sitter (6-9M)",
     "Themes & Props",
     "Family Cuddles",
   ],
-
   "Advertise Shoot": [
     "Product & Packshot",
     "Fashion & Lookbook",
@@ -65,7 +71,6 @@ const CATEGORY_OPTIONS = {
     "Editorial & Print",
     "Corporate & Lifestyle",
   ],
-
   "Pre Wedding and Post Wedding Shoot": [
     "Pre-Wedding",
     "Post-Wedding",
@@ -85,12 +90,15 @@ const getImageUrl = (image) => {
   if (
     image.startsWith("http://") ||
     image.startsWith("https://") ||
-    image.startsWith("data:")
+    image.startsWith("data:") ||
+    image.startsWith("blob:")
   ) {
     return image;
   }
 
-  return `${SERVER_URL}/${image.replace(/^\/+/, "")}`;
+  // Prepend base server origin without double slashes
+  const cleanPath = image.replace(/^\/+/, "");
+  return BASE_ORIGIN ? `${BASE_ORIGIN}/${cleanPath}` : `/${cleanPath}`;
 };
 
 // ========================================
@@ -221,9 +229,7 @@ const Gallary = () => {
     if (!query) return images;
 
     return images.filter((item) =>
-      `${item.title} ${item.category} ${
-        item.subCategory || ""
-      }`
+      `${item.title} ${item.category} ${item.subCategory || ""}`
         .toLowerCase()
         .includes(query)
     );
@@ -289,7 +295,6 @@ const Gallary = () => {
     clearLocalPreview();
 
     const objectUrl = URL.createObjectURL(file);
-
     previewUrlRef.current = objectUrl;
 
     setImageFile(file);
@@ -352,7 +357,6 @@ const Gallary = () => {
     }
 
     const formData = new FormData();
-
     formData.append("title", form.title.trim());
     formData.append("category", form.category);
     formData.append("subCategory", form.subCategory);
@@ -364,24 +368,28 @@ const Gallary = () => {
     try {
       setSubmitting(true);
 
+      const requestConfig = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
       let response;
 
       if (editingId) {
         response = await API.put(
           `/gallery/${editingId}`,
-          formData
+          formData,
+          requestConfig
         );
       } else {
-        response = await API.post("/gallery", formData);
+        response = await API.post("/gallery", formData, requestConfig);
       }
 
       if (response.data.success) {
         setMessage(response.data.message);
-
         resetForm();
-
         await fetchGallery();
-
         setCurrentPage(1);
       }
     } catch (err) {
@@ -435,9 +443,7 @@ const Gallary = () => {
     if (!deleteId) return;
 
     try {
-      const response = await API.delete(
-        `/gallery/${deleteId}`
-      );
+      const response = await API.delete(`/gallery/${deleteId}`);
 
       if (response.data.success) {
         if (editingId === deleteId) {
@@ -449,9 +455,7 @@ const Gallary = () => {
         }
 
         setDeleteId(null);
-
         setMessage(response.data.message);
-
         await fetchGallery();
       }
     } catch (err) {
@@ -471,9 +475,7 @@ const Gallary = () => {
   // ========================================
 
   const goToPage = (page) => {
-    setCurrentPage(
-      Math.min(Math.max(page, 1), totalPages)
-    );
+    setCurrentPage(Math.min(Math.max(page, 1), totalPages));
   };
 
   const firstItem = filteredImages.length
@@ -493,26 +495,17 @@ const Gallary = () => {
     <main className="Gallary-page">
 
       {/* HEADER */}
-
       <header className="Gallary-heading">
-
         <div className="Gallary-heading-left">
-
           <div className="Gallary-heading-icon">
             <Images size={25} />
           </div>
-
           <div>
-            <h1 className="Gallary-title">
-              Gallery Management
-            </h1>
-
+            <h1 className="Gallary-title">Gallery Management</h1>
             <p className="Gallary-subtitle">
-              Organise your photography portfolio by category
-              and sub category.
+              Organise your photography portfolio by category and sub category.
             </p>
           </div>
-
         </div>
 
         <div className="Gallary-breadcrumb">
@@ -520,11 +513,9 @@ const Gallary = () => {
           <span>/</span>
           <span>Gallery</span>
         </div>
-
       </header>
 
       {/* FEEDBACK */}
-
       {(message || error) && (
         <div
           className={`Gallary-feedback ${
@@ -535,7 +526,6 @@ const Gallary = () => {
           role="status"
         >
           <span>{error || message}</span>
-
           <button
             type="button"
             aria-label="Dismiss message"
@@ -550,47 +540,29 @@ const Gallary = () => {
       )}
 
       {/* CONTENT */}
-
       <div className="Gallary-content-grid">
 
         {/* FORM */}
-
         <section className="Gallary-card Gallary-form-card">
-
           <div className="Gallary-card-heading">
-
             <span className="Gallary-card-icon">
               <ImageIcon size={22} />
             </span>
-
             <div>
-              <h2>
-                {editingId
-                  ? "Edit Gallery Image"
-                  : "Add New Image"}
-              </h2>
-
+              <h2>{editingId ? "Edit Gallery Image" : "Add New Image"}</h2>
               <p className="Gallary-card-description">
                 Add an image and assign its shoot category.
               </p>
             </div>
-
           </div>
 
-          <form
-            className="Gallary-form"
-            onSubmit={handleSubmit}
-          >
+          <form className="Gallary-form" onSubmit={handleSubmit}>
 
             {/* TITLE */}
-
             <div className="Gallary-field">
-
               <label htmlFor="Gallary-title-input">
-                Image Title{" "}
-                <span className="Gallary-required">*</span>
+                Image Title <span className="Gallary-required">*</span>
               </label>
-
               <input
                 id="Gallary-title-input"
                 className="Gallary-input"
@@ -606,20 +578,14 @@ const Gallary = () => {
                 maxLength={100}
                 required
               />
-
             </div>
 
             {/* CATEGORY */}
-
             <div className="Gallary-field">
-
               <label htmlFor="Gallary-category-select">
-                Category{" "}
-                <span className="Gallary-required">*</span>
+                Category <span className="Gallary-required">*</span>
               </label>
-
               <div className="Gallary-select-wrap">
-
                 <select
                   id="Gallary-category-select"
                   className="Gallary-input Gallary-select"
@@ -629,50 +595,33 @@ const Gallary = () => {
                   }
                   required
                 >
-                  <option value="">
-                    Select shoot category
-                  </option>
-
-                  {Object.keys(CATEGORY_OPTIONS).map(
-                    (category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    )
-                  )}
-
+                  <option value="">Select shoot category</option>
+                  {Object.keys(CATEGORY_OPTIONS).map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
                 </select>
-
                 <ChevronDown
                   size={18}
                   className="Gallary-select-chevron"
                 />
-
               </div>
-
             </div>
 
             {/* SUBCATEGORY */}
-
             {form.category && (
-
               <div className="Gallary-field Gallary-subcategory-field">
-
                 <div className="Gallary-subcategory-label-row">
-
                   <label htmlFor="Gallary-subcategory-select">
-                    Sub Category{" "}
-                    <span className="Gallary-required">*</span>
+                    Sub Category <span className="Gallary-required">*</span>
                   </label>
-
                   <span className="Gallary-dynamic-label">
                     Options for {form.category}
                   </span>
-
                 </div>
 
                 <div className="Gallary-select-wrap">
-
                   <select
                     id="Gallary-subcategory-select"
                     className="Gallary-input Gallary-select"
@@ -685,56 +634,38 @@ const Gallary = () => {
                     }
                     required
                   >
-                    <option value="">
-                      Select sub category
-                    </option>
-
-                    {CATEGORY_OPTIONS[form.category].map(
-                      (subCategory) => (
-                        <option
-                          key={subCategory}
-                          value={subCategory}
-                        >
-                          {subCategory}
-                        </option>
-                      )
-                    )}
-
+                    <option value="">Select sub category</option>
+                    {CATEGORY_OPTIONS[form.category].map((subCategory) => (
+                      <option key={subCategory} value={subCategory}>
+                        {subCategory}
+                      </option>
+                    ))}
                   </select>
-
                   <ChevronDown
                     size={18}
                     className="Gallary-select-chevron"
                   />
-
                 </div>
 
                 <div className="Gallary-subcategory-chips">
-
-                  {CATEGORY_OPTIONS[form.category].map(
-                    (subCategory) => (
-                      <span
-                        key={subCategory}
-                        className={
-                          form.subCategory === subCategory
-                            ? "Gallary-subcategory-chip Gallary-subcategory-chip-active"
-                            : "Gallary-subcategory-chip"
-                        }
-                      >
-                        {subCategory}
-                      </span>
-                    )
-                  )}
-
+                  {CATEGORY_OPTIONS[form.category].map((subCategory) => (
+                    <span
+                      key={subCategory}
+                      className={
+                        form.subCategory === subCategory
+                          ? "Gallary-subcategory-chip Gallary-subcategory-chip-active"
+                          : "Gallary-subcategory-chip"
+                      }
+                    >
+                      {subCategory}
+                    </span>
+                  ))}
                 </div>
-
               </div>
             )}
 
             {/* IMAGE UPLOAD */}
-
             <div className="Gallary-field Gallary-upload-field">
-
               <label htmlFor="Gallary-image-file">
                 Upload Image{" "}
                 <span className="Gallary-required">
@@ -755,33 +686,23 @@ const Gallary = () => {
 
               <div
                 className={`Gallary-upload-box ${
-                  preview
-                    ? "Gallary-upload-box-has-image"
-                    : ""
+                  preview ? "Gallary-upload-box-has-image" : ""
                 }`}
                 role="button"
                 tabIndex={0}
                 onClick={() => fileInputRef.current?.click()}
                 onKeyDown={(event) => {
-                  if (
-                    event.key === "Enter" ||
-                    event.key === " "
-                  ) {
+                  if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
                     fileInputRef.current?.click();
                   }
                 }}
-                onDragOver={(event) =>
-                  event.preventDefault()
-                }
+                onDragOver={(event) => event.preventDefault()}
                 onDrop={(event) => {
                   event.preventDefault();
-                  handleImageChange(
-                    event.dataTransfer.files?.[0]
-                  );
+                  handleImageChange(event.dataTransfer.files?.[0]);
                 }}
               >
-
                 {preview ? (
                   <>
                     <img
@@ -789,12 +710,10 @@ const Gallary = () => {
                       alt="Selected gallery preview"
                       className="Gallary-upload-preview"
                     />
-
                     <div className="Gallary-upload-overlay">
                       <Upload size={18} />
                       <span>Choose a different image</span>
                     </div>
-
                     <button
                       type="button"
                       className="Gallary-remove-preview"
@@ -806,29 +725,19 @@ const Gallary = () => {
                   </>
                 ) : (
                   <div className="Gallary-upload-prompt">
-
                     <span className="Gallary-upload-cloud">
                       <Upload size={30} />
                     </span>
-
                     <p>
-                      <strong>Click to upload</strong>{" "}
-                      or drag and drop
+                      <strong>Click to upload</strong> or drag and drop
                     </p>
-
-                    <span>
-                      PNG, JPG, JPEG, WEBP (Max 5MB)
-                    </span>
-
+                    <span>PNG, JPG, JPEG, WEBP (Max 5MB)</span>
                   </div>
                 )}
-
               </div>
-
             </div>
 
             {/* SELECTED FILE */}
-
             {imageFile && (
               <div className="Gallary-selected-file">
                 <Check size={15} />
@@ -837,9 +746,7 @@ const Gallary = () => {
             )}
 
             {/* ACTIONS */}
-
             <div className="Gallary-form-actions">
-
               <button
                 type="submit"
                 className="Gallary-submit-btn"
@@ -873,87 +780,56 @@ const Gallary = () => {
                   Cancel
                 </button>
               )}
-
             </div>
 
             <p className="Gallary-storage-note">
               <Heart size={13} />
-              Images are securely uploaded to your server
-              and stored in MongoDB.
+              Images are securely uploaded to your server and stored in MongoDB.
             </p>
-
           </form>
-
         </section>
 
         {/* GALLERY TABLE */}
-
         <section className="Gallary-card Gallary-table-card">
-
           <div className="Gallary-table-heading">
-
             <div className="Gallary-card-heading Gallary-table-title-wrap">
-
               <span className="Gallary-card-icon">
                 <FolderOpen size={22} />
               </span>
-
               <div>
                 <h2>Gallery Images</h2>
-
                 <p className="Gallary-count">
                   {images.length} images in your gallery
                 </p>
               </div>
-
             </div>
 
             <div className="Gallary-search-wrap">
-
-              <Search
-                size={19}
-                className="Gallary-search-icon"
-              />
-
+              <Search size={19} className="Gallary-search-icon" />
               <input
                 className="Gallary-search-input"
                 type="search"
                 placeholder="Search title, category..."
                 value={search}
-                onChange={(event) =>
-                  setSearch(event.target.value)
-                }
+                onChange={(event) => setSearch(event.target.value)}
                 aria-label="Search gallery images"
               />
-
             </div>
-
           </div>
 
           {/* TABLE */}
-
           <div className="Gallary-table-scroll">
-
             <table className="Gallary-table">
-
               <thead>
                 <tr>
-                  <th className="Gallary-col-number">
-                    Sl. No.
-                  </th>
-
+                  <th className="Gallary-col-number">Sl. No.</th>
                   <th>Image Details</th>
-
-                  <th className="Gallary-col-action">
-                    Action
-                  </th>
+                  <th className="Gallary-col-action">Action</th>
                 </tr>
               </thead>
 
               <tbody>
-
                 {loading ? (
-
                   <tr>
                     <td colSpan="3">
                       <div className="Gallary-empty-state">
@@ -965,27 +841,19 @@ const Gallary = () => {
                       </div>
                     </td>
                   </tr>
-
                 ) : paginatedImages.length > 0 ? (
-
                   paginatedImages.map((item, index) => (
-
                     <tr key={item._id}>
-
                       <td className="Gallary-number-cell">
                         {firstItem + index}
                       </td>
 
                       <td>
-
                         <div className="Gallary-image-cell">
-
                           <button
                             type="button"
                             className="Gallary-thumbnail-button"
-                            onClick={() =>
-                              setLightboxImage(item)
-                            }
+                            onClick={() => setLightboxImage(item)}
                             aria-label={`Preview ${item.title}`}
                           >
                             <img
@@ -994,34 +862,25 @@ const Gallary = () => {
                               className="Gallary-thumbnail"
                               loading="lazy"
                             />
-
                             <span className="Gallary-thumbnail-hover">
                               <Eye size={18} />
                             </span>
                           </button>
 
                           <div className="Gallary-image-meta">
-
                             <strong>{item.title}</strong>
-
                             <span className="Gallary-category-tag">
                               {item.category}
                             </span>
-
                             <span className="Gallary-subcategory-tag">
                               {item.subCategory}
                             </span>
-
                           </div>
-
                         </div>
-
                       </td>
 
                       <td>
-
                         <div className="Gallary-action-group">
-
                           <button
                             type="button"
                             className="Gallary-action-btn Gallary-edit-btn"
@@ -1041,36 +900,25 @@ const Gallary = () => {
                           >
                             <Trash2 size={18} />
                           </button>
-
                         </div>
-
                       </td>
-
                     </tr>
-
                   ))
-
                 ) : (
-
                   <tr>
                     <td colSpan="3">
-
                       <div className="Gallary-empty-state">
-
                         <ImageIcon size={28} />
-
                         <strong>
                           {search
                             ? "No matching images found"
                             : "Your gallery is empty"}
                         </strong>
-
                         <p>
                           {search
                             ? "Try another search term."
                             : "Add your first photography image using the form."}
                         </p>
-
                         {!search && (
                           <button
                             type="button"
@@ -1081,45 +929,32 @@ const Gallary = () => {
                             Refresh Gallery
                           </button>
                         )}
-
                       </div>
-
                     </td>
                   </tr>
-
                 )}
-
               </tbody>
-
             </table>
-
           </div>
 
           {/* PAGINATION */}
-
           <div className="Gallary-pagination">
-
             <p className="Gallary-pagination-info">
               Showing{" "}
               <strong>
                 {firstItem}-{lastItem}
               </strong>{" "}
-              of{" "}
-              <strong>{filteredImages.length}</strong>{" "}
-              images
+              of <strong>{filteredImages.length}</strong> images
             </p>
 
             <div
               className="Gallary-pagination-controls"
               aria-label="Gallery pagination"
             >
-
               <button
                 type="button"
                 className="Gallary-page-btn Gallary-page-arrow"
-                onClick={() =>
-                  goToPage(currentPage - 1)
-                }
+                onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
                 aria-label="Previous page"
               >
@@ -1127,57 +962,40 @@ const Gallary = () => {
                 <span>Previous</span>
               </button>
 
-              {Array.from(
-                { length: totalPages },
-                (_, index) => index + 1
-              ).map((page) => (
-
-                <button
-                  type="button"
-                  key={page}
-                  className={`Gallary-page-btn Gallary-page-number ${
-                    currentPage === page
-                      ? "Gallary-page-active"
-                      : ""
-                  }`}
-                  onClick={() => goToPage(page)}
-                  aria-label={`Page ${page}`}
-                  aria-current={
-                    currentPage === page
-                      ? "page"
-                      : undefined
-                  }
-                >
-                  {page}
-                </button>
-
-              ))}
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    type="button"
+                    key={page}
+                    className={`Gallary-page-btn Gallary-page-number ${
+                      currentPage === page ? "Gallary-page-active" : ""
+                    }`}
+                    onClick={() => goToPage(page)}
+                    aria-label={`Page ${page}`}
+                    aria-current={currentPage === page ? "page" : undefined}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
 
               <button
                 type="button"
                 className="Gallary-page-btn Gallary-page-arrow"
-                onClick={() =>
-                  goToPage(currentPage + 1)
-                }
+                onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
               >
                 <span>Next</span>
                 <ChevronRight size={17} />
               </button>
-
             </div>
-
           </div>
-
         </section>
-
       </div>
 
       {/* DELETE CONFIRMATION */}
-
       {deleteId && (
-
         <div
           className="Gallary-modal-backdrop"
           onMouseDown={(event) => {
@@ -1186,29 +1004,21 @@ const Gallary = () => {
             }
           }}
         >
-
           <div
             className="Gallary-confirm-modal"
             role="dialog"
             aria-modal="true"
             aria-labelledby="Gallary-delete-title"
           >
-
             <span className="Gallary-modal-icon">
               <Trash2 size={24} />
             </span>
-
-            <h3 id="Gallary-delete-title">
-              Delete this image?
-            </h3>
-
+            <h3 id="Gallary-delete-title">Delete this image?</h3>
             <p>
-              This image will be permanently removed from
-              your gallery and server storage.
+              This image will be permanently removed from your gallery and
+              server storage.
             </p>
-
             <div className="Gallary-modal-actions">
-
               <button
                 type="button"
                 className="Gallary-modal-cancel"
@@ -1216,7 +1026,6 @@ const Gallary = () => {
               >
                 Cancel
               </button>
-
               <button
                 type="button"
                 className="Gallary-modal-delete"
@@ -1224,19 +1033,13 @@ const Gallary = () => {
               >
                 Delete Image
               </button>
-
             </div>
-
           </div>
-
         </div>
-
       )}
 
       {/* IMAGE LIGHTBOX */}
-
       {lightboxImage && (
-
         <div
           className="Gallary-lightbox"
           onMouseDown={(event) => {
@@ -1245,7 +1048,6 @@ const Gallary = () => {
             }
           }}
         >
-
           <button
             type="button"
             className="Gallary-lightbox-close"
@@ -1261,31 +1063,21 @@ const Gallary = () => {
             aria-modal="true"
             aria-label={lightboxImage.title}
           >
-
             <img
               src={getImageUrl(lightboxImage.image)}
               alt={lightboxImage.title}
             />
-
             <div className="Gallary-lightbox-caption">
-
               <div>
                 <strong>{lightboxImage.title}</strong>
-
                 <span>
-                  {lightboxImage.category} /{" "}
-                  {lightboxImage.subCategory}
+                  {lightboxImage.category} / {lightboxImage.subCategory}
                 </span>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       )}
-
     </main>
   );
 };

@@ -1,4 +1,3 @@
-
 /* =====================================================
    ROOT SECTION
 ===================================================== */
@@ -185,7 +184,7 @@
    LOADING STATE
 ===================================================== */
 
-.HomeWedingClicks__loading {
+.HomeWedingClicks__status {
   min-height: 180px;
   display: flex;
   align-items: center;
@@ -196,6 +195,10 @@
   font-family: "Cormorant Garamond", serif;
   font-size: 20px;
   text-align: center;
+}
+
+.HomeWedingClicks__status p {
+  margin: 0;
 }
 
 .HomeWedingClicks__loader {
@@ -268,77 +271,151 @@
 }
 
 /* =====================================================
-   PAGINATION
+   PAGINATION  (centered, premium buttons)
 ===================================================== */
 
 .HomeWedingClicks__pagination {
   width: 100%;
-  margin-top: 38px;
+  margin-top: 44px;
 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
-.HomeWedingClicks__pageInfo {
-  margin: 0 12px;
+/* Reset + base button style */
 
-  color: #6b4634;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber) {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
 
-.HomeWedingClicks__pageBtn {
-  min-width: 42px;
-  height: 42px;
-  padding: 0 14px;
+  min-width: 46px;
+  height: 46px;
+  margin: 0;
+  padding: 0 16px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
 
-  border: 1px solid rgba(201, 116, 70, 0.45);
-  border-radius: 4px;
+  border: 1.5px solid rgba(201, 116, 70, 0.4);
+  border-radius: 50px;
 
   background: #ffffff;
   color: #a85c35;
 
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.3px;
 
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  box-shadow: 0 6px 16px rgba(168, 92, 53, 0.12);
 
   transition:
     color 0.3s ease,
     background 0.3s ease,
     border-color 0.3s ease,
+    box-shadow 0.3s ease,
     transform 0.3s ease;
 }
 
-.HomeWedingClicks__pageBtn:hover:not(:disabled) {
+/* Arrow icons inside prev / next buttons */
+
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber) svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Hover */
+
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):hover:not(:disabled) {
   background: #c97446;
   border-color: #c97446;
   color: #ffffff;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(201, 116, 70, 0.4);
 }
 
-.HomeWedingClicks__pageBtn:disabled {
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):hover:not(:disabled) svg:first-child:not(:only-child) {
+  transform: translateX(-2px);
+}
+
+/* Pressed */
+
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):active:not(:disabled) {
+  transform: translateY(-1px) scale(0.96);
+}
+
+/* Keyboard focus */
+
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):focus-visible {
+  outline: 3px solid rgba(201, 116, 70, 0.45);
+  outline-offset: 3px;
+}
+
+/* Active (current) page */
+
+.HomeWedingClicks__pageNumber.HomeWedingClicks__pageNumber--active,
+.HomeWedingClicks__pageNumber[aria-current="page"] {
+  background: linear-gradient(135deg, #d98a5c 0%, #c97446 55%, #a85c35 100%);
+  border-color: #c97446;
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(201, 116, 70, 0.45);
+  transform: translateY(-2px);
+  cursor: default;
+}
+
+/* Disabled (prev on first page / next on last page) */
+
+:is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):disabled {
   opacity: 0.4;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
+  background: #f6efea;
+  border-color: rgba(201, 116, 70, 0.2);
+  color: #a85c35;
 }
 
-.HomeWedingClicks__pageBtn.active {
-  background: #c97446;
-  border-color: #c97446;
-  color: #ffffff;
+/* Optional "..." between page numbers */
+
+.HomeWedingClicks__pageDots {
+  min-width: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #a85c35;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+/* "Showing 6 of 7 photographs" */
+
+.HomeWedingClicks__count {
+  width: 100%;
+  display: block;
+  margin: 22px 0 0;
+
+  color: #6b4634;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 /* =====================================================
@@ -437,24 +514,23 @@
   }
 
   .HomeWedingClicks__pagination {
-    margin-top: 28px;
+    margin-top: 32px;
     gap: 8px;
   }
 
-  .HomeWedingClicks__pageInfo {
-    flex-basis: 100%;
-    margin: 0 0 8px;
+  .HomeWedingClicks__count {
+    margin-top: 14px;
     font-size: 16px;
   }
 
-  .HomeWedingClicks__pageBtn {
-    min-width: 40px;
-    height: 40px;
-    padding: 0 12px;
-    font-size: 13px;
+  :is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber) {
+    min-width: 42px;
+    height: 42px;
+    padding: 0 13px;
+    font-size: 17px;
   }
 
-  .HomeWedingClicks__loading {
+  .HomeWedingClicks__status {
     font-size: 18px;
   }
 }
@@ -481,10 +557,25 @@
     gap: 6px;
   }
 
-  .HomeWedingClicks__pageBtn {
-    min-width: 36px;
-    height: 36px;
-    padding: 0 9px;
+  :is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber) {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 16px;
+  }
+}
+
+/* =====================================================
+   TOUCH DEVICES (no sticky hover lift)
+===================================================== */
+
+@media (hover: none) {
+  :is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber):hover:not(:disabled):not(.HomeWedingClicks__pageNumber--active) {
+    background: #ffffff;
+    border-color: rgba(201, 116, 70, 0.4);
+    color: #a85c35;
+    transform: none;
+    box-shadow: 0 6px 16px rgba(168, 92, 53, 0.12);
   }
 }
 
@@ -500,7 +591,8 @@
 
   .HomeWedingClicks__item img,
   .HomeWedingClicks__item::after,
-  .HomeWedingClicks__pageBtn,
+  :is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber),
+  :is(.HomeWedingClicks__pageArrow, .HomeWedingClicks__pageNumber) svg,
   .HomeWedingClicks__retry {
     transition: none;
   }

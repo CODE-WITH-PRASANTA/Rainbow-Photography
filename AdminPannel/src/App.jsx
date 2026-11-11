@@ -21,7 +21,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* Standalone Route (No Sidebar/Topbar) */}
-        <Route path="/logout" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
         {/* Protected Layout Routes (With Sidebar & Topbar) */}
         <Route path="/" element={<MainLayout />}>
